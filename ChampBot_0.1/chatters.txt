@@ -1,0 +1,41 @@
+akindsir,7,1,8,frenzy
+bb_jock,0,0,8,block
+bb_nut,0,2,8
+captaindaddy76,0,1,8
+cbraws,7,0,8,foul appearance
+cgmo0,16,10,8,block,mighty blow
+crazylisk,0,3,8,block,mighty blow,frenzy
+de1cer182,0,4,8
+dimmy_gee,0,5,8
+doctorfeelsbad,3,6,8,pile driver
+donleon82,0,1,8
+draddydrad,5,3,8,block,frenzy,mighty blow,pile driver
+elyod,29,6,8,block
+galentio,0,2,8
+gglarry,0,4,8
+golma,0,1,8
+grumpyoldbryan,9,3,8,block,dodge
+ham1356,0,5,8
+hendy_fps,0,2,8
+hotspur_12,0,1,8,frenzy
+hugonatalius,0,4,8
+iceblade2000,0,5,8,mighty blow
+igralius,0,3,8
+jackbull,0,5,8
+jdwhitee,0,2,8,mighty blow
+jleav,0,2,8
+kittycowtv,17,0,8,dodge
+lafaye,0,3,8
+meerkul,11,3,8,block
+misspelledtree,0,3,8
+penguinpope,0,5,8
+pewpewpatriot_xb,0,2,8
+purplechest,0,1,8
+rainertw,0,1,8
+rise_of_chewy,0,1,8,mighty blow
+shiratokai,0,4,8
+tanakoskyler,0,3,8
+thenightkidhimself,0,1,8
+vonroo,0,4,8
+yankeesullivan,4,1,8,block
+yourstoryisnotover,0,4,8

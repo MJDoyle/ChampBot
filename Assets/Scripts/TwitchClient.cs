@@ -123,6 +123,14 @@ public class TwitchClient : MonoBehaviour
                     SendChannelMessage(e.Command.ArgumentsAsList[0] + " wants to " + numDice + " dice the champ!");
                 }
 
+                else if (e.Command.ArgumentsAsList.Count == 3 && int.TryParse(e.Command.ArgumentsAsList[1], out int numDice2) && int.TryParse(e.Command.ArgumentsAsList[2], out int numAttempts))
+                {
+                    for (int i = 0; i < numAttempts; i ++)
+                        dataHandler.AddChallenger(e.Command.ArgumentsAsList[0], numDice2);
+
+                    SendChannelMessage(e.Command.ArgumentsAsList[0] + " wants to " + numDice2 + " dice the champ " + numAttempts + " times!");
+                }
+
                 else
                 {
                     SendChannelMessage("Challenger can't be added. Have you formatted the request correctly?");

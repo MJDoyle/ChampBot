@@ -85,8 +85,48 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private GameObject blockPrefab;
 
+
+    [SerializeField]
+    private GameObject brawlerPrefab;
+
+    [SerializeField]
+    private GameObject clawPrefab;
+
+    [SerializeField]
+    private GameObject dirtyPlayerPrefab;
+
     [SerializeField]
     private GameObject dodgePrefab;
+
+    [SerializeField]
+    private GameObject fendPrefab;
+
+    [SerializeField]
+    private GameObject foulAppearancePrefab;
+
+    [SerializeField]
+    private GameObject frenzyPrefab;
+
+    [SerializeField]
+    private GameObject juggernautPrefab;
+
+    [SerializeField]
+    private GameObject mightyBlowPrefab;
+
+    [SerializeField]
+    private GameObject pileDriverPrefab;
+
+    [SerializeField]
+    private GameObject proPrefab;
+
+    [SerializeField]
+    private GameObject tacklePrefab;
+
+    [SerializeField]
+    private GameObject thickSkullPrefab;
+
+    [SerializeField]
+    private GameObject wrestlePrefab;
 
 
 
@@ -105,7 +145,38 @@ public class UIHandler : MonoBehaviour
 
         skillPrefabs["block"] = blockPrefab;
 
+        skillPrefabs["brawler"] = brawlerPrefab;
+
+        skillPrefabs["claw"] = clawPrefab;
+
+        skillPrefabs["dirty player"] = dirtyPlayerPrefab;
+        skillPrefabs["dirtyplayer"] = dirtyPlayerPrefab;
+
         skillPrefabs["dodge"] = dodgePrefab;
+
+        skillPrefabs["fend"] = fendPrefab;
+
+        skillPrefabs["foul appearance"] = foulAppearancePrefab;
+        skillPrefabs["foulappearance"] = foulAppearancePrefab;
+
+        skillPrefabs["frenzy"] = frenzyPrefab;
+
+        skillPrefabs["juggernaut"] = juggernautPrefab;
+
+        skillPrefabs["mighty blow"] = mightyBlowPrefab;
+        skillPrefabs["mightyblow"] = mightyBlowPrefab;
+
+        skillPrefabs["pile driver"] = pileDriverPrefab;
+        skillPrefabs["piledriver"] = pileDriverPrefab;
+
+        skillPrefabs["pro"] = proPrefab;
+
+        skillPrefabs["tackle"] = tacklePrefab;
+
+        skillPrefabs["thick skull"] = thickSkullPrefab;
+        skillPrefabs["thickskull"] = thickSkullPrefab;
+
+        skillPrefabs["wrestle"] = wrestlePrefab;
     }
 
     private void Update()

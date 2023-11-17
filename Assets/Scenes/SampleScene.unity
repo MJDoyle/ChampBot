@@ -1377,7 +1377,20 @@ MonoBehaviour:
   champSkillsText: {fileID: 1097132809}
   champImage: {fileID: 1043395489}
   blockPrefab: {fileID: 2323531965473409627, guid: 6e2c8f3a55ee7f5449832cca9ea6221e, type: 3}
+  brawlerPrefab: {fileID: 3257926917827153228, guid: 8fd381cbab79bf443815bb6ede795378, type: 3}
+  clawPrefab: {fileID: 8774827234334374699, guid: 668c293fbd43e544183658cb3b115369, type: 3}
+  dirtyPlayerPrefab: {fileID: 6507411413602838850, guid: 0b10feeeb937da74ebde805e74c5d341, type: 3}
   dodgePrefab: {fileID: 1341914988683193199, guid: 43702fdb82ac91b45b39385d2f4a858c, type: 3}
+  fendPrefab: {fileID: 909569925114381253, guid: 1a3664dd269055a40b34c2aeff41701a, type: 3}
+  foulAppearancePrefab: {fileID: 563687123264986488, guid: bab044eab2e30bf469ba5da496d95a48, type: 3}
+  frenzyPrefab: {fileID: 8542119242060911157, guid: 82903301b5ad60642a3b0bc30abf86d9, type: 3}
+  juggernautPrefab: {fileID: 3852466139208148442, guid: d90441cf13f934f42a71b9f4243c77f2, type: 3}
+  mightyBlowPrefab: {fileID: 1101749246213261961, guid: 819af0ca4fc29a74fb7bb03ba2555b1f, type: 3}
+  pileDriverPrefab: {fileID: 4696512950955647899, guid: 68bafa672c43aa948a9268a1a1f1a724, type: 3}
+  proPrefab: {fileID: 8560117171447023099, guid: 73b7079ddf8415b4dbfd82412c1cdffa, type: 3}
+  tacklePrefab: {fileID: 8135485896413484702, guid: b6102a04605fb01418378d3578b09fe5, type: 3}
+  thickSkullPrefab: {fileID: 2917003720754946421, guid: f1d784e6c6d365e43bdede6740ee68a4, type: 3}
+  wrestlePrefab: {fileID: 5058714111130560098, guid: e5e3401026ae9df4ab00189825c3437e, type: 3}
 --- !u!114 &1481788226
 MonoBehaviour:
   m_ObjectHideFlags: 0

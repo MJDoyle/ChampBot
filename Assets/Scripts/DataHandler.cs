@@ -458,14 +458,26 @@ public class DataHandler : MonoBehaviour
 
     private void Update()
     {
-        //If the next challenger in line is the champ, remove it
+        //If the next challenger in line is the champ, swap with the next other challenger in the queue
         if (Challengers.Count > 0 && CurrentChamp != null && Challengers[0].chatter == CurrentChamp)
         {
-            Debug.Log("test1");
+            //Find differnt challenger that's closest to the start
 
-            Challengers.RemoveAt(0);
+            for (int i = 0; i < Challengers.Count; i++)
+            {
+                if (Challengers[i].chatter != Challengers[0].chatter)
+                {
+                    Challenger replacement = Challengers[i];
 
-            SaveData();
+                    Challengers[i] = Challengers[0];
+
+                    Challengers[0] = replacement;
+
+                    SaveData();
+
+                    break;
+                }
+            }
         }
     }
 }

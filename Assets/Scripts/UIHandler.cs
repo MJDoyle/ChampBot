@@ -25,11 +25,36 @@ public class UIHandler : MonoBehaviour
 
 
 
+
     [SerializeField]
-    private Text champText;
+    private GameObject currentChampCard;
+
+    [SerializeField]
+    private Text champName;
+
+    [SerializeField]
+    private Text champAV;
+
+    [SerializeField]
+    private Text champSPP;
+
+    [SerializeField]
+    private Text champDef;
+
+    private List<GameObject> champSkillsBottom = new List<GameObject>();
+
+
+
+
+
+
 
     [SerializeField]
     private Text numDiceText;
+
+
+
+
 
     [SerializeField]
     private Text challengerNameText;
@@ -184,8 +209,7 @@ public class UIHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-
-        if (champText.text == "champ" && dataHandler.CurrentChamp != null)
+        if (champName.text == "" )
             SetChampText();
 
 
@@ -418,32 +442,37 @@ public class UIHandler : MonoBehaviour
             return;
         }
 
-        string champString = "";
+        champName.text = dataHandler.CurrentChamp.name + " the champ";
 
-        champString += "Current champ: ";
+        champSPP.text = dataHandler.CurrentChamp.spp.ToString();
 
-        champString += dataHandler.CurrentChamp.name;
+        champAV.text = dataHandler.CurrentChamp.av.ToString() + "+";
 
-        if (dataHandler.CurrentChamp.skills.Count > 0)
+        champDef.text = dataHandler.CurrentChamp.defences.ToString();
+
+        //Delete old skills
+        foreach (GameObject skill in champSkillsBottom)
         {
-
-            champString += " (";
-
-            foreach (string skill in dataHandler.CurrentChamp.skills)
-            {
-                champString += skill + ", ";
-            }
-
-            champString = champString.Remove(champString.Length - 2, 2);
-
-            champString += ")";
+            Destroy(skill);
         }
 
-        champString += " Defences: ";
+        champSkillsBottom.Clear();
 
-        champString += dataHandler.CurrentChamp.defences;
+        foreach (string skillString in dataHandler.CurrentChamp.skills)
+        {
+            if (skillPrefabs.ContainsKey(skillString))
+            {
+                champSkillsBottom.Add(Instantiate(skillPrefabs[skillString], currentChampCard.transform));
+            }
+        }
 
-        champText.text = champString;
+        for (int i = 0; i < champSkillsBottom.Count; i++)
+        {
+            champSkillsBottom[i].transform.localPosition = new Vector3(-3.8f + (float)i * 0.5f, -0.25f, 0);
+        }
+
+
+
     }
 
 

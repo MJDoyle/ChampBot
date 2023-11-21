@@ -84,6 +84,7 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!mycontendor");
                 SendChannelMessage("!champtop5");
 
+                SendChannelMessage("!setspp [challengername] [spp]");
                 SendChannelMessage("!setchamp [champname] --- only use if something's gone wrong");
                 SendChannelMessage("!setchatter [chattername] [def] [spp] [av] ... --- only use if something's gone wrong - then set skills");
                 SendChannelMessage("!setfreeskill [chattername] [skill] ... --- only use if something's gone wrong. No ssp cost");
@@ -91,7 +92,28 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+            case "setspp":
 
+                if (!e.Command.ChatMessage.IsBroadcaster)
+                    break;
+
+                if (e.Command.ArgumentsAsList.Count == 2 && int.TryParse(e.Command.ArgumentsAsList[1], out int numSPP))
+                {
+                    if (dataHandler.SetSPP(e.Command.ArgumentsAsList[0], numSPP))
+                        SendChannelMessage(e.Command.ArgumentsAsList[0] + " set to " + numSPP + " spp");
+
+                    else
+                        SendChannelMessage("Chatter cannot be found");
+
+
+                }
+
+                else
+                {
+                    SendChannelMessage("Wrong number or type of arguments");
+                }
+
+                break;
 
             case "setchamp":
 

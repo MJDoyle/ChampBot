@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
 
-    private Vector2 challengerHiddenPosition = new Vector2(-12, 0);
+    private Vector2 challengerHiddenPosition = new Vector2(-18, 0);
 
     private Vector2 challengerShownPosition = new Vector2(-7, 0);
 
-    private Vector2 champHiddenPosition = new Vector2(12, 0);
+    private Vector2 champHiddenPosition = new Vector2(18, 0);
 
     private Vector2 champShownPosition = new Vector2(7, 0);
 
@@ -268,7 +268,15 @@ public class UIHandler : MonoBehaviour
         Challenger challenger = dataHandler.Challengers[0];
 
 
-        numDiceText.text = challenger.numDice.ToString();
+        if (challenger.numDice == 1)
+            numDiceText.text = "ONE DICE";
+
+        if (challenger.numDice == 1)
+            numDiceText.text = "TWO DICE";
+
+        if (challenger.numDice == 1)
+            numDiceText.text = "THREE DICE";
+
 
         challengerNameText.text = challenger.chatter.name;
 

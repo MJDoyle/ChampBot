@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="304.63203"
-     inkscape:cy="278.16517"
+     inkscape:cx="91.346343"
+     inkscape:cy="267.10411"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -167,9 +167,9 @@
     <rect
        style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect817-0"
-       width="80.697929"
+       width="107.15625"
        height="6.3499999"
-       x="64.860718"
+       x="-26.431875"
        y="234.18036"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
        inkscape:export-xdpi="192"
@@ -186,11 +186,11 @@
        inkscape:export-xdpi="192"
        inkscape:export-ydpi="192" />
     <rect
-       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect823-2"
        width="9.260417"
        height="12.7"
-       x="117.77738"
+       x="52.916664"
        y="234.18036"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
        inkscape:export-xdpi="192"
@@ -198,7 +198,7 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="120.41914"
+       x="55.558426"
        y="238.39751"
        id="text842-0"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
@@ -206,15 +206,15 @@
        inkscape:export-ydpi="192"><tspan
          sodipodi:role="line"
          id="tspan840-1"
-         x="120.41914"
+         x="55.558426"
          y="238.39751"
          style="font-size:4.23333311px;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">AV</tspan></text>
     <rect
-       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect823-7-9"
        width="9.260417"
        height="12.7"
-       x="127.0378"
+       x="62.177086"
        y="234.18036"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
        inkscape:export-xdpi="192"
@@ -222,7 +222,7 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="129.42384"
+       x="64.563126"
        y="238.3015"
        id="text842-2-3"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
@@ -230,15 +230,25 @@
        inkscape:export-ydpi="192"><tspan
          sodipodi:role="line"
          id="tspan840-9-5"
-         x="129.42384"
+         x="64.563126"
          y="238.3015"
          style="font-size:4.23333311px;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">Def</tspan></text>
     <rect
-       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect819-6"
+       width="79.375"
+       height="6.3499999"
+       x="-26.458334"
+       y="240.53036"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect823-7-1"
        width="9.260417"
        height="12.7"
-       x="136.29822"
+       x="71.4375"
        y="234.18037"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
        inkscape:export-xdpi="192"
@@ -260,7 +270,7 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.55928516px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       x="138.21745"
+       x="73.356735"
        y="238.25606"
        id="text842-7-6"
        inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
@@ -268,18 +278,8 @@
        inkscape:export-ydpi="192"><tspan
          sodipodi:role="line"
          id="tspan840-0-5"
-         x="138.21745"
+         x="73.356735"
          y="238.25606"
          style="font-size:4.16946316px;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">spp</tspan></text>
-    <rect
-       style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.52916667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect819-6"
-       width="52.916668"
-       height="6.3499999"
-       x="64.860718"
-       y="240.53036"
-       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champDisplay.png"
-       inkscape:export-xdpi="192"
-       inkscape:export-ydpi="192" />
   </g>
 </svg>

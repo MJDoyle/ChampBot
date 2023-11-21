@@ -299,6 +299,16 @@ public class DataHandler : MonoBehaviour
         return Chatters[name.ToLower()];
     }
 
+    public bool SetSPP(string chatter, int spp)
+    {
+        if (!Chatters.ContainsKey(chatter.ToLower()))
+            return false;
+
+        Chatters[chatter.ToLower()].spp = spp;
+
+        return true;
+    }
+
     public bool AddAv(string chatter)
     {
         if (!Chatters.ContainsKey(chatter.ToLower()))

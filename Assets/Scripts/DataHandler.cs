@@ -31,10 +31,7 @@ public struct Challenger
 
 public class DataHandler : MonoBehaviour
 {
-
-
-    private List<int> sppRequirements;
-
+    private List<int> sppRequirements = new List<int>();
 
     public Dictionary<string, Chatter> Chatters { get; private set; }
 
@@ -63,18 +60,6 @@ public class DataHandler : MonoBehaviour
         Challengers = new List<Challenger>();
 
         LoadData();
-
-        sppRequirements = new List<int>();
-
-        sppRequirements.Add(6);
-        sppRequirements.Add(8);
-        sppRequirements.Add(12);
-        sppRequirements.Add(16);
-        sppRequirements.Add(20);
-        sppRequirements.Add(24);
-        sppRequirements.Add(30);
-        sppRequirements.Add(35);
-        sppRequirements.Add(40);
     }
 
 
@@ -123,6 +108,9 @@ public class DataHandler : MonoBehaviour
 
         //Current champ
         CurrentChamp = null;
+
+        //Spp
+        sppRequirements.Clear();
 
     }
 
@@ -223,6 +211,19 @@ public class DataHandler : MonoBehaviour
             {
             }
         }
+
+
+
+        //READ SPP
+
+        StreamReader sppReader = new StreamReader("Config/spp.txt");
+
+        while ((line = challengerReader.ReadLine()) != null)
+        {
+            if (int.TryParse(line, out int spp))
+                sppRequirements.Add(spp);
+        }
+
 
         challengerReader.Close();
     }
@@ -365,6 +366,10 @@ public class DataHandler : MonoBehaviour
     public bool AddSkill(string chatter, string skill)
     {
         if (!Chatters.ContainsKey(chatter.ToLower()))
+            return false;
+
+
+        if (Chatters[chatter.ToLower()].skills.Count >= sppRequirements.Count)
             return false;
 
 

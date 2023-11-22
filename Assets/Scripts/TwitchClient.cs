@@ -33,7 +33,7 @@ public class TwitchClient : MonoBehaviour
 
 
  
-        StreamReader channelNameReader = new StreamReader("Data/channelName.txt");
+        StreamReader channelNameReader = new StreamReader("Config/channelName.txt");
 
         channelName = channelNameReader.ReadLine();
 
@@ -42,7 +42,7 @@ public class TwitchClient : MonoBehaviour
 
         string oauth = "";
 
-        StreamReader oauthReader = new StreamReader("Data/oauth.txt");
+        StreamReader oauthReader = new StreamReader("Config/oauth.txt");
 
         oauth = oauthReader.ReadLine();
 
@@ -84,12 +84,25 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!mycontendor");
                 SendChannelMessage("!champtop5");
 
+                SendChannelMessage("!listchallengers");
                 SendChannelMessage("!champreload --- reload from data files if editing during operation");
                 SendChannelMessage("!setspp [challengername] [spp]");
                 SendChannelMessage("!setchamp [champname] --- only use if something's gone wrong");
                 SendChannelMessage("!setchatter [chattername] [def] [spp] [av] ... --- only use if something's gone wrong - then set skills");
                 SendChannelMessage("!setfreeskill [chattername] [skill] ... --- only use if something's gone wrong. No ssp cost");
                 SendChannelMessage("!addchallenger [challengername] [numdice] --- only use if something's gone wrong");
+
+                break;
+
+            case "listchallengers":
+
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                    break;
+
+                foreach (Challenger challenger in dataHandler.Challengers)
+                {
+                    SendChannelMessage(challenger.chatter.name);
+                }
 
                 break;
 

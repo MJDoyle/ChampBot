@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="91.346343"
-     inkscape:cy="267.10411"
+     inkscape:zoom="1.979899"
+     inkscape:cx="156.12794"
+     inkscape:cy="532.68698"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -281,5 +281,108 @@
          x="73.356735"
          y="238.25606"
          style="font-size:4.16946316px;stroke:none;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">spp</tspan></text>
+    <rect
+       style="opacity:1;fill:#3e374e;fill-opacity:1;fill-rule:nonzero;stroke:#ffdf00;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect815-8"
+       width="38.099995"
+       height="56.620834"
+       x="97.613152"
+       y="111.5351"
+       ry="0"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.23177099;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect823-70"
+       width="9.260417"
+       height="9.260417"
+       x="97.877785"
+       y="146.19553"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#ffdf00;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect817-6"
+       width="38.099995"
+       height="6.3499999"
+       x="97.613152"
+       y="111.5351"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.23177099;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect823-7-10"
+       width="9.260417"
+       height="9.260417"
+       x="126.1882"
+       y="146.19551"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#ffdf00;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect819-8"
+       width="38.099995"
+       height="12.7"
+       x="97.613152"
+       y="155.45593"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <rect
+       style="opacity:1;fill:#a4a1c1;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.20036006;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect821-6"
+       width="15.875"
+       height="3.7041667"
+       x="108.72571"
+       y="149.89964"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="100.51954"
+       y="149.61888"
+       id="text842-5"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"><tspan
+         sodipodi:role="line"
+         id="tspan840-09"
+         x="100.51954"
+         y="149.61888"
+         style="font-size:4.23333311px;stroke-width:0.26458332">AV</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="128.57425"
+       y="149.40474"
+       id="text842-2-80"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"><tspan
+         sodipodi:role="line"
+         id="tspan840-9-4"
+         x="128.57425"
+         y="149.40474"
+         style="font-size:4.23333311px;stroke-width:0.26458332">Def</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.46183586px;line-height:1.25;font-family:'Bloomer DEMO';-inkscape-font-specification:'Bloomer DEMO';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.20914853"
+       x="119.19672"
+       y="152.83762"
+       id="text842-7-5"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\champCard.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"><tspan
+         sodipodi:role="line"
+         id="tspan840-0-7"
+         x="119.19672"
+         y="152.83762"
+         style="font-size:3.34637642px;stroke-width:0.20914853">spp</tspan></text>
   </g>
 </svg>

@@ -84,11 +84,23 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!mycontendor");
                 SendChannelMessage("!champtop5");
 
+                SendChannelMessage("!champreload --- reload from data files if editing during operation");
                 SendChannelMessage("!setspp [challengername] [spp]");
                 SendChannelMessage("!setchamp [champname] --- only use if something's gone wrong");
                 SendChannelMessage("!setchatter [chattername] [def] [spp] [av] ... --- only use if something's gone wrong - then set skills");
                 SendChannelMessage("!setfreeskill [chattername] [skill] ... --- only use if something's gone wrong. No ssp cost");
                 SendChannelMessage("!addchallenger [challengername] [numdice] --- only use if something's gone wrong");
+
+                break;
+
+            case "champreload":
+
+                if (!e.Command.ChatMessage.IsBroadcaster)
+                    break;
+
+                dataHandler.LoadData();
+
+                SendChannelMessage("Reloading champ data from file");
 
                 break;
 

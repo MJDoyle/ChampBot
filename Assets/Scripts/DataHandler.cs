@@ -113,8 +113,23 @@ public class DataHandler : MonoBehaviour
     }
 
 
-    private void LoadData()
+    private void ClearData()
     {
+        //Chatters
+        Chatters.Clear();
+
+        //Challengers
+        Challengers.Clear();
+
+        //Current champ
+        CurrentChamp = null;
+
+    }
+
+    public void LoadData()
+    {
+        ClearData();
+
         Debug.Log("Loading from file");
 
         //READ ALL CHATTERS

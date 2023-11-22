@@ -134,7 +134,7 @@ public class DataHandler : MonoBehaviour
 
         //READ ALL CHATTERS
 
-        StreamReader chatterReader = new StreamReader("chatters.txt");
+        StreamReader chatterReader = new StreamReader("Data/chatters.txt");
 
         string line;
         while ((line = chatterReader.ReadLine()) != null)
@@ -177,7 +177,7 @@ public class DataHandler : MonoBehaviour
 
         //READ CURRENT CHAMP
 
-        StreamReader champReader = new StreamReader("currentChamp.txt");
+        StreamReader champReader = new StreamReader("Data/currentChamp.txt");
 
         //TODO - what about name changes? Allow champs (and chatters and challengers) to be set manually
 
@@ -200,7 +200,7 @@ public class DataHandler : MonoBehaviour
 
         //READ CHALLENGERS
 
-        StreamReader challengerReader = new StreamReader("currentChallengers.txt");
+        StreamReader challengerReader = new StreamReader("Data/currentChallengers.txt");
 
         //TODO - what about name changes? Allow champs (and chatters and challengers) to be set manually
 

@@ -33,7 +33,7 @@ public class TwitchClient : MonoBehaviour
 
 
  
-        StreamReader channelNameReader = new StreamReader("channelName.txt");
+        StreamReader channelNameReader = new StreamReader("Data/channelName.txt");
 
         channelName = channelNameReader.ReadLine();
 
@@ -42,7 +42,7 @@ public class TwitchClient : MonoBehaviour
 
         string oauth = "";
 
-        StreamReader oauthReader = new StreamReader("oauth.txt");
+        StreamReader oauthReader = new StreamReader("Data/oauth.txt");
 
         oauth = oauthReader.ReadLine();
 

@@ -34,7 +34,7 @@ public class TwitchPubSub : MonoBehaviour
     {
         string channelID = "";
 
-        StreamReader channelIDReader = new StreamReader("channelID.txt");
+        StreamReader channelIDReader = new StreamReader("Data/channelID.txt");
 
         channelID = channelIDReader.ReadLine();
 
@@ -43,7 +43,7 @@ public class TwitchPubSub : MonoBehaviour
 
         string oauth = "";
 
-        StreamReader oauthReader = new StreamReader("oauth.txt");
+        StreamReader oauthReader = new StreamReader("Data/oauth.txt");
 
         oauth = oauthReader.ReadLine();
 

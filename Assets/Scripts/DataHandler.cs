@@ -229,12 +229,12 @@ public class DataHandler : MonoBehaviour
 
 
 
-    private void SaveData()
+    private void SaveData(string path)
     {
         Debug.Log("Saving to file");
 
         //SAVE CHATTERS
-        StreamWriter chatterWriter = new StreamWriter("chatters.txt", false);
+        StreamWriter chatterWriter = new StreamWriter(path + "chatters.txt", false);
 
         foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
         {
@@ -263,7 +263,7 @@ public class DataHandler : MonoBehaviour
 
 
 
-        StreamWriter champWriter = new StreamWriter("currentChamp.txt", false);
+        StreamWriter champWriter = new StreamWriter(path + "currentChamp.txt", false);
 
         if (CurrentChamp != null)
             champWriter.WriteLine(CurrentChamp.name);
@@ -272,7 +272,7 @@ public class DataHandler : MonoBehaviour
 
         //SAVE CHALLENGERS
 
-        StreamWriter challengerWriter = new StreamWriter("currentChallengers.txt", false);
+        StreamWriter challengerWriter = new StreamWriter(path + "currentChallengers.txt", false);
 
         foreach (Challenger challenger in Challengers)
         {
@@ -336,7 +336,8 @@ public class DataHandler : MonoBehaviour
 
         Chatters[chatter.ToLower()].av++;
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
 
         return true;
     }
@@ -354,7 +355,8 @@ public class DataHandler : MonoBehaviour
 
         existingSkills.Add(skill.ToLower());
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
 
         return true;
 
@@ -380,7 +382,8 @@ public class DataHandler : MonoBehaviour
 
         existingSkills.Add(skill.ToLower());
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
 
         return true;
 
@@ -397,7 +400,8 @@ public class DataHandler : MonoBehaviour
 
         Chatters[name.ToLower()].skills = new List<string>();
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
     }
 
 
@@ -424,7 +428,10 @@ public class DataHandler : MonoBehaviour
         Challengers.Add(challenger);
 
         if (save)
-            SaveData();
+        {
+            SaveData("Data/");
+            SaveData("Backup/");
+        }
     }
 
     public void ChampWins(int spp)
@@ -444,7 +451,8 @@ public class DataHandler : MonoBehaviour
         //Remove latest challenger from list
         Challengers.RemoveAt(0);
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
 
     }
 
@@ -465,7 +473,8 @@ public class DataHandler : MonoBehaviour
         //Remove latest challenger from list
         Challengers.RemoveAt(0);
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
     }
 
 
@@ -476,7 +485,8 @@ public class DataHandler : MonoBehaviour
 
         CurrentChamp = Chatters[champ.ToLower()];
 
-        SaveData();
+        SaveData("Data/");
+        SaveData("Backup/");
 
         return true;
     }
@@ -498,7 +508,8 @@ public class DataHandler : MonoBehaviour
 
                     Challengers[0] = replacement;
 
-                    SaveData();
+                    SaveData("Data/");
+                    SaveData("Backup/");
 
                     break;
                 }

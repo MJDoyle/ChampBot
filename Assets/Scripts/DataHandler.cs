@@ -63,19 +63,19 @@ public class DataHandler : MonoBehaviour
     }
 
 
-    private void LoadGoogleCredentials()
-    {
-        using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-        {
-            gCredential = GoogleCredential.FromStream(stream).CreateScoped(new string[] { SheetsService.Scope.Spreadsheets });
-        }
+    //private void LoadGoogleCredentials()
+    //{
+    //    using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+    //    {
+    //        gCredential = GoogleCredential.FromStream(stream).CreateScoped(new string[] { SheetsService.Scope.Spreadsheets });
+    //    }
 
-        sheetsService = new SheetsService(new BaseClientService.Initializer()
-        {
-            HttpClientInitializer = gCredential,
-            ApplicationName = "ChampBot"        
-        });
-    }
+    //    sheetsService = new SheetsService(new BaseClientService.Initializer()
+    //    {
+    //        HttpClientInitializer = gCredential,
+    //        ApplicationName = "ChampBot"        
+    //    });
+    //}
 
     private async void LoadDataFromGoogleSheet()
     {

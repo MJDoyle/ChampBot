@@ -61,10 +61,58 @@ public class TwitchClient : MonoBehaviour
 
 
         client.OnChatCommandReceived += OnChatCommandReceived;
+        client.OnCommunitySubscription += OnCommunitySubscription;
+        client.OnGiftedSubscription += OnGiftedSubscription;
+        client.OnContinuedGiftedSubscription += OnContinuedGiftedSubscription;
+        client.OnNewSubscriber += OnNewSubscriber;
+        client.OnPrimePaidSubscriber += OnPrimePaidSubscriber;
+        client.OnReSubscriber += OnResubscriber;
 
         client.Connect();
     }
 
+
+    //Mass gift
+    private void OnCommunitySubscription(object sender, TwitchLib.Client.Events.OnCommunitySubscriptionArgs e)
+    {
+        client.SendMessage(e.Channel, $"Community subscription from " + e.GiftedSubscription.DisplayName + "!");
+    }
+
+    //Individual gift
+    private void OnGiftedSubscription(object sender, TwitchLib.Client.Events.OnGiftedSubscriptionArgs e)
+    {
+        client.SendMessage(e.Channel, $"Gift sub from " + e.GiftedSubscription.DisplayName + "!");
+
+        dataHandler.AddChallenger(e.GiftedSubscription.DisplayName, 3);
+    }
+
+    private void OnContinuedGiftedSubscription(object sender, TwitchLib.Client.Events.OnContinuedGiftedSubscriptionArgs e)
+    {
+        client.SendMessage(e.Channel, $"Continued gifted subscription by " + e.ContinuedGiftedSubscription.DisplayName + "!");
+
+        dataHandler.AddChallenger(e.ContinuedGiftedSubscription.DisplayName, 3);
+    }
+
+    private void OnNewSubscriber(object sender, TwitchLib.Client.Events.OnNewSubscriberArgs e)
+    {
+        client.SendMessage(e.Channel, $"New subscription from " + e.Subscriber.DisplayName + "!");
+
+        dataHandler.AddChallenger(e.Subscriber.DisplayName, 3);
+    }
+
+    private void OnPrimePaidSubscriber(object sender, TwitchLib.Client.Events.OnPrimePaidSubscriberArgs e)
+    {
+        client.SendMessage(e.Channel, $"Prime subscription from " + e.PrimePaidSubscriber.DisplayName + "!");
+
+        dataHandler.AddChallenger(e.PrimePaidSubscriber.DisplayName, 3);
+    }
+
+    private void OnResubscriber(object sender, TwitchLib.Client.Events.OnReSubscriberArgs e)
+    {
+        client.SendMessage(e.Channel, $"Resubscription from " + e.ReSubscriber.DisplayName + "!");
+
+        dataHandler.AddChallenger(e.ReSubscriber.DisplayName, 3);
+    }
 
 
 

@@ -161,9 +161,16 @@ public class UIHandler : MonoBehaviour
 
     private TwitchClient twitchClient;
 
+    bool fullscreen = true;
+
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution(1920, 1080, true);
+        Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+
+
+
         dataHandler = GetComponent<DataHandler>();
 
         twitchClient = GetComponent<TwitchClient>();
@@ -206,6 +213,19 @@ public class UIHandler : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            fullscreen = !fullscreen;
+
+            if (fullscreen)
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+
+            else
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 

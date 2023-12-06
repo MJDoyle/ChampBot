@@ -43,6 +43,8 @@ public class UIHandler : MonoBehaviour
 
     private List<GameObject> champSkillsBottom = new List<GameObject>();
 
+    private List<GameObject> champNigglesBottom = new List<GameObject>();
+
 
 
 
@@ -69,12 +71,11 @@ public class UIHandler : MonoBehaviour
     private Text challengerAvText;
 
     [SerializeField]
-    private Text challengerSkillsText;
-
-    [SerializeField]
     private Image challengerImage;
 
     private List<GameObject> challengerSkills = new List<GameObject>();
+
+    private List<GameObject> challengerNiggles = new List<GameObject>();
 
 
 
@@ -92,12 +93,11 @@ public class UIHandler : MonoBehaviour
     private Text champAvText;
 
     [SerializeField]
-    private Text champSkillsText;
-
-    [SerializeField]
     private Image champImage;
 
     private List<GameObject> champSkills = new List<GameObject>();
+
+    private List<GameObject> champNiggles = new List<GameObject>();
 
 
 
@@ -152,6 +152,12 @@ public class UIHandler : MonoBehaviour
 
     [SerializeField]
     private GameObject wrestlePrefab;
+
+    [SerializeField]
+    private GameObject nigglePrefab;
+
+    [SerializeField]
+    private GameObject placeholderPrefab;
 
 
 
@@ -381,6 +387,8 @@ public class UIHandler : MonoBehaviour
 
         champSkills.Clear();
 
+        champNiggles.Clear();
+
         foreach (GameObject skill in challengerSkills)
         {
             Destroy(skill);
@@ -388,9 +396,9 @@ public class UIHandler : MonoBehaviour
 
         challengerSkills.Clear();
 
-        //Champ skills
+        challengerNiggles.Clear();
 
-        string champSkillString = "";   //For skills that can't be found in the dictionary
+        //Champ skills
 
         foreach (string skill in champ.skills)
         {
@@ -401,27 +409,27 @@ public class UIHandler : MonoBehaviour
 
             else
             {
-                champSkillString += skill + ", ";
+                champSkills.Add(Instantiate(placeholderPrefab, champCard.transform));
             }
         }
 
-        if (champSkillString.Length > 2)
-            champSkillString = champSkillString.Remove(champSkillString.Length - 2, 2);
-
-        champSkillsText.text = champSkillString;
-
         for (int i = 0; i < champSkills.Count; i++)
         {
-            champSkills[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.5f, -1.45f, 0);
+            champSkills[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.43f, 0);
         }
 
+
+        for (int i = 0; i < champ.niggles; i++)
+        {
+            champNiggles.Add(Instantiate(nigglePrefab, champCard.transform));
+
+            champNiggles[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.88f, 0);
+        }
 
 
 
 
         //Challenger skills
-
-        string challengerSkillString = "";   //For skills that can't be found in the dictionary
 
         foreach (string skill in challenger.chatter.skills)
         {
@@ -432,19 +440,22 @@ public class UIHandler : MonoBehaviour
 
             else
             {
-                challengerSkillString += skill + ", ";
+                challengerSkills.Add(Instantiate(placeholderPrefab, challengerCard.transform));
             }
         }
 
-        if (challengerSkillString.Length > 2)
-            challengerSkillString = challengerSkillString.Remove(challengerSkillString.Length - 2, 2);
-
-        challengerSkillsText.text = challengerSkillString;
-
         for (int i = 0; i < challengerSkills.Count; i++)
         {
-            challengerSkills[i].transform.localPosition = new Vector3(i, 0, 0);
+            challengerSkills[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.43f, 0);
         }
+
+        for (int i = 0; i < challenger.chatter.niggles; i++)
+        {
+            challengerNiggles.Add(Instantiate(nigglePrefab, challengerCard.transform));
+
+            challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.88f, 0);
+        }
+
 
 
 
@@ -492,13 +503,28 @@ public class UIHandler : MonoBehaviour
             {
                 champSkillsBottom.Add(Instantiate(skillPrefabs[skillString], currentChampCard.transform));
             }
+
+            else
+            {
+                champSkillsBottom.Add(Instantiate(placeholderPrefab, currentChampCard.transform));
+            }
         }
 
         for (int i = 0; i < champSkillsBottom.Count; i++)
         {
-            champSkillsBottom[i].transform.localPosition = new Vector3(-3.8f + (float)i * 0.5f, -0.25f, 0);
+            champSkillsBottom[i].transform.localPosition = new Vector3(-3.8f + i * 0.5f, -0.25f, 0);
         }
 
+        //Add niggles
+
+        champNigglesBottom.Clear();
+
+        for (int i = 0; i < dataHandler.CurrentChamp.niggles; i++)
+        {
+            champNigglesBottom.Add(Instantiate(nigglePrefab, currentChampCard.transform));
+
+            champNigglesBottom[i].transform.localPosition = new Vector3(-3.8f + (i + champSkillsBottom.Count) * 0.5f, -0.25f, 0);
+        }
 
 
     }

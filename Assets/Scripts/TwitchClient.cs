@@ -138,7 +138,7 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!champreload --- reload from data files if editing during operation");
                 SendChannelMessage("!setspp [challengername] [spp]");
                 SendChannelMessage("!setchamp [champname] --- only use if something's gone wrong");
-                SendChannelMessage("!setchatter [chattername] [def] [spp] [av] ... --- only use if something's gone wrong - then set skills");
+                SendChannelMessage("!setchatter [chattername] [def] [spp] [av] [niggles] ... --- only use if something's gone wrong - then set skills");
                 SendChannelMessage("!setfreeskill [chattername] [skill] ... --- only use if something's gone wrong. No ssp cost");
                 SendChannelMessage("!addchallenger [challengername] [numdice] --- only use if something's gone wrong");
 
@@ -254,9 +254,9 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 4 && int.TryParse(e.Command.ArgumentsAsList[1], out int def) && int.TryParse(e.Command.ArgumentsAsList[2], out int spp) && int.TryParse(e.Command.ArgumentsAsList[3], out int av))
+                if (e.Command.ArgumentsAsList.Count == 5 && int.TryParse(e.Command.ArgumentsAsList[1], out int def) && int.TryParse(e.Command.ArgumentsAsList[2], out int spp) && int.TryParse(e.Command.ArgumentsAsList[3], out int av) && int.TryParse(e.Command.ArgumentsAsList[4], out int niggles))
                 {
-                    dataHandler.SetChatter(e.Command.ArgumentsAsList[0], def, spp, av);
+                    dataHandler.SetChatter(e.Command.ArgumentsAsList[0], def, spp, av, niggles);
                 }
 
                 else
@@ -433,6 +433,16 @@ public class TwitchClient : MonoBehaviour
                     chatterString += chatter1.spp + " spp, ";
                     chatterString += chatter1.av + "+ av, ";
 
+                    if (chatter1.niggles == 1)
+                    {
+                        chatterString += chatter1.niggles + "niggle, ";
+                    }
+
+                    else if (chatter1.niggles > 1)
+                    {
+                        chatterString += chatter1.niggles + "niggles, ";
+                    }
+
                     foreach (string skill in chatter1.skills)
                     {
                         chatterString += skill + ", ";
@@ -468,6 +478,16 @@ public class TwitchClient : MonoBehaviour
                         chatterString += chatter2.defences + " defences, ";
                         chatterString += chatter2.spp + " spp, ";
                         chatterString += chatter2.av + "+ av, ";
+
+                        if (chatter2.niggles == 1)
+                        {
+                            chatterString += chatter2.niggles + " niggle, ";
+                        }
+
+                        else if (chatter2.niggles > 1)
+                        {
+                            chatterString += chatter2.niggles + " niggles, ";
+                        }
 
                         foreach (string skill in chatter2.skills)
                         {

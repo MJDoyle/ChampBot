@@ -15,6 +15,8 @@ public class Chatter
     public int defences;
 
     public int av;
+
+    public int niggles;
 }
 
 public struct Challenger
@@ -85,7 +87,7 @@ public class DataHandler : MonoBehaviour
 
             chatterStringElements = line.Split(',');
 
-            if (chatterStringElements.Length >= 4)
+            if (chatterStringElements.Length >= 5)
             {
                 Chatter chatter = new Chatter()
                 {
@@ -93,11 +95,12 @@ public class DataHandler : MonoBehaviour
                     defences = int.Parse(chatterStringElements[1]),
                     spp = int.Parse(chatterStringElements[2]),
                     av = int.Parse(chatterStringElements[3]),
+                    niggles = int.Parse(chatterStringElements[4]),
                     skills = new List<string>()
                 };
 
 
-                for (int i = 4; i < chatterStringElements.Length; i++)
+                for (int i = 5; i < chatterStringElements.Length; i++)
                 {
                     chatter.skills.Add(chatterStringElements[i].ToLower());
                 }
@@ -211,6 +214,7 @@ public class DataHandler : MonoBehaviour
             stringToWrite += chatterPair.Value.defences + ",";
             stringToWrite += chatterPair.Value.spp + ",";
             stringToWrite += chatterPair.Value.av + ",";
+            stringToWrite += chatterPair.Value.niggles + ",";
 
             foreach (string skill in chatterPair.Value.skills)
             {
@@ -366,7 +370,7 @@ public class DataHandler : MonoBehaviour
 
     }
 
-    public void SetChatter(string name, int def, int spp, int av)
+    public void SetChatter(string name, int def, int spp, int av, int niggles)
     {
         if (!Chatters.ContainsKey(name.ToLower()))
             Chatters[name.ToLower()] = new Chatter();
@@ -374,6 +378,7 @@ public class DataHandler : MonoBehaviour
         Chatters[name.ToLower()].defences = def;
         Chatters[name.ToLower()].spp = spp;
         Chatters[name.ToLower()].av = av;
+        Chatters[name.ToLower()].niggles = niggles;
 
         Chatters[name.ToLower()].skills = new List<string>();
 
@@ -392,7 +397,8 @@ public class DataHandler : MonoBehaviour
                 spp = 0,
                 defences = 0,
                 skills = new List<string>(),
-                av = 8
+                av = 8,
+                niggles = 0
             };
         }
 

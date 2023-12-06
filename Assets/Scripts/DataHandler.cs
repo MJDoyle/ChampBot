@@ -4,11 +4,6 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
-
-
 public class Chatter
 {
     public string name;
@@ -33,18 +28,13 @@ public class DataHandler : MonoBehaviour
 {
     private List<int> sppRequirements = new List<int>();
 
+    public List<string> PossibleSkills { get; private set; } = new List<string>(); 
+
     public Dictionary<string, Chatter> Chatters { get; private set; }
 
     public Chatter CurrentChamp { get; private set; }
 
     public List<Challenger> Challengers { get; private set; }
-
-
-
-
-    private GoogleCredential gCredential;
-
-    private SheetsService sheetsService;
 
 
 
@@ -61,42 +51,6 @@ public class DataHandler : MonoBehaviour
 
         LoadData();
     }
-
-
-    //private void LoadGoogleCredentials()
-    //{
-    //    using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-    //    {
-    //        gCredential = GoogleCredential.FromStream(stream).CreateScoped(new string[] { SheetsService.Scope.Spreadsheets });
-    //    }
-
-    //    sheetsService = new SheetsService(new BaseClientService.Initializer()
-    //    {
-    //        HttpClientInitializer = gCredential,
-    //        ApplicationName = "ChampBot"        
-    //    });
-    //}
-
-    private async void LoadDataFromGoogleSheet()
-    {
-        Debug.Log("LOADING FROM SHEET");
-
-        SpreadsheetsResource.ValuesResource.GetRequest getRequest = sheetsService.Spreadsheets.Values.Get("Sheet1!A1:B", "1pUEtbw1bLeNDNBusLJiTsK6p9Ew4XqurXDxydNtPS5s");
-
-        var getResponse = await getRequest.ExecuteAsync();
-
-        IList<IList<object>> values = getResponse.Values;
-
-        if (values != null && values.Count > 0)
-        {
-            foreach (var row in values)
-            {
-                Debug.Log(row[0]);
-                Debug.Log(row[1]);
-            }
-        }
-    }
-
 
     private void ClearData()
     {
@@ -212,20 +166,32 @@ public class DataHandler : MonoBehaviour
             }
         }
 
-
+        challengerReader.Close();
 
         //READ SPP
 
         StreamReader sppReader = new StreamReader("Config/spp.txt");
 
-        while ((line = challengerReader.ReadLine()) != null)
+        while ((line = sppReader.ReadLine()) != null)
         {
             if (int.TryParse(line, out int spp))
                 sppRequirements.Add(spp);
         }
 
 
-        challengerReader.Close();
+        sppReader.Close();
+
+
+        //READ SKILLS
+
+        StreamReader skillReader = new StreamReader("Config/skills.txt");
+
+        while ((line = skillReader.ReadLine()) != null)
+        {
+            PossibleSkills.Add(line.ToLower());
+        }
+
+        skillReader.Close();
     }
 
 
@@ -348,6 +314,9 @@ public class DataHandler : MonoBehaviour
         if (!Chatters.ContainsKey(chatter.ToLower()))
             return false;
 
+        if (!PossibleSkills.Contains(skill.ToLower()))
+            return false;
+
 
         List<string> existingSkills = Chatters[chatter.ToLower()].skills;
 
@@ -374,6 +343,9 @@ public class DataHandler : MonoBehaviour
 
 
         if (Chatters[chatter.ToLower()].spp < sppRequirements[Chatters[chatter.ToLower()].skills.Count])
+            return false;
+
+        if (!PossibleSkills.Contains(skill.ToLower()))
             return false;
 
 

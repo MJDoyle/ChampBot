@@ -149,7 +149,7 @@ public class TwitchClient : MonoBehaviour
 
                 foreach (Challenger challenger in dataHandler.Challengers)
                 {
-                    SendChannelMessage(challenger.chatter.name);
+                    SendChannelMessage(challenger.chatter.name + " " + challenger.numDice.ToString() + " dice");
                 }
 
                 break;

@@ -67,7 +67,7 @@ public class TwitchPubSub : MonoBehaviour
 
         if (e.RewardTitle.Contains("1 Dice"))
         {
-            dataHandler.AddChallenger(e.DisplayName, 3);
+            dataHandler.AddChallenger(e.DisplayName, 1);
 
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 1 dice the champ!");
         }
@@ -81,7 +81,7 @@ public class TwitchPubSub : MonoBehaviour
 
         else if (e.RewardTitle.Contains("3 Dice"))
         {
-            dataHandler.AddChallenger(e.DisplayName, 1);
+            dataHandler.AddChallenger(e.DisplayName, 3);
 
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 3 dice the champ!");
         }

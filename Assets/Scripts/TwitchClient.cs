@@ -285,7 +285,11 @@ public class TwitchClient : MonoBehaviour
 
 
                     if (dataHandler.AddFreeSkill(e.Command.ArgumentsAsList[0], skillString))
+                    {
                         SendChannelMessage(e.Command.ArgumentsAsList[0] + " has learned " + skillString);
+
+                        UIhandler.SetChampText();
+                    }
 
                     else
                         SendChannelMessage("Skill can't be added. Either the chatter doesn't exist, the skill doesn't exist, or the skill is a duplicate.");
@@ -314,7 +318,11 @@ public class TwitchClient : MonoBehaviour
                     skillString = skillString.Remove(skillString.Length - 1, 1);
 
                     if (dataHandler.AddSkill(e.Command.ChatMessage.DisplayName, skillString))
+                    {
                         SendChannelMessage(e.Command.ChatMessage.DisplayName + " has learned " + skillString);
+
+                        UIhandler.SetChampText();
+                    }
 
                     else
                         SendChannelMessage("Skill can't be added. Either the chatter doesn't exist, the chatter has insufficient spp, the skill doesn't exist, or the skill is a duplicate.");
@@ -347,7 +355,11 @@ public class TwitchClient : MonoBehaviour
 
 
                     if (dataHandler.AddSkill(e.Command.ArgumentsAsList[0], skillString))
+                    {
                         SendChannelMessage(e.Command.ArgumentsAsList[0] + " has learned " + skillString);
+
+                        UIhandler.SetChampText();
+                    }
 
                     else
                         SendChannelMessage("Skill can't be added. Either the chatter doesn't exist, the chatter has insufficient spp, the skill doesn't exist, or the skill is a duplicate.");

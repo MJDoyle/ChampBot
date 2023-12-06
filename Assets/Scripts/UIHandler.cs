@@ -463,7 +463,7 @@ public class UIHandler : MonoBehaviour
         SetChampText();
     }
 
-    private void SetChampText()
+    public void SetChampText()
     {
         if (dataHandler.CurrentChamp == null)
         {

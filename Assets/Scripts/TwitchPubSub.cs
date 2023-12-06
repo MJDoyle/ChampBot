@@ -60,6 +60,11 @@ public class TwitchPubSub : MonoBehaviour
 
     private void OnPubSubRewardRedeemed(object sender, TwitchLib.PubSub.Events.OnRewardRedeemedArgs e)
     {
+        //Debug.Log("Redeem: " + e.Login + " " + e.Message + " " + e.RedemptionId + " " + e.RewardCost + " " + e.RewardId + " " + e.RewardPrompt + " " + e.RewardTitle + " " + e.Status + " " + e.TimeStamp);
+
+        if (e.Status != "UNFULFILLED")
+            return;
+
         if (e.RewardTitle.Contains("1 Dice"))
         {
             dataHandler.AddChallenger(e.DisplayName, 3);

@@ -521,46 +521,100 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+
+            //Challenger champ
+
+            //nothing nothing   champ wins      
+            //KO nothing        champ wins  
+            //niggle nothing    champ wins          niggle attacker
+            //death nothing     champ wins          death attacker
+
+            //nothing KO        challenger wins     
+            //KO KO             champ wins
+            //niggle KO         champ wins          niggle attacker
+            //death KO          champ wins          death attacker
+
+            //nothing niggle    challenger wins     niggle champ
+            //KO niggle         champ wins          niggle champ
+            //niggle niggle     champ wins          niggle champ niggle attacker
+            //death niggle      champ wins          niggle champ death attacker
+
+            //nothing death     challenger wins     death champ
+            //KO death          challenger wins     death champ
+            //niggle death      challenger wins     death champ niggle attacker
+            //death death       dimmy wins          death champ death attacker
+
             case "champwins":
 
+                //Only broadcaster or moderator can use this command
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp1))
-                {
-                    dataHandler.ChampWins(spp1);
+                ChampWins(e.Command.ArgumentsAsList);
 
-                    UIhandler.StopFight();
-                }
+                break;
 
-                else
-                {
-                    client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
-                }
+            case "challengerwins":
+
+                //Only broadcaster or moderator can use this command
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                    break;
+
+                ChallengerWins(e.Command.ArgumentsAsList);
+
+                break;
+
+            case "dimmywins":
+
+                //Only broadcaster or moderator can use this command
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                    break;
+
+                DimmyWins();
 
                 break;
 
             
+            //case "champwins":
+
+            //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+            //        break;
+
+            //    if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp1))
+            //    {
+            //        dataHandler.ChampWins(spp1);
+
+            //        UIhandler.StopFight();
+            //    }
+
+            //    else
+            //    {
+            //        client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
+            //    }
+
+            //    break;
+
+            
 
 
-            case "champloses":
+            //case "champloses":
 
-                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
-                    break;
+            //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+            //        break;
 
-                if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp2))
-                {
-                    dataHandler.ChampLoses(spp2);
+            //    if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp2))
+            //    {
+            //        dataHandler.ChampLoses(spp2);
 
-                    UIhandler.StopFight();
-                }
+            //        UIhandler.StopFight();
+            //    }
 
-                else
-                {
-                    client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
-                }
+            //    else
+            //    {
+            //        client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
+            //    }
 
-                break;
+            //    break;
 
 
 
@@ -571,6 +625,94 @@ public class TwitchClient : MonoBehaviour
 
 
         }
+    }
+
+    private void ChampWins(List<string> args)
+    {
+        //Command must have three arguments
+        if (args.Count != 3)
+        {
+            SendChannelMessage("Incorrect number of arguments. Needs [challengerinjury] [champinjury] [spp]");
+
+            return;
+        }
+
+        string challengerInjury = args[0].ToLower();
+        string champInjury = args[1].ToLower();
+
+        //The third argument (spp) must be parseable as an int
+        if (!int.TryParse(args[2], out int spp))
+        {
+            SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
+
+            return;
+        }
+
+        //The first argument (challenger injury) must be nothing, KO, niggle, or dead
+        if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
+        {
+            SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
+
+            return;
+        }
+
+        //The second argument (champ injury) must be nothing, KO, niggle, or dead
+        if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl"))
+        {
+            SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
+
+            return;
+        }
+
+        dataHandler.ChampWins(spp);
+
+        UIhandler.StopFight();
+    }
+
+    private void ChallengerWins(List<string> args)
+    {
+        //Command must have three arguments
+        if (args.Count != 3)
+        {
+            SendChannelMessage("Incorrect number of arguments. Needs [challengerinjury] [champinjury] [spp]");
+
+            return;
+        }
+
+        string challengerInjury = args[0].ToLower();
+        string champInjury = args[1].ToLower();
+
+        //The third argument (spp) must be parseable as an int
+        if (!int.TryParse(args[2], out int spp))
+        {
+            SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
+
+            return;
+        }
+
+        //The first argument (challenger injury) must be nothing, KO, niggle, or dead
+        if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
+        {
+            SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
+
+            return;
+        }
+
+        //The second argument (champ injury) must be nothing, KO, niggle, or dead
+        if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl"))
+        {
+            SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
+
+            return;
+        }
+
+        dataHandler.ChampLoses(spp);
+
+        UIhandler.StopFight();
+    }
+
+    private void DimmyWins()
+    {
     }
 
     private void Update()

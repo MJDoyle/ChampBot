@@ -289,6 +289,8 @@ public class UIHandler : MonoBehaviour
             return;
         }
 
+        SoundHandler.PlayBlockSound();
+
         Chatter champ = dataHandler.CurrentChamp;
 
         Challenger challenger = dataHandler.Challengers[0];

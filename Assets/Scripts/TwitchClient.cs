@@ -118,6 +118,8 @@ public class TwitchClient : MonoBehaviour
 
     private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
     {
+        List<string> args = e.Command.ArgumentsAsList;
+
         switch (e.Command.CommandText)
         {
             case "champhelp":
@@ -141,6 +143,7 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!setchatter [chattername] [def] [spp] [av] [niggles] ... --- only use if something's gone wrong - then set skills");
                 SendChannelMessage("!setfreeskill [chattername] [skill] ... --- only use if something's gone wrong. No ssp cost");
                 SendChannelMessage("!addchallenger [challengername] [numdice] --- only use if something's gone wrong");
+                SendChannelMessage("!addniggles [chattername] [numniggles]");
 
                 break;
 
@@ -180,15 +183,24 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+            case "addniggles":
+
+                if (!e.Command.ChatMessage.IsBroadcaster)
+                    break;
+
+                AddNiggles(args);
+
+                break;
+
             case "setspp":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 2 && int.TryParse(e.Command.ArgumentsAsList[1], out int numSPP))
+                if (args.Count == 2 && int.TryParse(args[1], out int numSPP))
                 {
-                    if (dataHandler.SetSPP(e.Command.ArgumentsAsList[0], numSPP))
-                        SendChannelMessage(e.Command.ArgumentsAsList[0] + " set to " + numSPP + " spp");
+                    if (dataHandler.SetSPP(args[0], numSPP))
+                        SendChannelMessage(args[0] + " set to " + numSPP + " spp");
 
                     else
                         SendChannelMessage("Chatter cannot be found");
@@ -208,9 +220,9 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 1 && dataHandler.SetChamp(e.Command.ArgumentsAsList[0]))
+                if (args.Count == 1 && dataHandler.SetChamp(args[0]))
                 {
-                    SendChannelMessage("New champ " + e.Command.ArgumentsAsList[0] + " set succesfully");
+                    SendChannelMessage("New champ " + args[0] + " set succesfully");
                 }
 
                 else
@@ -226,19 +238,19 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 2 && int.TryParse(e.Command.ArgumentsAsList[1], out int numDice))
+                if (args.Count == 2 && int.TryParse(args[1], out int numDice))
                 {
-                    dataHandler.AddChallenger(e.Command.ArgumentsAsList[0], numDice);
+                    dataHandler.AddChallenger(args[0], numDice);
 
-                    SendChannelMessage(e.Command.ArgumentsAsList[0] + " wants to " + numDice + " dice the champ!");
+                    SendChannelMessage(args[0] + " wants to " + numDice + " dice the champ!");
                 }
 
-                else if (e.Command.ArgumentsAsList.Count == 3 && int.TryParse(e.Command.ArgumentsAsList[1], out int numDice2) && int.TryParse(e.Command.ArgumentsAsList[2], out int numAttempts))
+                else if (args.Count == 3 && int.TryParse(args[1], out int numDice2) && int.TryParse(args[2], out int numAttempts))
                 {
                     for (int i = 0; i < numAttempts; i ++)
-                        dataHandler.AddChallenger(e.Command.ArgumentsAsList[0], numDice2);
+                        dataHandler.AddChallenger(args[0], numDice2);
 
-                    SendChannelMessage(e.Command.ArgumentsAsList[0] + " wants to " + numDice2 + " dice the champ " + numAttempts + " times!");
+                    SendChannelMessage(args[0] + " wants to " + numDice2 + " dice the champ " + numAttempts + " times!");
                 }
 
                 else
@@ -254,9 +266,9 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 5 && int.TryParse(e.Command.ArgumentsAsList[1], out int def) && int.TryParse(e.Command.ArgumentsAsList[2], out int spp) && int.TryParse(e.Command.ArgumentsAsList[3], out int av) && int.TryParse(e.Command.ArgumentsAsList[4], out int niggles))
+                if (args.Count == 5 && int.TryParse(args[1], out int def) && int.TryParse(args[2], out int spp) && int.TryParse(args[3], out int av) && int.TryParse(args[4], out int niggles))
                 {
-                    dataHandler.SetChatter(e.Command.ArgumentsAsList[0], def, spp, av, niggles);
+                    dataHandler.SetChatter(args[0], def, spp, av, niggles);
                 }
 
                 else
@@ -271,22 +283,22 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count >= 2)
+                if (args.Count >= 2)
                 {
                     string skillString = "";
 
-                    for (int i = 1; i < e.Command.ArgumentsAsList.Count; i++)
+                    for (int i = 1; i < args.Count; i++)
                     {
-                        skillString += e.Command.ArgumentsAsList[i] + " ";
+                        skillString += args[i] + " ";
                     }
 
                     skillString = skillString.Remove(skillString.Length - 1, 1);
 
 
 
-                    if (dataHandler.AddFreeSkill(e.Command.ArgumentsAsList[0], skillString))
+                    if (dataHandler.AddFreeSkill(args[0], skillString))
                     {
-                        SendChannelMessage(e.Command.ArgumentsAsList[0] + " has learned " + skillString);
+                        SendChannelMessage(args[0] + " has learned " + skillString);
 
                         UIhandler.SetChampText();
                     }
@@ -306,13 +318,13 @@ public class TwitchClient : MonoBehaviour
 
             case "addmyskill":
 
-                if (e.Command.ArgumentsAsList.Count >= 1)
+                if (args.Count >= 1)
                 {
                     string skillString = "";
 
-                    for (int i = 0; i < e.Command.ArgumentsAsList.Count; i++)
+                    for (int i = 0; i < args.Count; i++)
                     {
-                        skillString += e.Command.ArgumentsAsList[i] + " ";
+                        skillString += args[i] + " ";
                     }
 
                     skillString = skillString.Remove(skillString.Length - 1, 1);
@@ -341,22 +353,22 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count >= 2)
+                if (args.Count >= 2)
                 {
                     string skillString = "";
 
-                    for (int i = 1; i < e.Command.ArgumentsAsList.Count; i++)
+                    for (int i = 1; i < args.Count; i++)
                     {
-                        skillString += e.Command.ArgumentsAsList[i] + " "; 
+                        skillString += args[i] + " "; 
                     }
 
                     skillString = skillString.Remove(skillString.Length - 1, 1);
 
 
 
-                    if (dataHandler.AddSkill(e.Command.ArgumentsAsList[0], skillString))
+                    if (dataHandler.AddSkill(args[0], skillString))
                     {
-                        SendChannelMessage(e.Command.ArgumentsAsList[0] + " has learned " + skillString);
+                        SendChannelMessage(args[0] + " has learned " + skillString);
 
                         UIhandler.SetChampText();
                     }
@@ -380,10 +392,10 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
-                if (e.Command.ArgumentsAsList.Count == 1)
+                if (args.Count == 1)
                 {
-                    if (dataHandler.AddAv(e.Command.ArgumentsAsList[0]))
-                        SendChannelMessage(e.Command.ArgumentsAsList[0] + " has increased their av");
+                    if (dataHandler.AddAv(args[0]))
+                        SendChannelMessage(args[0] + " has increased their av");
 
                     else
                         SendChannelMessage("Av can't be added. The chatter doesn't exist or has insufficient spp.");
@@ -464,9 +476,9 @@ public class TwitchClient : MonoBehaviour
             case "getcontender":
             case "getchallenger":
 
-                if (e.Command.ArgumentsAsList.Count == 1)
+                if (args.Count == 1)
                 {
-                    Chatter chatter2 = dataHandler.GetChatter(e.Command.ArgumentsAsList[0]);
+                    Chatter chatter2 = dataHandler.GetChatter(args[0]);
 
 
 
@@ -550,7 +562,7 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
-                ChampWins(e.Command.ArgumentsAsList);
+                ChampWins(args);
 
                 break;
 
@@ -560,7 +572,7 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
-                ChallengerWins(e.Command.ArgumentsAsList);
+                ChallengerWins(args);
 
                 break;
 
@@ -580,7 +592,7 @@ public class TwitchClient : MonoBehaviour
             //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
             //        break;
 
-            //    if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp1))
+            //    if (args.Count == 1 && int.TryParse(args[0], out int spp1))
             //    {
             //        dataHandler.ChampWins(spp1);
 
@@ -602,7 +614,7 @@ public class TwitchClient : MonoBehaviour
             //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
             //        break;
 
-            //    if (e.Command.ArgumentsAsList.Count == 1 && int.TryParse(e.Command.ArgumentsAsList[0], out int spp2))
+            //    if (args.Count == 1 && int.TryParse(args[0], out int spp2))
             //    {
             //        dataHandler.ChampLoses(spp2);
 
@@ -625,6 +637,34 @@ public class TwitchClient : MonoBehaviour
 
 
         }
+    }
+
+    private void AddNiggles(List<string> args)
+    {
+        if (args.Count != 2)
+        {
+            SendChannelMessage("Wrong number of arguments. Need [chattername] [numniggles]");
+
+            return;
+        }
+
+        string chatter = args[0];
+
+        if (int.TryParse(args[1], out int numNiggles))
+        {
+            SendChannelMessage("Cannot parse number of niggles. Need [chattername] [numniggles]");
+
+            return;
+        }
+
+        if (!dataHandler.AddNiggles(chatter, numNiggles))
+        {
+            SendChannelMessage("Cannot find chatter");
+
+            return;
+        }
+
+        SendChannelMessage(numNiggles + " niggles added to " + chatter);
     }
 
     private void ChampWins(List<string> args)

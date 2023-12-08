@@ -290,6 +290,9 @@ public class DataHandler : MonoBehaviour
         if (!Chatters.ContainsKey(chatter.ToLower()))
             return false;
 
+        if (spp < 0)
+            return false;
+
         Chatters[chatter.ToLower()].spp = spp;
 
         return true;
@@ -336,6 +339,18 @@ public class DataHandler : MonoBehaviour
 
     }
 
+    public bool AddNiggles(string chatter, int numNiggles)
+    {
+        if (!Chatters.ContainsKey(chatter))
+            return false;
+
+        Chatters[chatter].niggles += numNiggles;
+
+        Chatters[chatter].niggles = Mathf.Max(Chatters[chatter].niggles, 0);
+
+        return true;
+    }
+
     public bool AddSkill(string chatter, string skill)
     {
         if (!Chatters.ContainsKey(chatter.ToLower()))
@@ -375,6 +390,15 @@ public class DataHandler : MonoBehaviour
         if (!Chatters.ContainsKey(name.ToLower()))
             Chatters[name.ToLower()] = new Chatter();
 
+        if (def < 0)
+            return;
+
+        if (spp < 0)
+            return;
+
+        if (av < 0)
+            return;
+
         Chatters[name.ToLower()].defences = def;
         Chatters[name.ToLower()].spp = spp;
         Chatters[name.ToLower()].av = av;
@@ -389,6 +413,9 @@ public class DataHandler : MonoBehaviour
 
     public void AddChallenger(string challengerName, int numDice, bool save = true)
     {
+        if (numDice < 1 || numDice > 3)
+            return;
+
         if (!Chatters.ContainsKey(challengerName.ToLower()))
         {
             Chatters[challengerName.ToLower()] = new Chatter()
@@ -431,6 +458,9 @@ public class DataHandler : MonoBehaviour
 
     public void ChampWins(int spp, string challengerInjury, string champInjury)
     {
+        if (spp < 0)
+            return;
+
         if (Challengers.Count <= 0)
         {
             //Error
@@ -476,6 +506,9 @@ public class DataHandler : MonoBehaviour
 
     public void ChallengerWins(int spp, string challengerInjury, string champInjury)
     {
+        if (spp < 0)
+            return;
+
         if (Challengers.Count <= 0)
         {
             //Error

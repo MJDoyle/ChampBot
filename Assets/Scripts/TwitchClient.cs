@@ -656,7 +656,7 @@ public class TwitchClient : MonoBehaviour
             return;
         }
 
-        //The second argument (champ injury) must be nothing, KO, niggle, or dead
+        //The second argument (champ injury) must be nothing, KO, or a niggle
         if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl"))
         {
             SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
@@ -664,7 +664,7 @@ public class TwitchClient : MonoBehaviour
             return;
         }
 
-        dataHandler.ChampWins(spp);
+        dataHandler.ChampWins(spp, challengerInjury, champInjury);
 
         UIhandler.StopFight();
     }
@@ -690,8 +690,8 @@ public class TwitchClient : MonoBehaviour
             return;
         }
 
-        //The first argument (challenger injury) must be nothing, KO, niggle, or dead
-        if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
+        //The first argument (challenger injury) must be nothing, KO, or niggle
+        if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl"))
         {
             SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
 
@@ -699,20 +699,23 @@ public class TwitchClient : MonoBehaviour
         }
 
         //The second argument (champ injury) must be nothing, KO, niggle, or dead
-        if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl"))
+        if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl") && !champInjury.Contains("dea"))
         {
             SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
 
             return;
         }
 
-        dataHandler.ChampLoses(spp);
+        dataHandler.ChallengerWins(spp, challengerInjury, champInjury);
 
         UIhandler.StopFight();
     }
 
     private void DimmyWins()
     {
+        dataHandler.DimmyWins();
+
+        UIhandler.StopFight();
     }
 
     private void Update()

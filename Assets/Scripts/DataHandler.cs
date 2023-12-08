@@ -417,7 +417,19 @@ public class DataHandler : MonoBehaviour
         }
     }
 
-    public void ChampWins(int spp)
+    private void ResetChatter(string chatterName)
+    {
+        if (!Chatters.ContainsKey(chatterName))
+            return;
+
+        Chatters[chatterName].av = 8;
+        Chatters[chatterName].defences = 0;
+        Chatters[chatterName].niggles = 0;
+        Chatters[chatterName].skills.Clear();
+        Chatters[chatterName].spp = 0;
+    }
+
+    public void ChampWins(int spp, string challengerInjury, string champInjury)
     {
         if (Challengers.Count <= 0)
         {
@@ -425,27 +437,66 @@ public class DataHandler : MonoBehaviour
             return;
         }
 
-        //Add spp
-        Challengers[0].chatter.spp += spp;
+        //CHALLENGER
+
+        //If dead
+        if (challengerInjury.Contains("dea"))
+        {
+            ResetChatter(Challengers[0].chatter.name);
+
+            CurrentChamp.spp += 3;
+        }
+
+        else
+        {
+            //If niggled
+            if (challengerInjury.Contains("gl"))
+                Challengers[0].chatter.niggles++;
+
+            //Add spp
+            Challengers[0].chatter.spp += spp;
+        }
+
+        //Remove latest challenger from list
+        Challengers.RemoveAt(0);
+
+        //CHAMP
 
         //Add defense to champ
         CurrentChamp.defences++;
 
-        //Remove latest challenger from list
-        Challengers.RemoveAt(0);
+        //Add niggle to champ if niggled
+        if (champInjury.Contains("gl"))
+            CurrentChamp.niggles++;
 
         SaveData("Data/");
         SaveData("Backup/");
 
     }
 
-    public void ChampLoses(int spp)
+    public void ChallengerWins(int spp, string challengerInjury, string champInjury)
     {
         if (Challengers.Count <= 0)
         {
             //Error
             return;
         }
+
+        //CHAMP
+
+        //Add niggle to champ if niggled
+        if (champInjury.Contains("gl"))
+            CurrentChamp.niggles++;
+
+        //Kill champ if dead
+        else if (champInjury.Contains("dea"))
+            ResetChatter(CurrentChamp.name);
+
+        //CHALLENGER
+
+        //If niggled
+        if (challengerInjury.Contains("gl"))
+            Challengers[0].chatter.niggles++;
 
         //Add spp
         Challengers[0].chatter.spp += spp;
@@ -460,6 +511,34 @@ public class DataHandler : MonoBehaviour
         SaveData("Backup/");
     }
 
+    public void DimmyWins()
+    {
+        if (Challengers.Count <= 0)
+        {
+            //Error
+            return;
+        }
+
+        ResetChatter(CurrentChamp.name);
+
+        ResetChatter(Challengers[0].chatter.name);
+
+        if (!Chatters.ContainsKey("dimmy_gee"))
+        {
+            Chatters["dimmy_gee"] = new Chatter()
+            {
+                name = "dimmy_gee",
+                spp = 0,
+                defences = 0,
+                skills = new List<string>(),
+                av = 8,
+                niggles = 0
+            };
+        }
+
+        SetChamp("dimmy_gee");
+
+    }
 
     public bool SetChamp(string champ)
     {

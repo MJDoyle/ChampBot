@@ -706,7 +706,7 @@ public class TwitchClient : MonoBehaviour
 
         dataHandler.ChampWins(spp, challengerInjury, champInjury);
 
-        UIhandler.StopFight();
+        UIhandler.StopFight(challengerInjury, champInjury);
     }
 
     private void ChallengerWins(List<string> args)
@@ -748,14 +748,14 @@ public class TwitchClient : MonoBehaviour
 
         dataHandler.ChallengerWins(spp, challengerInjury, champInjury);
 
-        UIhandler.StopFight();
+        UIhandler.StopFight(challengerInjury, champInjury);
     }
 
     private void DimmyWins()
     {
         dataHandler.DimmyWins();
 
-        UIhandler.StopFight();
+        UIhandler.StopFight("dead", "dead");
     }
 
     private void Update()

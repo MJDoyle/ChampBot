@@ -291,6 +291,9 @@ public class UIHandler : MonoBehaviour
 
         SoundHandler.PlayBlockSound();
 
+        if (dataHandler.CurrentChamp.skills.Contains("foul appearance"))
+            SoundHandler.PlayFASound();
+
         Chatter champ = dataHandler.CurrentChamp;
 
         Challenger challenger = dataHandler.Challengers[0];
@@ -464,12 +467,28 @@ public class UIHandler : MonoBehaviour
 
     }
 
-    public void StopFight()
+    public void StopFight(string challengerInjury, string champInjury)
     {
         if (dataHandler.CurrentChamp == null)
         {
             return;
         }
+
+        if (challengerInjury.Contains("dea") || champInjury.Contains("dea"))
+        {
+            SoundHandler.PlayDeathSound();
+        }
+
+        if (challengerInjury.Contains("gl") || champInjury.Contains("gl"))
+        {
+            SoundHandler.PlayInjurySound();
+        }
+
+        if (challengerInjury.Contains("ko") || champInjury.Contains("ko"))
+        {
+            SoundHandler.PlayKOSound();
+        }
+
 
         fighting = false;
 

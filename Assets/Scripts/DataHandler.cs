@@ -38,11 +38,15 @@ public class DataHandler : MonoBehaviour
 
     public List<Challenger> Challengers { get; private set; }
 
+    private UIHandler uiHandler;
+
 
 
 
     private void Start()
     {
+        uiHandler = GetComponent<UIHandler>();
+
         //LoadGoogleCredentials();
 
         //LoadDataFromGoogleSheet();
@@ -195,6 +199,8 @@ public class DataHandler : MonoBehaviour
         }
 
         skillReader.Close();
+
+        uiHandler.SetChallengerListItems();
     }
 
 

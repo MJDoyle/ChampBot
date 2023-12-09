@@ -161,6 +161,19 @@ public class UIHandler : MonoBehaviour
 
 
 
+    [SerializeField]
+    private GameObject challengerListItemPrefab;
+
+    private List<Text> challengerListTexts = new List<Text>();
+
+
+
+
+
+
+
+
+
     bool fighting = false;
 
     private DataHandler dataHandler;
@@ -269,6 +282,28 @@ public class UIHandler : MonoBehaviour
 
             else
                 champCard.transform.position += new Vector3(cardSpeed * Time.deltaTime, 0, 0);
+        }
+    }
+
+    public void SetChallengerListItems()
+    {
+        foreach (Text text in challengerListTexts)
+        {
+            Destroy(text.gameObject.transform.root.gameObject);
+        }
+
+        challengerListTexts.Clear();
+
+        for (int i = 0; i < dataHandler.Challengers.Count; i++)
+        {
+            GameObject challengerListItem = Instantiate(challengerListItemPrefab);
+
+
+            challengerListItem.transform.position = new Vector3(-7.88f, -4.73f + 0.54f * i, 0);
+
+            challengerListTexts.Add(challengerListItem.GetComponentInChildren<Text>());
+
+            challengerListTexts[i].text = dataHandler.Challengers[i].chatter.name.Substring(0, Mathf.Min(8, dataHandler.Challengers[i].chatter.name.Length));
         }
     }
 

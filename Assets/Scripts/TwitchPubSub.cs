@@ -8,11 +8,15 @@ public class TwitchPubSub : MonoBehaviour
 
     private DataHandler dataHandler;
 
+    private UIHandler uiHandler;
+
     private TwitchClient twitchClient;
 
     private void Start()
     {
         dataHandler = GetComponent<DataHandler>();
+
+        uiHandler = GetComponent<UIHandler>();
 
         twitchClient = GetComponent<TwitchClient>();
         
@@ -69,6 +73,9 @@ public class TwitchPubSub : MonoBehaviour
         {
             dataHandler.AddChallenger(e.DisplayName, 1);
 
+            uiHandler.SetChallengerListItems();
+            uiHandler.ShowChallengerListItems();
+
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 1 dice the champ!");
         }
 
@@ -76,12 +83,18 @@ public class TwitchPubSub : MonoBehaviour
         {
             dataHandler.AddChallenger(e.DisplayName, 2);
 
+            uiHandler.SetChallengerListItems();
+            uiHandler.ShowChallengerListItems();
+
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 2 dice the champ!");
         }
 
         else if (e.RewardTitle.Contains("3 Dice"))
         {
             dataHandler.AddChallenger(e.DisplayName, 3);
+
+            uiHandler.SetChallengerListItems();
+            uiHandler.ShowChallengerListItems();
 
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 3 dice the champ!");
         }

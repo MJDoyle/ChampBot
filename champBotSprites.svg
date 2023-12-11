@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="156.12794"
-     inkscape:cy="532.68698"
+     inkscape:zoom="1.4"
+     inkscape:cx="25.809087"
+     inkscape:cy="347.56054"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -384,5 +384,23 @@
          x="119.19672"
          y="152.83762"
          style="font-size:3.34637642px;stroke-width:0.20914853">spp</tspan></text>
+    <rect
+       style="opacity:1;fill:#72c8ad;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.63146669;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4554"
+       width="38.8209"
+       height="7.8844509"
+       x="34.811852"
+       y="213.61189" />
+    <rect
+       style="opacity:1;fill:#a4a19b;fill-opacity:1;fill-rule:nonzero;stroke:#f0f0ee;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect817-0-6"
+       width="26.168633"
+       height="6.6123185"
+       x="0.41279396"
+       y="212.17664"
+       inkscape:export-filename="D:\Development\ChampBot\Assets\Sprites\challengerListItem.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"
+       ry="1.8040693" />
   </g>
 </svg>

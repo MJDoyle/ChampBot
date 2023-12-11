@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -304,8 +305,27 @@ public class UIHandler : MonoBehaviour
             challengerListTexts.Add(challengerListItem.GetComponentInChildren<Text>());
 
             challengerListTexts[i].text = dataHandler.Challengers[i].chatter.name.Substring(0, Mathf.Min(8, dataHandler.Challengers[i].chatter.name.Length));
+
+            challengerListTexts[i].transform.root.gameObject.SetActive(false);
         }
     }
+
+    public async void ShowChallengerListItems()
+    {
+        foreach (Text text in challengerListTexts)
+        {
+            text.transform.root.gameObject.SetActive(true);
+        }
+
+        await Task.Delay(3000);
+
+        foreach (Text text in challengerListTexts)
+        {
+            text.transform.root.gameObject.SetActive(false);
+        }
+    }
+
+
 
     public void StartFight()
     {

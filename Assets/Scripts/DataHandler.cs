@@ -201,6 +201,8 @@ public class DataHandler : MonoBehaviour
         skillReader.Close();
 
         uiHandler.SetChallengerListItems();
+
+        uiHandler.ShowChallengerListItems();
     }
 
 

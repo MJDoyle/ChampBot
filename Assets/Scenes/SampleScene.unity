@@ -2338,7 +2338,7 @@ MonoBehaviour:
   wrestlePrefab: {fileID: 5058714111130560098, guid: e5e3401026ae9df4ab00189825c3437e, type: 3}
   nigglePrefab: {fileID: 9006502164109575106, guid: 89a17e501541ade4ab1f8c5e25e91b4f, type: 3}
   placeholderPrefab: {fileID: 8348851118653323793, guid: 00c8fbcab38e03a4991823051dd62cc0, type: 3}
-  challengerListItemPrefab: {fileID: 6690228743043133800, guid: 7d82179924fe0484494cc7c781d0f32a, type: 3}
+  challengerListItemPrefab: {fileID: 5600146227521792496, guid: 7d82179924fe0484494cc7c781d0f32a, type: 3}
 --- !u!114 &1481788227
 MonoBehaviour:
   m_ObjectHideFlags: 0

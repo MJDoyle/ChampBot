@@ -81,7 +81,7 @@ public class TwitchClient : MonoBehaviour
     //Individual gift
     private void OnGiftedSubscription(object sender, TwitchLib.Client.Events.OnGiftedSubscriptionArgs e)
     {
-        client.SendMessage(e.Channel, $"Gift sub from " + e.GiftedSubscription.DisplayName + "!");
+        client.SendMessage(e.Channel, $"Three dice block for " + e.GiftedSubscription.DisplayName + "!");
 
         dataHandler.AddChallenger(e.GiftedSubscription.DisplayName, 3);
 
@@ -91,7 +91,7 @@ public class TwitchClient : MonoBehaviour
 
     private void OnContinuedGiftedSubscription(object sender, TwitchLib.Client.Events.OnContinuedGiftedSubscriptionArgs e)
     {
-        client.SendMessage(e.Channel, $"Continued gifted subscription by " + e.ContinuedGiftedSubscription.DisplayName + "!");
+        client.SendMessage(e.Channel, $"Three dice block for " + e.ContinuedGiftedSubscription.DisplayName + "!");
 
         dataHandler.AddChallenger(e.ContinuedGiftedSubscription.DisplayName, 3);
 
@@ -101,7 +101,7 @@ public class TwitchClient : MonoBehaviour
 
     private void OnNewSubscriber(object sender, TwitchLib.Client.Events.OnNewSubscriberArgs e)
     {
-        client.SendMessage(e.Channel, $"New subscription from " + e.Subscriber.DisplayName + "!");
+        client.SendMessage(e.Channel, $"Three dice block for " + e.Subscriber.DisplayName + "!");
 
         dataHandler.AddChallenger(e.Subscriber.DisplayName, 3);
 
@@ -111,7 +111,7 @@ public class TwitchClient : MonoBehaviour
 
     private void OnPrimePaidSubscriber(object sender, TwitchLib.Client.Events.OnPrimePaidSubscriberArgs e)
     {
-        client.SendMessage(e.Channel, $"Prime subscription from " + e.PrimePaidSubscriber.DisplayName + "!");
+        client.SendMessage(e.Channel, $"Three dice block for " + e.PrimePaidSubscriber.DisplayName + "!");
 
         dataHandler.AddChallenger(e.PrimePaidSubscriber.DisplayName, 3);
 
@@ -121,7 +121,7 @@ public class TwitchClient : MonoBehaviour
 
     private void OnResubscriber(object sender, TwitchLib.Client.Events.OnReSubscriberArgs e)
     {
-        client.SendMessage(e.Channel, $"Resubscription from " + e.ReSubscriber.DisplayName + "!");
+        client.SendMessage(e.Channel, $"Three dice block for " + e.ReSubscriber.DisplayName + "!");
 
         dataHandler.AddChallenger(e.ReSubscriber.DisplayName, 3);
 
@@ -138,6 +138,9 @@ public class TwitchClient : MonoBehaviour
         switch (e.Command.CommandText)
         {
             case "champhelp":
+            case "champbothelp":
+            case "helpchamp":
+            case "helpchampbot":
 
                 SendChannelMessage("!fight");
                 SendChannelMessage("!champwins [challengersppgain]");
@@ -163,6 +166,10 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "listskills":
+            case "availableskills":
+            case "skillslist":
+            case "skillsavailable":
+            case "champskills":
 
                 string skillsString = "Available skills: ";
 
@@ -176,9 +183,15 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "listchallengers":
+            case "challengerslist":
+            case "champchallengers":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderator only command");
+
                     break;
+                }
 
                 UIhandler.SetChallengerListItems();
 
@@ -192,9 +205,14 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "champreload":
+            case "reloadchamp":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 dataHandler.LoadData();
 
@@ -203,18 +221,28 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "addniggles":
+            case "nigglesadd":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 AddNiggles(args);
 
                 break;
 
             case "setspp":
+            case "sppset":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 if (args.Count == 2 && int.TryParse(args[1], out int numSPP))
                 {
@@ -229,15 +257,20 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Wrong number or type of arguments");
+                    SendChannelMessage("Can't set spp. Have you formatted the request correctly? [chatter] [spp]");
                 }
 
                 break;
 
             case "setchamp":
+            case "champset":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 if (args.Count == 1 && dataHandler.SetChamp(args[0]))
                 {
@@ -249,13 +282,17 @@ public class TwitchClient : MonoBehaviour
                     SendChannelMessage("New champ can't be set. Do they exist as a chatter? Use !setchatter first if not");
                 }
 
-
                 break;
 
             case "addchallenger":
+            case "challengeradd":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 if (args.Count == 2 && int.TryParse(args[1], out int numDice))
                 {
@@ -274,33 +311,45 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Challenger can't be added. Have you formatted the request correctly?");
+                    SendChannelMessage("Challenger can't be added. Have you formatted the request correctly? [chatter] [numdice] [numattempts]");
                 }
 
                 break;
 
 
             case "setchatter":
+            case "chatterset":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 if (args.Count == 5 && int.TryParse(args[1], out int def) && int.TryParse(args[2], out int spp) && int.TryParse(args[3], out int av) && int.TryParse(args[4], out int niggles))
                 {
                     dataHandler.SetChatter(args[0], def, spp, av, niggles);
+
+                    SendChannelMessage("Chatter set");
                 }
 
                 else
                 {
-                    SendChannelMessage("Chatter can't be set. Have you formatted the request correctly?");
+                    SendChannelMessage("Chatter can't be set. Have you formatted the request correctly? [chatter] [defences] [spp] [av] [niggles]");
                 }
 
                 break;
 
             case "setfreeskill":
+            case "freeskill":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
 
                 if (args.Count >= 2)
                 {
@@ -329,13 +378,14 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly?");
+                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly? [chatter] [skill]");
                 }
 
 
                 break;
 
             case "addmyskill":
+            case "newmyskill":
 
                 if (args.Count >= 1)
                 {
@@ -362,12 +412,13 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly?");
+                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly? [skill]");
                 }
 
                 break;
 
             case "addskill":
+            case "newskill":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
@@ -399,7 +450,7 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly?");
+                    SendChannelMessage("Skill can't be added. Have you formatted the request correctly? [chatter] [skill]");
                 }
 
 
@@ -409,7 +460,11 @@ public class TwitchClient : MonoBehaviour
             case "addav":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderatoronly command");
+
                     break;
+                }
 
                 if (args.Count == 1)
                 {
@@ -431,6 +486,8 @@ public class TwitchClient : MonoBehaviour
 
 
             case "champtop5":
+            case "top5champ":
+            case "top5defences":
 
                 List<Chatter> top5 = dataHandler.GetTop5();
 
@@ -537,7 +594,7 @@ public class TwitchClient : MonoBehaviour
 
                 else
                 {
-                    SendChannelMessage("Can't find chatter. Have you formatted the request correctly?");
+                    SendChannelMessage("Can't find chatter. Have you formatted the request correctly? [chatter]");
                 }
 
                 break;
@@ -546,7 +603,13 @@ public class TwitchClient : MonoBehaviour
             case "fight":
 
                 if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
                     break;
+                }
+
+                SendChannelMessage("Fight starting!");
 
                 UIhandler.StartFight();
 
@@ -579,7 +642,13 @@ public class TwitchClient : MonoBehaviour
 
                 //Only broadcaster or moderator can use this command
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderator only command");
+
                     break;
+                }
+
+                SendChannelMessage("The champ wins!");
 
                 ChampWins(args);
 
@@ -589,7 +658,13 @@ public class TwitchClient : MonoBehaviour
 
                 //Only broadcaster or moderator can use this command
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderator only command");
+
                     break;
+                }
+
+                SendChannelMessage("The challenger wins!");
 
                 ChallengerWins(args);
 
@@ -599,7 +674,13 @@ public class TwitchClient : MonoBehaviour
 
                 //Only broadcaster or moderator can use this command
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderator only command");
+
                     break;
+                }
+
+                SendChannelMessage("Dimmy wins!?");
 
                 DimmyWins();
 

@@ -180,6 +180,10 @@ public class TwitchClient : MonoBehaviour
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                     break;
 
+                UIhandler.SetChallengerListItems();
+
+                UIhandler.ShowChallengerListItems();
+
                 foreach (Challenger challenger in dataHandler.Challengers)
                 {
                     SendChannelMessage(challenger.chatter.name + " " + challenger.numDice.ToString() + " dice");

@@ -163,9 +163,9 @@ public class UIHandler : MonoBehaviour
 
 
     [SerializeField]
-    private GameObject challengerListItemPrefab;
+    private ChallengerListItem challengerListItemPrefab;
 
-    private List<Text> challengerListTexts = new List<Text>();
+    private List<ChallengerListItem> challengerListItems = new List<ChallengerListItem>();
 
 
 
@@ -288,40 +288,41 @@ public class UIHandler : MonoBehaviour
 
     public void SetChallengerListItems()
     {
-        foreach (Text text in challengerListTexts)
+        foreach (ChallengerListItem challengerListItem in challengerListItems)
         {
-            Destroy(text.gameObject.transform.root.gameObject);
+            Destroy(challengerListItem.gameObject);
         }
 
-        challengerListTexts.Clear();
+        challengerListItems.Clear();
 
         for (int i = 0; i < dataHandler.Challengers.Count; i++)
         {
-            GameObject challengerListItem = Instantiate(challengerListItemPrefab);
+            challengerListItems.Add(Instantiate(challengerListItemPrefab));
 
 
-            challengerListItem.transform.position = new Vector3(-7.88f, -4.73f + 0.54f * i, 0);
+            challengerListItems[i].transform.position = new Vector3(-7.88f, -4.73f + 0.54f * i, 0);
 
-            challengerListTexts.Add(challengerListItem.GetComponentInChildren<Text>());
 
-            challengerListTexts[i].text = dataHandler.Challengers[i].chatter.name.Substring(0, Mathf.Min(8, dataHandler.Challengers[i].chatter.name.Length));
+            challengerListItems[i].NameText.text = dataHandler.Challengers[i].chatter.name.Substring(0, Mathf.Min(8, dataHandler.Challengers[i].chatter.name.Length));
 
-            challengerListTexts[i].transform.root.gameObject.SetActive(false);
+            challengerListItems[i].DiceText.text = dataHandler.Challengers[i].numDice.ToString();
+
+            challengerListItems[i].gameObject.SetActive(false);
         }
     }
 
     public async void ShowChallengerListItems()
     {
-        foreach (Text text in challengerListTexts)
+        foreach (ChallengerListItem challengerListItem in challengerListItems)
         {
-            text.transform.root.gameObject.SetActive(true);
+            challengerListItem.gameObject.SetActive(true);
         }
 
-        await Task.Delay(3000);
+        await Task.Delay(5000);
 
-        foreach (Text text in challengerListTexts)
+        foreach (ChallengerListItem challengerListItem in challengerListItems)
         {
-            text.transform.root.gameObject.SetActive(false);
+            challengerListItem.gameObject.SetActive(false);
         }
     }
 

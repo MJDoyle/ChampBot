@@ -373,20 +373,7 @@ public class UIHandler : MonoBehaviour
 
         challengerAvText.text = challenger.chatter.av.ToString() + "+";
 
-        //string challengerSkillString = "";
 
-        //if (challenger.chatter.skills.Count > 0)
-        //{
-
-        //    foreach (string skill in challenger.chatter.skills)
-        //    {
-        //        challengerSkillString += skill + ", ";
-        //    }
-
-        //    challengerSkillString = challengerSkillString.Remove(challengerSkillString.Length - 2, 2);
-        //}
-
-        //challengerSkillsText.text = challengerSkillString;
 
 
         champNameText.text = champ.name;
@@ -397,20 +384,8 @@ public class UIHandler : MonoBehaviour
 
         champAvText.text = champ.av.ToString() + "+";
 
-        //string champSkillString = "";
 
-        //if (champ.skills.Count > 0)
-        //{
 
-        //    foreach (string skill in champ.skills)
-        //    {
-        //        champSkillString += skill + ", ";
-        //    }
-
-        //    champSkillString = champSkillString.Remove(champSkillString.Length - 2, 2);
-        //}
-
-        //champSkillsText.text = champSkillString;
 
         SetCardSkills(champ, challenger);
 
@@ -516,11 +491,6 @@ public class UIHandler : MonoBehaviour
 
             challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.88f, 0);
         }
-
-
-
-
-
     }
 
     public void StopFight(string challengerInjury, string champInjury)
@@ -602,14 +572,5 @@ public class UIHandler : MonoBehaviour
 
             champNigglesBottom[i].transform.localPosition = new Vector3(-3.8f + (i + champSkillsBottom.Count) * 0.5f, -0.25f, 0);
         }
-
-
     }
-
-
-
-
-
-
-
 }

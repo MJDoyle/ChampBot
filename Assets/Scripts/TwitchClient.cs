@@ -11,14 +11,13 @@ using TwitchLib.PubSub.Events;
 
 public class TwitchClient : MonoBehaviour
 {
+    private Client client;
 
-    public Client client;
     private string channelName;
 
     private UIHandler UIhandler;
 
     private DataHandler dataHandler;
-
 
     bool connectMessage = false;
 
@@ -30,15 +29,12 @@ public class TwitchClient : MonoBehaviour
         UIhandler = GetComponent<UIHandler>();
 
         Application.runInBackground = true;
-
-
  
         StreamReader channelNameReader = new StreamReader("Config/channelName.txt");
 
         channelName = channelNameReader.ReadLine();
 
         channelNameReader.Close();
-
 
         string oauth = "";
 
@@ -48,20 +44,12 @@ public class TwitchClient : MonoBehaviour
 
         oauthReader.Close();
 
-
-
-
-
-
         ConnectionCredentials credentials = new ConnectionCredentials(channelName, oauth);
 
         client = new Client();
         client.Initialize(credentials, channelName);
 
-
-
         client.OnChatCommandReceived += OnChatCommandReceived;
-        //client.OnCommunitySubscription += OnCommunitySubscription;
         client.OnGiftedSubscription += OnGiftedSubscription;
         client.OnContinuedGiftedSubscription += OnContinuedGiftedSubscription;
         client.OnNewSubscriber += OnNewSubscriber;
@@ -70,13 +58,6 @@ public class TwitchClient : MonoBehaviour
 
         client.Connect();
     }
-
-
-    //Mass gift
-    //private void OnCommunitySubscription(object sender, TwitchLib.Client.Events.OnCommunitySubscriptionArgs e)
-    //{
-    //    client.SendMessage(e.Channel, $"Community subscription from " + e.GiftedSubscription.DisplayName + "!");
-    //}
 
     //Individual gift
     private void OnGiftedSubscription(object sender, TwitchLib.Client.Events.OnGiftedSubscriptionArgs e)
@@ -686,56 +667,8 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
-            
-            //case "champwins":
-
-            //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
-            //        break;
-
-            //    if (args.Count == 1 && int.TryParse(args[0], out int spp1))
-            //    {
-            //        dataHandler.ChampWins(spp1);
-
-            //        UIhandler.StopFight();
-            //    }
-
-            //    else
-            //    {
-            //        client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
-            //    }
-
-            //    break;
-
-            
-
-
-            //case "champloses":
-
-            //    if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
-            //        break;
-
-            //    if (args.Count == 1 && int.TryParse(args[0], out int spp2))
-            //    {
-            //        dataHandler.ChampLoses(spp2);
-
-            //        UIhandler.StopFight();
-            //    }
-
-            //    else
-            //    {
-            //        client.SendMessage(e.Command.ChatMessage.Channel, "Command format incorrect (did you include spp gain?)");
-            //    }
-
-            //    break;
-
-
-
-
             default:
-                //SendChannelMessage($"Unknown chat command: {e.Command.CommandIdentifier}{e.Command.CommandText}");
                 break;
-
-
         }
     }
 

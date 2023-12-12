@@ -41,15 +41,9 @@ public class DataHandler : MonoBehaviour
     private UIHandler uiHandler;
 
 
-
-
     private void Start()
     {
         uiHandler = GetComponent<UIHandler>();
-
-        //LoadGoogleCredentials();
-
-        //LoadDataFromGoogleSheet();
 
         Chatters = new Dictionary<string, Chatter>();
 
@@ -72,6 +66,8 @@ public class DataHandler : MonoBehaviour
         //Spp
         sppRequirements.Clear();
 
+        //Skills
+        PossibleSkills.Clear();
     }
 
     public void LoadData()

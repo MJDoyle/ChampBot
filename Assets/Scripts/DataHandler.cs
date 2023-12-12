@@ -28,6 +28,8 @@ public struct Challenger
 
 public class DataHandler : MonoBehaviour
 {
+    private TwitchClient twitchClient;
+
     private List<int> sppRequirements = new List<int>();
 
     public List<string> PossibleSkills { get; private set; } = new List<string>(); 
@@ -43,6 +45,8 @@ public class DataHandler : MonoBehaviour
 
     private void Start()
     {
+        twitchClient = GetComponent<TwitchClient>();
+
         uiHandler = GetComponent<UIHandler>();
 
         Chatters = new Dictionary<string, Chatter>();
@@ -458,6 +462,43 @@ public class DataHandler : MonoBehaviour
         Chatters[chatterName].niggles = 0;
         Chatters[chatterName].skills.Clear();
         Chatters[chatterName].spp = 0;
+    }
+
+    public void StopFight(int spp, string challengerInjury, string champInjury)
+    {
+        if (spp < 0)
+            return;
+
+        if (Challengers.Count <= 0)
+        {
+            //Error
+            return;
+        }
+
+        //Both dead, dimmy wins
+        if (challengerInjury.Contains("dea") && champInjury.Contains("dea"))
+        {
+            DimmyWins();
+
+            twitchClient.SendChannelMessage("Dimmy wins!");
+        }
+
+        //Champ dead, challenger not dead, challenger wins
+        //Champ KOed or worse, challenger nothing, challenger wins
+        else if ((!challengerInjury.Contains("dea") && champInjury.Contains("dea")) || (challengerInjury.Contains("st") && !champInjury.Contains("st")))
+        {
+            ChallengerWins(spp, challengerInjury, champInjury);
+
+            twitchClient.SendChannelMessage("Challenger wins!");
+        }
+
+        //Otherwise champ wins
+        else
+        {
+            ChampWins(spp, challengerInjury, champInjury);
+
+            twitchClient.SendChannelMessage("Champ wins!");
+        }
     }
 
     public void ChampWins(int spp, string challengerInjury, string champInjury)

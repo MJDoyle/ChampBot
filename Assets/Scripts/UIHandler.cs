@@ -400,10 +400,24 @@ public class UIHandler : MonoBehaviour
             champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
         }
 
+        else
+        {
+            Texture2D champTexture = new Texture2D(2, 2);
+
+            champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
         if (File.Exists("GFX/" + challenger.chatter.name + ".png"))
         {
             Texture2D challengerTexture = new Texture2D(2, 2);
             ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + challenger.chatter.name + ".png"));
+
+            challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
+        else
+        {
+            Texture2D challengerTexture = new Texture2D(2, 2);
 
             challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
         }

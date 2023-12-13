@@ -116,7 +116,7 @@ public class TwitchClient : MonoBehaviour
     {
         List<string> args = e.Command.ArgumentsAsList;
 
-        switch (e.Command.CommandText)
+        switch (e.Command.CommandText.ToLower())
         {
             case "champhelp":
             case "champbothelp":
@@ -202,9 +202,9 @@ public class TwitchClient : MonoBehaviour
             case "addniggles":
             case "nigglesadd":
 
-                if (!e.Command.ChatMessage.IsBroadcaster)
+                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer only command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }
@@ -216,9 +216,9 @@ public class TwitchClient : MonoBehaviour
             case "setspp":
             case "sppset":
 
-                if (!e.Command.ChatMessage.IsBroadcaster)
+                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer only command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }
@@ -266,9 +266,9 @@ public class TwitchClient : MonoBehaviour
             case "addchallenger":
             case "challengeradd":
 
-                if (!e.Command.ChatMessage.IsBroadcaster)
+                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer only command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }
@@ -299,9 +299,9 @@ public class TwitchClient : MonoBehaviour
             case "setchatter":
             case "chatterset":
 
-                if (!e.Command.ChatMessage.IsBroadcaster)
+                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer only command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }
@@ -323,9 +323,9 @@ public class TwitchClient : MonoBehaviour
             case "setfreeskill":
             case "freeskill":
 
-                if (!e.Command.ChatMessage.IsBroadcaster)
+                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer only command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }

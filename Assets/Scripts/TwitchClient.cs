@@ -761,18 +761,18 @@ public class TwitchClient : MonoBehaviour
             return;
         }
 
-        //The first argument (challenger injury) must be standing, KO, niggle, or dead
-        if (!challengerInjury.Contains("st") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
+        //The first argument (challenger injury) must be standing, KO, cas, niggle, or dead
+        if (!challengerInjury.Contains("st") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("cas")  && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
         {
-            SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
+            SendChannelMessage("Challenger injury incorrect. Needs standing, ko, cas, niggle, or dead");
 
             return;
         }
 
-        //The second argument (champ injury) must be standing, KO, niggle, or dead
-        if (!champInjury.Contains("st") && !champInjury.Contains("ko") && !champInjury.Contains("gl") && !champInjury.Contains("dea"))
+        //The second argument (champ injury) must be standing, KO, cas, niggle, or dead
+        if (!champInjury.Contains("st") && !champInjury.Contains("ko") && !champInjury.Contains("cas") && !champInjury.Contains("gl") && !champInjury.Contains("dea"))
         {
-            SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
+            SendChannelMessage("Champ injury incorrect. Needs standing, ko, cas, niggle, or dead");
 
             return;
         }

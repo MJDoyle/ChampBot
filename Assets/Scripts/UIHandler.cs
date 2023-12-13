@@ -519,7 +519,7 @@ public class UIHandler : MonoBehaviour
             SoundHandler.PlayDeathSound();
         }
 
-        if (challengerInjury.Contains("gl") || champInjury.Contains("gl"))
+        if (challengerInjury.Contains("gl") || champInjury.Contains("gl") || challengerInjury.Contains("cas") || champInjury.Contains("cas"))
         {
             SoundHandler.PlayInjurySound();
         }

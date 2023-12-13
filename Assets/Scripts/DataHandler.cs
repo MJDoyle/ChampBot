@@ -469,7 +469,8 @@ public class DataHandler : MonoBehaviour
         if (spp < 0)
             return;
 
-        if (Challengers.Count <= 0)
+
+        if (!CanStartFight())
         {
             //Error
             return;
@@ -506,18 +507,20 @@ public class DataHandler : MonoBehaviour
         if (spp < 0)
             return;
 
-        if (Challengers.Count <= 0)
+        if (!CanStartFight())
         {
             //Error
             return;
         }
+
+        Challenger challenger = GetNextChallenger();
 
         //CHALLENGER
 
         //If dead
         if (challengerInjury.Contains("dea"))
         {
-            ResetChatter(Challengers[0].chatter.name);
+            ResetChatter(challenger.chatter.name);
 
             CurrentChamp.spp += 3;
         }
@@ -526,14 +529,14 @@ public class DataHandler : MonoBehaviour
         {
             //If niggled
             if (challengerInjury.Contains("gl"))
-                Challengers[0].chatter.niggles++;
+                challenger.chatter.niggles++;
 
             //Add spp
-            Challengers[0].chatter.spp += spp;
+            challenger.chatter.spp += spp;
         }
 
         //Remove latest challenger from list
-        Challengers.RemoveAt(0);
+        Challengers.Remove(challenger);
 
         //CHAMP
 
@@ -554,11 +557,13 @@ public class DataHandler : MonoBehaviour
         if (spp < 0)
             return;
 
-        if (Challengers.Count <= 0)
+        if (!CanStartFight())
         {
             //Error
             return;
         }
+
+        Challenger challenger = GetNextChallenger();
 
         //CHAMP
 
@@ -574,16 +579,16 @@ public class DataHandler : MonoBehaviour
 
         //If niggled
         if (challengerInjury.Contains("gl"))
-            Challengers[0].chatter.niggles++;
+            challenger.chatter.niggles++;
 
         //Add spp
-        Challengers[0].chatter.spp += spp;
+        challenger.chatter.spp += spp;
 
         //Set the latest challenger as the champ
-        CurrentChamp = Challengers[0].chatter;
+        CurrentChamp = challenger.chatter;
 
         //Remove latest challenger from list
-        Challengers.RemoveAt(0);
+        Challengers.Remove(challenger);
 
         SaveData("Data/");
         SaveData("Backup/");
@@ -591,15 +596,20 @@ public class DataHandler : MonoBehaviour
 
     public void DimmyWins()
     {
-        if (Challengers.Count <= 0)
+        if (!CanStartFight())
         {
             //Error
             return;
         }
 
+        Challenger challenger = GetNextChallenger();
+
+        //Remove latest challenger from list
+        Challengers.Remove(challenger);
+
         ResetChatter(CurrentChamp.name);
 
-        ResetChatter(Challengers[0].chatter.name);
+        ResetChatter(challenger.chatter.name);
 
         if (!Chatters.ContainsKey("dimmy_gee"))
         {
@@ -631,29 +641,55 @@ public class DataHandler : MonoBehaviour
         return true;
     }
 
-    private void Update()
+    public bool CanStartFight()
     {
-        //If the next challenger in line is the champ, swap with the next other challenger in the queue
-        if (Challengers.Count > 0 && CurrentChamp != null && Challengers[0].chatter == CurrentChamp)
+        //Check that there's a challenger in the list who isn't the champ
+
+        foreach (Challenger challenger in Challengers)
         {
-            //Find differnt challenger that's closest to the start
-
-            for (int i = 0; i < Challengers.Count; i++)
+            if (challenger.chatter != CurrentChamp)
             {
-                if (Challengers[i].chatter != Challengers[0].chatter)
-                {
-                    Challenger replacement = Challengers[i];
-
-                    Challengers[i] = Challengers[0];
-
-                    Challengers[0] = replacement;
-
-                    SaveData("Data/");
-                    SaveData("Backup/");
-
-                    break;
-                }
+                return true;
             }
         }
+
+        return false;
     }
+
+    public Challenger GetNextChallenger()
+    {
+        foreach (Challenger challenger in Challengers)
+        {
+            if (challenger.chatter != CurrentChamp)
+                return challenger;
+        }
+
+        return new Challenger();
+    }
+
+    //private void Update()
+    //{
+    //    //If the next challenger in line is the champ, swap with the next other challenger in the queue
+    //    if (Challengers.Count > 0 && CurrentChamp != null && Challengers[0].chatter == CurrentChamp)
+    //    {
+    //        //Find differnt challenger that's closest to the start
+
+    //        for (int i = 0; i < Challengers.Count; i++)
+    //        {
+    //            if (Challengers[i].chatter != Challengers[0].chatter)
+    //            {
+    //                Challenger replacement = Challengers[i];
+
+    //                Challengers[i] = Challengers[0];
+
+    //                Challengers[0] = replacement;
+
+    //                SaveData("Data/");
+    //                SaveData("Backup/");
+
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
 }

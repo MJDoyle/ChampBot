@@ -338,7 +338,7 @@ public class UIHandler : MonoBehaviour
             return;
         }
 
-        if (dataHandler.Challengers.Count <= 0)
+        if (!dataHandler.CanStartFight())
         {
             twitchClient.SendChannelMessage("Can't fight, no challenger!");
 
@@ -352,7 +352,7 @@ public class UIHandler : MonoBehaviour
 
         Chatter champ = dataHandler.CurrentChamp;
 
-        Challenger challenger = dataHandler.Challengers[0];
+        Challenger challenger = dataHandler.GetNextChallenger();
 
 
         if (challenger.numDice == 1)

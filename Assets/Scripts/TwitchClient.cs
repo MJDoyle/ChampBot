@@ -211,7 +211,7 @@ public class TwitchClient : MonoBehaviour
             case "addniggles":
             case "nigglesadd":
 
-                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
                     SendChannelMessage("Streamer or moderator only command");
 
@@ -225,7 +225,7 @@ public class TwitchClient : MonoBehaviour
             case "setspp":
             case "sppset":
 
-                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
                     SendChannelMessage("Streamer or moderator only command");
 
@@ -275,7 +275,7 @@ public class TwitchClient : MonoBehaviour
             case "addchallenger":
             case "challengeradd":
 
-                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
                     SendChannelMessage("Streamer or moderator only command");
 
@@ -287,6 +287,9 @@ public class TwitchClient : MonoBehaviour
                     dataHandler.AddChallenger(args[0], numDice);
 
                     SendChannelMessage(args[0] + " wants to " + numDice + " dice the champ!");
+
+                    UIhandler.SetChallengerListItems();
+                    UIhandler.ShowChallengerListItems();
                 }
 
                 else if (args.Count == 3 && int.TryParse(args[1], out int numDice2) && int.TryParse(args[2], out int numAttempts))
@@ -295,6 +298,9 @@ public class TwitchClient : MonoBehaviour
                         dataHandler.AddChallenger(args[0], numDice2);
 
                     SendChannelMessage(args[0] + " wants to " + numDice2 + " dice the champ " + numAttempts + " times!");
+
+                    UIhandler.SetChallengerListItems();
+                    UIhandler.ShowChallengerListItems();
                 }
 
                 else
@@ -308,7 +314,7 @@ public class TwitchClient : MonoBehaviour
             case "setchatter":
             case "chatterset":
 
-                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
                     SendChannelMessage("Streamer or moderator only command");
 
@@ -332,7 +338,7 @@ public class TwitchClient : MonoBehaviour
             case "setfreeskill":
             case "freeskill":
 
-                if (!e.Command.ChatMessage.IsBroadcaster || !e.Command.ChatMessage.IsModerator)
+                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
                     SendChannelMessage("Streamer or moderator only command");
 
@@ -409,7 +415,11 @@ public class TwitchClient : MonoBehaviour
             case "newskill":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
+                {
+                    SendChannelMessage("Streamer or moderator only command");
+
                     break;
+                }
 
                 if (args.Count >= 2)
                 {
@@ -449,7 +459,7 @@ public class TwitchClient : MonoBehaviour
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {
-                    SendChannelMessage("Streamer or moderatoronly command");
+                    SendChannelMessage("Streamer or moderator only command");
 
                     break;
                 }
@@ -599,6 +609,14 @@ public class TwitchClient : MonoBehaviour
 
                     break;
                 }
+
+                if (!dataHandler.CanStartFight())
+                {
+                    SendChannelMessage("Can't start fight, no appropriate challenger");
+
+                    break;
+                }
+
 
                 SendChannelMessage("Fight starting!");
 
@@ -763,97 +781,6 @@ public class TwitchClient : MonoBehaviour
 
         UIhandler.StopFight(challengerInjury, champInjury);
     }
-
-    //private void ChampWins(List<string> args)
-    //{
-    //    //Command must have three arguments
-    //    if (args.Count != 3)
-    //    {
-    //        SendChannelMessage("Incorrect number of arguments. Needs [challengerinjury] [champinjury] [spp]");
-
-    //        return;
-    //    }
-
-    //    string challengerInjury = args[0].ToLower();
-    //    string champInjury = args[1].ToLower();
-
-    //    //The third argument (spp) must be parseable as an int
-    //    if (!int.TryParse(args[2], out int spp))
-    //    {
-    //        SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
-
-    //        return;
-    //    }
-
-    //    //The first argument (challenger injury) must be nothing, KO, niggle, or dead
-    //    if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
-    //    {
-    //        SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
-
-    //        return;
-    //    }
-
-    //    //The second argument (champ injury) must be nothing, KO, or a niggle
-    //    if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl"))
-    //    {
-    //        SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
-
-    //        return;
-    //    }
-
-    //    dataHandler.ChampWins(spp, challengerInjury, champInjury);
-
-    //    UIhandler.StopFight(challengerInjury, champInjury);
-    //}
-
-    //private void ChallengerWins(List<string> args)
-    //{
-    //    //Command must have three arguments
-    //    if (args.Count != 3)
-    //    {
-    //        SendChannelMessage("Incorrect number of arguments. Needs [challengerinjury] [champinjury] [spp]");
-
-    //        return;
-    //    }
-
-    //    string challengerInjury = args[0].ToLower();
-    //    string champInjury = args[1].ToLower();
-
-    //    //The third argument (spp) must be parseable as an int
-    //    if (!int.TryParse(args[2], out int spp))
-    //    {
-    //        SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
-
-    //        return;
-    //    }
-
-    //    //The first argument (challenger injury) must be nothing, KO, or niggle
-    //    if (!challengerInjury.Contains("no") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("gl"))
-    //    {
-    //        SendChannelMessage("Challenger injury incorrect. Needs nothing, ko, niggle, or dead");
-
-    //        return;
-    //    }
-
-    //    //The second argument (champ injury) must be nothing, KO, niggle, or dead
-    //    if (!champInjury.Contains("no") && !champInjury.Contains("ko") && !champInjury.Contains("gl") && !champInjury.Contains("dea"))
-    //    {
-    //        SendChannelMessage("Champ injury incorrect. Needs nothing, ko, or niggle");
-
-    //        return;
-    //    }
-
-    //    dataHandler.ChallengerWins(spp, challengerInjury, champInjury);
-
-    //    UIhandler.StopFight(challengerInjury, champInjury);
-    //}
-
-    //private void DimmyWins()
-    //{
-    //    dataHandler.DimmyWins();
-
-    //    UIhandler.StopFight("dead", "dead");
-    //}
 
     private void Update()
     {

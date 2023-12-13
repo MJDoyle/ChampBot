@@ -498,12 +498,12 @@ public class TwitchClient : MonoBehaviour
 
                     if (chatter1.niggles == 1)
                     {
-                        chatterString += chatter1.niggles + "niggle, ";
+                        chatterString += chatter1.niggles + " niggle, ";
                     }
 
                     else if (chatter1.niggles > 1)
                     {
-                        chatterString += chatter1.niggles + "niggles, ";
+                        chatterString += chatter1.niggles + " niggles, ";
                     }
 
                     foreach (string skill in chatter1.skills)

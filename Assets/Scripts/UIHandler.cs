@@ -300,7 +300,7 @@ public class UIHandler : MonoBehaviour
             challengerListItems.Add(Instantiate(challengerListItemPrefab));
 
 
-            challengerListItems[i].transform.position = new Vector3(-7.88f, -4.73f + 0.54f * i, 0);
+            challengerListItems[i].transform.position = new Vector3(-8.35f, -4.83f + 0.3f * i, 0);
 
 
             challengerListItems[i].NameText.text = dataHandler.Challengers[i].chatter.name.Substring(0, Mathf.Min(8, dataHandler.Challengers[i].chatter.name.Length));

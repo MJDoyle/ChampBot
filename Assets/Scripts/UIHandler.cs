@@ -358,10 +358,10 @@ public class UIHandler : MonoBehaviour
         if (challenger.numDice == 1)
             numDiceText.text = "ONE DICE";
 
-        if (challenger.numDice == 1)
+        if (challenger.numDice == 2)
             numDiceText.text = "TWO DICE";
 
-        if (challenger.numDice == 1)
+        if (challenger.numDice == 3)
             numDiceText.text = "THREE DICE";
 
 

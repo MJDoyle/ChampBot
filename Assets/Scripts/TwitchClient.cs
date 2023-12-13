@@ -144,6 +144,19 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+            case "sppneeded":
+
+                string sppString = "SPP requirements: ";
+
+                foreach (int sppNeeded in dataHandler.SppRequirements)
+                {
+                    sppString += sppNeeded.ToString() + " | ";
+                }
+
+                SendChannelMessage(sppString);
+
+                break;
+
             case "listskills":
             case "availableskills":
             case "skillslist":

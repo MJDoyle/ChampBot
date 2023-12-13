@@ -30,7 +30,7 @@ public class DataHandler : MonoBehaviour
 {
     private TwitchClient twitchClient;
 
-    private List<int> sppRequirements = new List<int>();
+    public List<int> SppRequirements { get; private set; } = new List<int>();
 
     public List<string> PossibleSkills { get; private set; } = new List<string>(); 
 
@@ -68,7 +68,7 @@ public class DataHandler : MonoBehaviour
         CurrentChamp = null;
 
         //Spp
-        sppRequirements.Clear();
+        SppRequirements.Clear();
 
         //Skills
         PossibleSkills.Clear();
@@ -182,7 +182,7 @@ public class DataHandler : MonoBehaviour
         while ((line = sppReader.ReadLine()) != null)
         {
             if (int.TryParse(line, out int spp))
-                sppRequirements.Add(spp);
+                SppRequirements.Add(spp);
         }
 
 
@@ -311,10 +311,10 @@ public class DataHandler : MonoBehaviour
         if (!Chatters.ContainsKey(chatter.ToLower()))
             return false;
 
-        if (Chatters[chatter.ToLower()].spp < sppRequirements[Chatters[chatter.ToLower()].skills.Count])
+        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count])
             return false;
 
-        Chatters[chatter.ToLower()].spp -= sppRequirements[Chatters[chatter.ToLower()].skills.Count];
+        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count];
 
         Chatters[chatter.ToLower()].av++;
 
@@ -365,11 +365,11 @@ public class DataHandler : MonoBehaviour
             return false;
 
 
-        if (Chatters[chatter.ToLower()].skills.Count >= sppRequirements.Count)
+        if (Chatters[chatter.ToLower()].skills.Count >= SppRequirements.Count)
             return false;
 
 
-        if (Chatters[chatter.ToLower()].spp < sppRequirements[Chatters[chatter.ToLower()].skills.Count])
+        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count])
             return false;
 
         if (!PossibleSkills.Contains(skill.ToLower()))
@@ -382,7 +382,7 @@ public class DataHandler : MonoBehaviour
             return false;
 
 
-        Chatters[chatter.ToLower()].spp -= sppRequirements[Chatters[chatter.ToLower()].skills.Count];
+        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count];
 
         existingSkills.Add(skill.ToLower());
 

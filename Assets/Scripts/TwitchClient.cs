@@ -67,7 +67,7 @@ public class TwitchClient : MonoBehaviour
         dataHandler.AddChallenger(e.GiftedSubscription.DisplayName, 3);
 
         UIhandler.SetChallengerListItems();
-        UIhandler.SetChallengerListItems();
+        UIhandler.ShowChallengerListItems();
     }
 
     private void OnContinuedGiftedSubscription(object sender, TwitchLib.Client.Events.OnContinuedGiftedSubscriptionArgs e)
@@ -77,7 +77,7 @@ public class TwitchClient : MonoBehaviour
         dataHandler.AddChallenger(e.ContinuedGiftedSubscription.DisplayName, 3);
 
         UIhandler.SetChallengerListItems();
-        UIhandler.SetChallengerListItems();
+        UIhandler.ShowChallengerListItems();
     }
 
     private void OnNewSubscriber(object sender, TwitchLib.Client.Events.OnNewSubscriberArgs e)
@@ -87,7 +87,7 @@ public class TwitchClient : MonoBehaviour
         dataHandler.AddChallenger(e.Subscriber.DisplayName, 3);
 
         UIhandler.SetChallengerListItems();
-        UIhandler.SetChallengerListItems();
+        UIhandler.ShowChallengerListItems();
     }
 
     private void OnPrimePaidSubscriber(object sender, TwitchLib.Client.Events.OnPrimePaidSubscriberArgs e)
@@ -97,7 +97,7 @@ public class TwitchClient : MonoBehaviour
         dataHandler.AddChallenger(e.PrimePaidSubscriber.DisplayName, 3);
 
         UIhandler.SetChallengerListItems();
-        UIhandler.SetChallengerListItems();
+        UIhandler.ShowChallengerListItems();
     }
 
     private void OnResubscriber(object sender, TwitchLib.Client.Events.OnReSubscriberArgs e)
@@ -107,7 +107,7 @@ public class TwitchClient : MonoBehaviour
         dataHandler.AddChallenger(e.ReSubscriber.DisplayName, 3);
 
         UIhandler.SetChallengerListItems();
-        UIhandler.SetChallengerListItems();
+        UIhandler.ShowChallengerListItems();
     }
 
 

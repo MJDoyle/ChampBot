@@ -165,16 +165,12 @@ public class TwitchClient : MonoBehaviour
             case "challengerslist":
             case "champchallengers":
 
-                if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
-                {
-                    SendChannelMessage("Streamer or moderator only command");
-
-                    break;
-                }
-
                 UIhandler.SetChallengerListItems();
 
                 UIhandler.ShowChallengerListItems();
+
+                if (dataHandler.Challengers.Count == 0)
+                    SendChannelMessage("No current challengers");
 
                 foreach (Challenger challenger in dataHandler.Challengers)
                 {

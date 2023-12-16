@@ -336,6 +336,7 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "setfreeskill":
+            case "addfreeskill":
             case "freeskill":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)

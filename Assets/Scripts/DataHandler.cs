@@ -279,6 +279,9 @@ public class DataHandler : MonoBehaviour
                 }
             }
 
+            if (top5.Contains(bdChatter))
+                break;
+
             top5.Add(bdChatter);
         }
 

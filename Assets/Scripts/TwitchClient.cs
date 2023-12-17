@@ -220,6 +220,8 @@ public class TwitchClient : MonoBehaviour
 
                 AddNiggles(args);
 
+                UIhandler.SetChampText();
+
                 break;
 
             case "setspp":
@@ -235,7 +237,11 @@ public class TwitchClient : MonoBehaviour
                 if (args.Count == 2 && int.TryParse(args[1], out int numSPP))
                 {
                     if (dataHandler.SetSPP(args[0], numSPP))
+                    {
                         SendChannelMessage(args[0] + " set to " + numSPP + " spp");
+
+                        UIhandler.SetChampText();
+                    }
 
                     else
                         SendChannelMessage("Chatter cannot be found");
@@ -263,6 +269,8 @@ public class TwitchClient : MonoBehaviour
                 if (args.Count == 1 && dataHandler.SetChamp(args[0]))
                 {
                     SendChannelMessage("New champ " + args[0] + " set succesfully");
+
+                    UIhandler.SetChampText();
                 }
 
                 else
@@ -326,6 +334,8 @@ public class TwitchClient : MonoBehaviour
                     dataHandler.SetChatter(args[0], def, spp, av, niggles);
 
                     SendChannelMessage("Chatter set");
+
+                    UIhandler.SetChampText();
                 }
 
                 else
@@ -468,7 +478,11 @@ public class TwitchClient : MonoBehaviour
                 if (args.Count == 1)
                 {
                     if (dataHandler.AddAv(args[0]))
+                    {
                         SendChannelMessage(args[0] + " has increased their av");
+
+                        UIhandler.SetChampText();
+                    }
 
                     else
                         SendChannelMessage("Av can't be added. The chatter doesn't exist or has insufficient spp.");

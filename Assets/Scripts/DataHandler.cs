@@ -555,6 +555,8 @@ public class DataHandler : MonoBehaviour
         if (challengerInjury.Contains("cas") || challengerInjury.Contains("gl"))
             CurrentChamp.spp += 6;
 
+        uiHandler.SetChampText();
+
         //Add defense to champ
         CurrentChamp.defences++;
 

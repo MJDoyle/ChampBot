@@ -306,6 +306,9 @@ public class DataHandler : MonoBehaviour
 
         Chatters[chatter.ToLower()].spp = spp;
 
+        SaveData("Data/");
+        SaveData("Backup/");
+
         return true;
     }
 
@@ -358,6 +361,9 @@ public class DataHandler : MonoBehaviour
         Chatters[chatter].niggles += numNiggles;
 
         Chatters[chatter].niggles = Mathf.Max(Chatters[chatter].niggles, 0);
+
+        SaveData("Data/");
+        SaveData("Backup/");
 
         return true;
     }
@@ -465,6 +471,9 @@ public class DataHandler : MonoBehaviour
         Chatters[chatterName].niggles = 0;
         Chatters[chatterName].skills.Clear();
         Chatters[chatterName].spp = 0;
+
+        SaveData("Data/");
+        SaveData("Backup/");
     }
 
     public void StopFight(int spp, string challengerInjury, string champInjury)
@@ -629,6 +638,8 @@ public class DataHandler : MonoBehaviour
 
         SetChamp("dimmy_gee");
 
+        SaveData("Data/");
+        SaveData("Backup/");
     }
 
     public bool SetChamp(string champ)

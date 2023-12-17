@@ -531,11 +531,7 @@ public class DataHandler : MonoBehaviour
 
         //If dead
         if (challengerInjury.Contains("dea"))
-        {
             ResetChatter(challenger.chatter.name);
-
-            CurrentChamp.spp += 3;
-        }
 
         else
         {
@@ -551,6 +547,13 @@ public class DataHandler : MonoBehaviour
         Challengers.Remove(challenger);
 
         //CHAMP
+
+        //Add spp to champ
+        if (challengerInjury.Contains("dea"))
+            CurrentChamp.spp += 12;
+
+        if (challengerInjury.Contains("cas") || challengerInjury.Contains("gl"))
+            CurrentChamp.spp += 6;
 
         //Add defense to champ
         CurrentChamp.defences++;

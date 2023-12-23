@@ -475,7 +475,15 @@ public class UIHandler : MonoBehaviour
 
         for (int i = 0; i < champSkills.Count; i++)
         {
-            champSkills[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.43f, 0);
+            if (i <= 5)
+            {
+                champSkills[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, -1.43f, 0);
+            }
+
+            else
+            {
+                champSkills[i].transform.localPosition = new Vector3(-1.17f + (i - 6) * 0.47f, -1.9f, 0);
+            }
         }
 
 
@@ -483,7 +491,7 @@ public class UIHandler : MonoBehaviour
         {
             champNiggles.Add(Instantiate(nigglePrefab, champCard.transform));
 
-            champNiggles[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.88f, 0);
+            champNiggles[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, 1.4f, 0);
         }
 
 
@@ -506,14 +514,22 @@ public class UIHandler : MonoBehaviour
 
         for (int i = 0; i < challengerSkills.Count; i++)
         {
-            challengerSkills[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.43f, 0);
+            if (i <= 5)
+            {
+                challengerSkills[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, -1.43f, 0);
+            }
+
+            else
+            {
+                challengerSkills[i].transform.localPosition = new Vector3(-1.17f + (i - 6) * 0.47f, -1.9f, 0);
+            }
         }
 
         for (int i = 0; i < challenger.chatter.niggles; i++)
         {
             challengerNiggles.Add(Instantiate(nigglePrefab, challengerCard.transform));
 
-            challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + (float)i * 0.47f, -1.88f, 0);
+            challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, 1.4f, 0);
         }
     }
 

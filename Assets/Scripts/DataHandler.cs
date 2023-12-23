@@ -467,7 +467,6 @@ public class DataHandler : MonoBehaviour
             return;
 
         Chatters[chatterName].av = 8;
-        Chatters[chatterName].defences = 0;
         Chatters[chatterName].niggles = 0;
         Chatters[chatterName].skills.Clear();
         Chatters[chatterName].spp = 0;

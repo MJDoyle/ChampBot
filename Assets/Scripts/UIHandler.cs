@@ -603,6 +603,10 @@ public class UIHandler : MonoBehaviour
         }
 
         //Add niggles
+        foreach (GameObject niggle in champNigglesBottom)
+        {
+            Destroy(niggle);
+        }
 
         champNigglesBottom.Clear();
 

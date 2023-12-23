@@ -429,13 +429,18 @@ public class UIHandler : MonoBehaviour
 
     private void SetCardSkills(Chatter champ, Challenger challenger)
     {
-        //Delete old skills
+        //Delete old skills and niggles
         foreach (GameObject skill in champSkills)
         {
             Destroy(skill);
         }
 
         champSkills.Clear();
+
+        foreach (GameObject niggle in champNiggles)
+        {
+            Destroy(niggle);
+        }
 
         champNiggles.Clear();
 
@@ -445,6 +450,11 @@ public class UIHandler : MonoBehaviour
         }
 
         challengerSkills.Clear();
+
+        foreach (GameObject niggle in challengerNiggles)
+        {
+            Destroy(niggle);
+        }
 
         challengerNiggles.Clear();
 

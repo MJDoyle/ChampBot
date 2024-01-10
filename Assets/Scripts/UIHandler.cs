@@ -111,6 +111,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private GameObject blockPrefab;
 
+    [SerializeField]
+    private GameObject ironHardSkinPrefab;
 
     [SerializeField]
     private GameObject brawlerPrefab;
@@ -196,6 +198,9 @@ public class UIHandler : MonoBehaviour
         twitchClient = GetComponent<TwitchClient>();
 
         skillPrefabs["block"] = blockPrefab;
+
+        skillPrefabs["iron hard skin"] = ironHardSkinPrefab;
+        skillPrefabs["ironhardskin"] = ironHardSkinPrefab;
 
         skillPrefabs["brawler"] = brawlerPrefab;
 

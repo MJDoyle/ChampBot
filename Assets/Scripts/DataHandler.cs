@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System;
 using UnityEngine;
 using System.IO;
 using System.Linq;
@@ -487,6 +489,8 @@ public class DataHandler : MonoBehaviour
             return;
         }
 
+        SaveToLog(challengerInjury, champInjury);
+
         //Both dead, dimmy wins
         if (challengerInjury.Contains("dea") && champInjury.Contains("dea"))
         {
@@ -511,6 +515,47 @@ public class DataHandler : MonoBehaviour
 
             twitchClient.SendChannelMessage("Champ wins!");
         }
+    }
+
+    private void SaveToLog(string challengerInjury, string champInjury)
+    {
+        //Save to log
+
+        //SAVE CHATTERS
+        StreamWriter logWriter = new StreamWriter("Data/log.txt", true);
+
+        string challengerResult;
+
+        string champResult;
+
+        if (challengerInjury.Contains("dea"))
+            challengerResult = "dead";
+
+        else if (challengerInjury.Contains("gl"))
+            challengerResult = "niggled";
+
+        else if (challengerInjury.Contains("cas"))
+            challengerResult = "casualty";
+
+        else
+            challengerResult = "nothing/ko";
+
+        if (champInjury.Contains("dea"))
+            champResult = "dead";
+
+        else if (champInjury.Contains("gl"))
+            champResult = "niggled";
+
+        else if (champInjury.Contains("cas"))
+            champResult = "casualty";
+
+        else
+            champResult = "nothing/ko";
+
+
+        logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerResult + "," + champResult);
+
+        logWriter.Close();
     }
 
     public void ChampWins(int spp, string challengerInjury, string champInjury)

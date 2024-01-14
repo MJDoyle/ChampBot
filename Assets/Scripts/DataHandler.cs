@@ -314,15 +314,30 @@ public class DataHandler : MonoBehaviour
         return true;
     }
 
+    public int SPPNeededToLevel(Chatter chatter)
+    {
+        if (!Chatters.ContainsValue(chatter))
+            return 0;
+
+        if (chatter.skills.Count + chatter.av - 8 >= SppRequirements.Count)
+            return -1;
+
+        int sppThisLevel = SppRequirements[chatter.skills.Count + chatter.av - 8];
+
+
+
+        return Mathf.Max(sppThisLevel - chatter.spp, 0);
+    }
+
     public bool AddAv(string chatter)
     {
         if (!Chatters.ContainsKey(chatter.ToLower()))
             return false;
 
-        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count])
+        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count + Chatters[chatter.ToLower()].av - 8])
             return false;
 
-        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count];
+        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count + Chatters[chatter.ToLower()].av - 8];
 
         Chatters[chatter.ToLower()].av++;
 
@@ -376,11 +391,11 @@ public class DataHandler : MonoBehaviour
             return false;
 
 
-        if (Chatters[chatter.ToLower()].skills.Count >= SppRequirements.Count)
+        if (Chatters[chatter.ToLower()].skills.Count + Chatters[chatter.ToLower()].av - 8 >= SppRequirements.Count)
             return false;
 
 
-        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count])
+        if (Chatters[chatter.ToLower()].spp < SppRequirements[Chatters[chatter.ToLower()].skills.Count + Chatters[chatter.ToLower()].av - 8])
             return false;
 
         if (!PossibleSkills.Contains(skill.ToLower()))
@@ -393,7 +408,7 @@ public class DataHandler : MonoBehaviour
             return false;
 
 
-        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count];
+        Chatters[chatter.ToLower()].spp -= SppRequirements[Chatters[chatter.ToLower()].skills.Count + Chatters[chatter.ToLower()].av - 8];
 
         existingSkills.Add(skill.ToLower());
 

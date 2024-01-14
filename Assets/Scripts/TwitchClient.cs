@@ -604,19 +604,20 @@ public class TwitchClient : MonoBehaviour
                 {
                     string chatterString = "";
 
-                    chatterString += chatter1.name + ", ";
-                    chatterString += chatter1.defences + " defences, ";
-                    chatterString += chatter1.spp + " spp, ";
-                    chatterString += chatter1.av + "+ av, ";
+                    chatterString += chatter1.name + " | ";
+                    chatterString += "Level " + (chatter1.skills.Count + (chatter1.av - 8) + 1) + " | ";
+                    chatterString += chatter1.defences + " defences | ";
+                    chatterString += chatter1.spp + " spp | ";
+                    chatterString += chatter1.av + "+ av | ";
 
                     if (chatter1.niggles == 1)
                     {
-                        chatterString += chatter1.niggles + " niggle, ";
+                        chatterString += chatter1.niggles + " niggle | ";
                     }
 
                     else if (chatter1.niggles > 1)
                     {
-                        chatterString += chatter1.niggles + " niggles, ";
+                        chatterString += chatter1.niggles + " niggles | ";
                     }
 
                     foreach (string skill in chatter1.skills)
@@ -624,7 +625,23 @@ public class TwitchClient : MonoBehaviour
                         chatterString += skill + ", ";
                     }
 
-                    chatterString = chatterString.Remove(chatterString.Length - 2, 2);
+                    if (chatter1.skills.Count > 0)
+                    {
+                        chatterString = chatterString.Remove(chatterString.Length - 2, 2);
+
+                        chatterString += " | ";
+                    }
+
+                    int sppNeeded = dataHandler.SPPNeededToLevel(chatter1);
+
+                    if (sppNeeded == 0)
+                        chatterString += "level up possible!";
+
+                    else if (sppNeeded > 0)
+                        chatterString += sppNeeded + " spp needed to level";
+
+                    else if (sppNeeded < 0)
+                        chatterString += "max level reached!";
 
 
                     SendChannelMessage(chatterString);
@@ -650,19 +667,20 @@ public class TwitchClient : MonoBehaviour
                     {
                         string chatterString = "";
 
-                        chatterString += chatter2.name + ", ";
-                        chatterString += chatter2.defences + " defences, ";
-                        chatterString += chatter2.spp + " spp, ";
-                        chatterString += chatter2.av + "+ av, ";
+                        chatterString += chatter2.name + " | ";
+                        chatterString += "Level " + (chatter2.skills.Count + (chatter2.av - 8) + 1) + " | ";
+                        chatterString += chatter2.defences + " defences | ";
+                        chatterString += chatter2.spp + " spp | ";
+                        chatterString += chatter2.av + "+ av | ";
 
                         if (chatter2.niggles == 1)
                         {
-                            chatterString += chatter2.niggles + " niggle, ";
+                            chatterString += chatter2.niggles + " niggle | ";
                         }
 
                         else if (chatter2.niggles > 1)
                         {
-                            chatterString += chatter2.niggles + " niggles, ";
+                            chatterString += chatter2.niggles + " niggles | ";
                         }
 
                         foreach (string skill in chatter2.skills)
@@ -670,7 +688,23 @@ public class TwitchClient : MonoBehaviour
                             chatterString += skill + ", ";
                         }
 
-                        chatterString = chatterString.Remove(chatterString.Length - 2, 2);
+                        if (chatter2.skills.Count > 0)
+                        {
+                            chatterString = chatterString.Remove(chatterString.Length - 2, 2);
+
+                            chatterString += " | ";
+                        }
+
+                        int sppNeeded = dataHandler.SPPNeededToLevel(chatter2);
+
+                        if (sppNeeded == 0)
+                            chatterString += "level up possible!";
+
+                        else if (sppNeeded > 0)
+                            chatterString += sppNeeded + " spp needed to level";
+
+                        else if (sppNeeded < 0)
+                            chatterString += "max level reached!";
 
 
                         SendChannelMessage(chatterString);

@@ -21,9 +21,13 @@ public class TwitchClient : MonoBehaviour
 
     bool connectMessage = false;
 
+    private int[] bitLevels = { 0, 0, 0 };
+
     // Start is called before the first frame update
     void Start()
     {
+        LoadBitLevels();
+
         dataHandler = GetComponent<DataHandler>();
 
         UIhandler = GetComponent<UIHandler>();
@@ -50,13 +54,82 @@ public class TwitchClient : MonoBehaviour
         client.Initialize(credentials, channelName);
 
         client.OnChatCommandReceived += OnChatCommandReceived;
+
         client.OnGiftedSubscription += OnGiftedSubscription;
         client.OnContinuedGiftedSubscription += OnContinuedGiftedSubscription;
         client.OnNewSubscriber += OnNewSubscriber;
         client.OnPrimePaidSubscriber += OnPrimePaidSubscriber;
         client.OnReSubscriber += OnResubscriber;
 
+        client.OnMessageReceived += OnMessageReceived;
+
         client.Connect();
+    }
+
+    private void LoadBitLevels()
+    {
+        StreamReader bitLevelsReader = new StreamReader("Config/bits.txt");
+
+        int bitNum = 0;
+
+        string line;
+        while ((line = bitLevelsReader.ReadLine()) != null)
+        {
+            if (bitNum > 2)
+                break;
+
+            int lineNum = 0;
+
+            if (!int.TryParse(line, out lineNum))
+                break;
+
+            bitLevels[bitNum] = lineNum;
+        }
+
+        bitLevelsReader.Close();
+
+    }
+
+    //Bits
+    private void OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+    {
+        int numBits = e.ChatMessage.Bits;
+
+        while (numBits > 0)
+        {
+            if (numBits > bitLevels[2])
+            {
+                numBits -= bitLevels[2];
+
+                dataHandler.AddChallenger(e.ChatMessage.DisplayName, 3);
+
+                UIhandler.SetChallengerListItems();
+                UIhandler.ShowChallengerListItems();
+            }
+
+            else if (numBits > bitLevels[1])
+            {
+                numBits -= bitLevels[1];
+
+                dataHandler.AddChallenger(e.ChatMessage.DisplayName, 2);
+
+                UIhandler.SetChallengerListItems();
+                UIhandler.ShowChallengerListItems();
+            }
+
+            else if (numBits > bitLevels[0])
+            {
+                numBits -= bitLevels[0];
+
+                dataHandler.AddChallenger(e.ChatMessage.DisplayName, 1);
+
+                UIhandler.SetChallengerListItems();
+                UIhandler.ShowChallengerListItems();
+            }
+
+            else
+                numBits = 0;
+        }
     }
 
     //Individual gift
@@ -203,6 +276,8 @@ public class TwitchClient : MonoBehaviour
                 }
 
                 dataHandler.LoadData();
+
+                LoadBitLevels();
 
                 SendChannelMessage("Reloading champ data from file");
 

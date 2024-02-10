@@ -532,7 +532,7 @@ public class DataHandler : MonoBehaviour
         }
     }
 
-    private void SaveToLog(string challengerInjury, string champInjury)
+    private void SaveToLog(string challengerInjury, string champInjury, int spp)
     {
         //Save to log
 
@@ -568,7 +568,7 @@ public class DataHandler : MonoBehaviour
             champResult = "nothing/ko";
 
 
-        logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerResult + "," + champResult);
+        logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerResult + "," + champResult + "," + spp.ToString());
 
         logWriter.Close();
     }

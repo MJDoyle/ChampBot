@@ -91,4 +91,11 @@ public class TwitchPubSub : MonoBehaviour
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 3 dice the champ!");
         }
     }
+
+
+    public void Reconnect()
+    {
+        pubSub.Connect();
+    }
+
 }

@@ -923,6 +923,16 @@ public class TwitchClient : MonoBehaviour
 
             SendChannelMessage("Champbot online");
         }
+
+        //Periodic check for still online
+        if (!client.IsConnected)
+        {
+            client.Connect();
+
+            GetComponent<TwitchPubSub>().Reconnect();
+
+            SendChannelMessage("Champbot reconnected");
+        }
     }
 
     public void SendChannelMessage(string message)

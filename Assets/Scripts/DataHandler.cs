@@ -56,6 +56,22 @@ public class DataHandler : MonoBehaviour
         Challengers = new List<Challenger>();
 
         LoadData();
+
+        SaveBackup();
+    }
+
+
+    private void SaveBackup()
+    {
+
+        string folderName = "Backup/" + DateTime.Now.ToShortDateString().Replace("/", ".");
+
+        if (!Directory.Exists(folderName))
+        {
+            Directory.CreateDirectory(folderName);
+
+            SaveData(folderName + "/");
+        }
     }
 
     private void ClearData()
@@ -504,7 +520,7 @@ public class DataHandler : MonoBehaviour
             return;
         }
 
-        SaveToLog(challengerInjury, champInjury);
+        SaveToLog(challengerInjury, champInjury, spp);
 
         //Both dead, dimmy wins
         if (challengerInjury.Contains("dea") && champInjury.Contains("dea"))

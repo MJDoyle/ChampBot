@@ -84,6 +84,8 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             bitLevels[bitNum] = lineNum;
+
+            bitNum++;
         }
 
         bitLevelsReader.Close();
@@ -94,6 +96,8 @@ public class TwitchClient : MonoBehaviour
     private void OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
     {
         int numBits = e.ChatMessage.Bits;
+
+        SendChannelMessage(e.ChatMessage.Bits + " bits from " + e.ChatMessage.DisplayName);
 
         if (bitLevels[0] <= 0 || bitLevels[1] <= 0 || bitLevels[2] <= 0)
             return;

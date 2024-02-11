@@ -97,7 +97,8 @@ public class TwitchClient : MonoBehaviour
     {
         int numBits = e.ChatMessage.Bits;
 
-        SendChannelMessage(e.ChatMessage.Bits + " bits from " + e.ChatMessage.DisplayName);
+        if (numBits > 0)
+            SendChannelMessage(e.ChatMessage.Bits + " bits from " + e.ChatMessage.DisplayName);
 
         if (bitLevels[0] <= 0 || bitLevels[1] <= 0 || bitLevels[2] <= 0)
             return;

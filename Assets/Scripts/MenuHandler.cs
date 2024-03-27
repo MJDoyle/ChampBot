@@ -12,6 +12,12 @@ public class MenuHandler : MonoBehaviour
     private Dropdown champDropdown;
 
     [SerializeField]
+    private Dropdown chatterDropdown;
+
+    [SerializeField]
+    private InputField chatterSPPfield;
+
+    [SerializeField]
     private DataHandler dataHandler;
 
     [SerializeField]
@@ -22,6 +28,8 @@ public class MenuHandler : MonoBehaviour
         canvas.enabled = false;
 
         champDropdown.enabled = false;
+
+        chatterDropdown.enabled = false;
     }
 
     private void Update()
@@ -30,10 +38,18 @@ public class MenuHandler : MonoBehaviour
         {
             champDropdown.enabled = !champDropdown.enabled;
 
+            chatterDropdown.enabled = !chatterDropdown.enabled;
+
             canvas.enabled = !canvas.enabled;
 
             if (canvas.enabled)
+            {
                 PopulateChampDropdown();
+
+                PopulateChatterDropdown();
+
+                SelectChatter();
+            }
         }
     }
 
@@ -75,10 +91,37 @@ public class MenuHandler : MonoBehaviour
         champDropdown.SetValueWithoutNotify(champIndex);   
     }
 
+    public void PopulateChatterDropdown()
+    {
+        chatterDropdown.ClearOptions();
+
+        List<string> chatters = new List<string>();
+
+        foreach (KeyValuePair<string, Chatter> chatterPair in dataHandler.Chatters)
+        {
+            chatters.Add(chatterPair.Key);
+        }
+
+        chatters.Sort();
+
+        chatterDropdown.AddOptions(chatters);
+    }
+
     public void SetChamp()
     {
         dataHandler.SetChamp(champDropdown.options[champDropdown.value].text);
 
         uiHandler.SetChampText();
     }
+
+    public void SelectChatter()
+    {
+        string chatterName = chatterDropdown.options[chatterDropdown.value].text;
+
+        if (!dataHandler.Chatters.ContainsKey(chatterName))
+            return;
+
+        chatterSPPfield.text = dataHandler.Chatters[chatterName].spp.ToString();
+    }
+
 }

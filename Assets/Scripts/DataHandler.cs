@@ -314,6 +314,38 @@ public class DataHandler : MonoBehaviour
         return Chatters[name.ToLower()];
     }
 
+    public bool SetDef(string chatter, int def)
+    {
+        if (!Chatters.ContainsKey(chatter.ToLower()))
+            return false;
+
+        if (def < 0)
+            return false;
+
+        Chatters[chatter.ToLower()].defences = def;
+
+        SaveData("Data/");
+        SaveData("Backup/");
+
+        return true;
+    }
+
+    public bool SetAV(string chatter, int av)
+    {
+        if (!Chatters.ContainsKey(chatter.ToLower()))
+            return false;
+
+        if (av < 0)
+            return false;
+
+        Chatters[chatter.ToLower()].av = av;
+
+        SaveData("Data/");
+        SaveData("Backup/");
+
+        return true;
+    }
+
     public bool SetSPP(string chatter, int spp)
     {
         if (!Chatters.ContainsKey(chatter.ToLower()))

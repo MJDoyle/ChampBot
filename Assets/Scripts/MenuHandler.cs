@@ -18,6 +18,15 @@ public class MenuHandler : MonoBehaviour
     private InputField chatterSPPfield;
 
     [SerializeField]
+    private InputField chatterAVfield;
+
+    [SerializeField]
+    private InputField chatterDefField;
+
+    [SerializeField]
+    private Text chatterSkills;
+
+    [SerializeField]
     private DataHandler dataHandler;
 
     [SerializeField]
@@ -122,6 +131,53 @@ public class MenuHandler : MonoBehaviour
             return;
 
         chatterSPPfield.text = dataHandler.Chatters[chatterName].spp.ToString();
+
+        chatterAVfield.text = dataHandler.Chatters[chatterName].av.ToString();
+
+        chatterDefField.text = dataHandler.Chatters[chatterName].defences.ToString();
+
+        string skillString = string.Empty;
+
+        foreach (string skill in dataHandler.Chatters[chatterName].skills)
+        {
+            skillString += skill;
+            skillString += ", ";
+        }
+
+        if (skillString != string.Empty)
+            skillString = skillString.Remove(skillString.Length - 2, 2);
+
+        chatterSkills.text = skillString;
+    }
+
+    public void ChatterSPPEdit()
+    {
+        if (!int.TryParse(chatterSPPfield.text, out int newSPP))
+            return;
+
+        dataHandler.SetSPP(chatterDropdown.options[chatterDropdown.value].text, newSPP);
+
+        uiHandler.SetChampText();
+    }
+
+    public void ChatterAVEdit()
+    {
+        if (!int.TryParse(chatterAVfield.text, out int newAV))
+            return;
+
+        dataHandler.SetAV(chatterDropdown.options[chatterDropdown.value].text, newAV);
+
+        uiHandler.SetChampText();
+    }
+
+    public void ChatterDefEdit()
+    {
+        if (!int.TryParse(chatterDefField.text, out int newDef))
+            return;
+
+        dataHandler.SetDef(chatterDropdown.options[chatterDropdown.value].text, newDef);
+
+        uiHandler.SetChampText();
     }
 
 }

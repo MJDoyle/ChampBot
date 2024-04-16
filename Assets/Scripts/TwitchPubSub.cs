@@ -32,6 +32,11 @@ public class TwitchPubSub : MonoBehaviour
         pubSub.Connect();
     }
 
+    public void Disconnect()
+    {
+        pubSub.Disconnect();
+    }
+
     private void OnPubSubServiceConnected(object sender, System.EventArgs e)
     {
         StreamReader channelIDReader = new StreamReader("Config/channelID.txt");
@@ -91,11 +96,4 @@ public class TwitchPubSub : MonoBehaviour
             twitchClient.SendChannelMessage(e.DisplayName + " wants to 3 dice the champ!");
         }
     }
-
-
-    public void Reconnect()
-    {
-        pubSub.Connect();
-    }
-
 }

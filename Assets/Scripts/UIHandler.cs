@@ -293,8 +293,12 @@ public class UIHandler : MonoBehaviour
 
     public void SetChallengerListItems()
     {
+        //Debug.Log("Set challenger list items");
+
         foreach (ChallengerListItem challengerListItem in challengerListItems)
         {
+            //Debug.Log(challengerListItem);
+
             Destroy(challengerListItem.gameObject);
         }
 
@@ -314,6 +318,8 @@ public class UIHandler : MonoBehaviour
 
             challengerListItems[i].gameObject.SetActive(false);
         }
+
+
     }
 
     public async void ShowChallengerListItems()

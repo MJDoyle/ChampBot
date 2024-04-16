@@ -66,6 +66,11 @@ public class TwitchClient : MonoBehaviour
         client.Connect();
     }
 
+    public void Disconnect()
+    {
+        client.Disconnect();
+    }
+
     private void LoadBitLevels()
     {
         StreamReader bitLevelsReader = new StreamReader("Config/bits.txt");
@@ -927,16 +932,6 @@ public class TwitchClient : MonoBehaviour
             connectMessage = true;
 
             SendChannelMessage("Champbot online");
-        }
-
-        //Periodic check for still online
-        if (!client.IsConnected)
-        {
-            client.Connect();
-
-            GetComponent<TwitchPubSub>().Reconnect();
-
-            SendChannelMessage("Champbot reconnected");
         }
     }
 

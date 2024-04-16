@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 { 
     [SerializeField]
-    private Canvas canvas;
+    private Canvas dataCanvas;
+
+    [SerializeField]
+    private Canvas configCanvas;
 
     [SerializeField]
     private Dropdown champDropdown;
@@ -27,14 +31,28 @@ public class MenuHandler : MonoBehaviour
     private Text chatterSkills;
 
     [SerializeField]
+    private Dropdown skillRemovalDropdown;
+
+    [SerializeField]
+    private Dropdown skillAdditionDropdown;
+
+    [SerializeField]
     private DataHandler dataHandler;
 
     [SerializeField]
     private UIHandler uiHandler;
 
+    [SerializeField]
+    private TwitchClient client;
+
+    [SerializeField]
+    private TwitchPubSub pubSub;
+
     private void Start()
     {
-        canvas.enabled = false;
+        dataCanvas.enabled = false;
+
+        configCanvas.enabled = false;
 
         champDropdown.enabled = false;
 
@@ -45,13 +63,15 @@ public class MenuHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            configCanvas.enabled = false;
+
             champDropdown.enabled = !champDropdown.enabled;
 
             chatterDropdown.enabled = !chatterDropdown.enabled;
 
-            canvas.enabled = !canvas.enabled;
+            dataCanvas.enabled = !dataCanvas.enabled;
 
-            if (canvas.enabled)
+            if (dataCanvas.enabled)
             {
                 PopulateChampDropdown();
 
@@ -65,6 +85,43 @@ public class MenuHandler : MonoBehaviour
     public void Exit()
     {
         Application.Quit();  
+    }
+
+    public void Reset()
+    {
+        client.Disconnect();
+        pubSub.Disconnect();
+
+        //Reload the active scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);             
+    }
+
+    public void MoveToConfig()
+    {
+        dataCanvas.enabled = false;
+
+        chatterDropdown.enabled = false;
+
+        champDropdown.enabled = false;
+
+        configCanvas.enabled = true;
+    }
+
+    public void MoveToData()
+    {
+        dataCanvas.enabled = true;
+
+        chatterDropdown.enabled = true;
+
+        champDropdown.enabled = true;
+
+        configCanvas.enabled = false;
+
+        PopulateChampDropdown();
+
+        PopulateChatterDropdown();
+
+        SelectChatter();
     }
 
     public void PopulateChampDropdown()
@@ -125,17 +182,20 @@ public class MenuHandler : MonoBehaviour
 
     public void SelectChatter()
     {
+        //Get the chatter name from the currently selected chatter in the dropdown list
         string chatterName = chatterDropdown.options[chatterDropdown.value].text;
 
         if (!dataHandler.Chatters.ContainsKey(chatterName))
             return;
 
+        //Set the text, av, and def fields
         chatterSPPfield.text = dataHandler.Chatters[chatterName].spp.ToString();
 
         chatterAVfield.text = dataHandler.Chatters[chatterName].av.ToString();
 
         chatterDefField.text = dataHandler.Chatters[chatterName].defences.ToString();
 
+        //Construct the skill string from each skill
         string skillString = string.Empty;
 
         foreach (string skill in dataHandler.Chatters[chatterName].skills)
@@ -148,6 +208,70 @@ public class MenuHandler : MonoBehaviour
             skillString = skillString.Remove(skillString.Length - 2, 2);
 
         chatterSkills.text = skillString;
+
+        //Populate the skill removal dropdown
+        skillRemovalDropdown.ClearOptions();
+
+        skillRemovalDropdown.AddOptions(dataHandler.Chatters[chatterName].skills);
+
+
+        //Populate the skill addition dropdown
+        skillAdditionDropdown.ClearOptions();
+
+        List<string> possibleSkills = dataHandler.PossibleSkills;
+
+        possibleSkills.Sort();
+
+        foreach (string skill in dataHandler.Chatters[chatterName].skills)
+        {
+            possibleSkills.Remove(skill);
+        }
+
+        skillAdditionDropdown.AddOptions(possibleSkills);
+    }
+
+    public void ChatterSkillAddition()
+    {
+        string chatterName = chatterDropdown.options[chatterDropdown.value].text;
+
+        if (!dataHandler.Chatters.ContainsKey(chatterName))
+            return;
+
+        string skill = skillAdditionDropdown.options[skillAdditionDropdown.value].text;
+
+        if (dataHandler.Chatters[chatterName].skills.Contains(skill))
+            return;
+
+        //Add skill to the list
+        dataHandler.Chatters[chatterName].skills.Add(skill);
+
+        //Reselect the chatter
+        SelectChatter();
+
+        //Set champ text
+        uiHandler.SetChampText();
+    }
+
+    public void ChatterSkillRemoval()
+    {
+        string chatterName = chatterDropdown.options[chatterDropdown.value].text;
+
+        if (!dataHandler.Chatters.ContainsKey(chatterName))
+            return;
+
+        string skill = skillRemovalDropdown.options[skillRemovalDropdown.value].text;
+
+        if (!dataHandler.Chatters[chatterName].skills.Contains(skill))
+            return;
+
+        //Remove the skill from the list
+        dataHandler.Chatters[chatterName].skills.Remove(skill);
+
+        //Reselect the chatter
+        SelectChatter();
+
+        //Set champ text
+        uiHandler.SetChampText();
     }
 
     public void ChatterSPPEdit()

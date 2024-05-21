@@ -110,7 +110,7 @@ public class TwitchClient : MonoBehaviour
 
         while (numBits > 0)
         {
-            if (numBits > bitLevels[2])
+            if (numBits >= bitLevels[2])
             {
                 numBits -= bitLevels[2];
 
@@ -122,7 +122,7 @@ public class TwitchClient : MonoBehaviour
                 client.SendMessage(e.ChatMessage.Channel, $"Three dice block for " + e.ChatMessage.DisplayName + "!");
             }
 
-            else if (numBits > bitLevels[1])
+            else if (numBits >= bitLevels[1])
             {
                 numBits -= bitLevels[1];
 
@@ -134,7 +134,7 @@ public class TwitchClient : MonoBehaviour
                 client.SendMessage(e.ChatMessage.Channel, $"Two dice block for " + e.ChatMessage.DisplayName + "!");
             }
 
-            else if (numBits > bitLevels[0])
+            else if (numBits >= bitLevels[0])
             {
                 numBits -= bitLevels[0];
 

@@ -37,6 +37,9 @@ public class MenuHandler : MonoBehaviour
     private Dropdown skillAdditionDropdown;
 
     [SerializeField]
+    private Dropdown challengerRemovalDropdown;
+
+    [SerializeField]
     private DataHandler dataHandler;
 
     [SerializeField]
@@ -76,6 +79,8 @@ public class MenuHandler : MonoBehaviour
                 PopulateChampDropdown();
 
                 PopulateChatterDropdown();
+
+                PopulateChallengerRemovalDropdown();
 
                 SelectChatter();
             }
@@ -122,6 +127,29 @@ public class MenuHandler : MonoBehaviour
         PopulateChatterDropdown();
 
         SelectChatter();
+    }
+
+    private void PopulateChallengerRemovalDropdown()
+    {
+        challengerRemovalDropdown.ClearOptions();
+
+        List<string> challengers = new List<string>();
+
+        foreach (Challenger challenger in dataHandler.Challengers)
+        {
+            challengers.Add(challenger.chatter.name + " " + challenger.numDice);
+        }
+
+        challengerRemovalDropdown.AddOptions(challengers);
+    }
+
+    public void RemoveChallenger()
+    {
+        //need to handle challengers being added while the remove challenger list is open - is this ok? make sure list gets updated properly
+
+        //challengerRemovalDropdown.value
+
+        //dataHandler.Challengers
     }
 
     public void PopulateChampDropdown()

@@ -269,6 +269,7 @@ public class TwitchClient : MonoBehaviour
             case "listchallengers":
             case "challengerslist":
             case "champchallengers":
+            case "ch":
 
                 UIhandler.SetChallengerListItems();
 
@@ -742,6 +743,7 @@ public class TwitchClient : MonoBehaviour
 
 
             case "fight":
+            case "f":
 
                 if (e.Command.ArgumentsAsList.Count > 0)
                     break;
@@ -791,6 +793,7 @@ public class TwitchClient : MonoBehaviour
             //death death       dimmy wins          death champ death attacker
 
             case "fightover":
+            case "fo":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {

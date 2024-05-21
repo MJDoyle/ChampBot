@@ -58,12 +58,15 @@ public class DataHandler : MonoBehaviour
         LoadData();
 
         SaveBackup();
+
+        Config.DeathSPP = 12;
+
+        Config.CasSPP = 6;
     }
 
 
     private void SaveBackup()
     {
-
         string folderName = "Backup/" + DateTime.Now.ToShortDateString().Replace("/", ".");
 
         if (!Directory.Exists(folderName))
@@ -121,14 +124,12 @@ public class DataHandler : MonoBehaviour
                     skills = new List<string>()
                 };
 
-
                 for (int i = 5; i < chatterStringElements.Length; i++)
                 {
                     chatter.skills.Add(chatterStringElements[i].ToLower());
                 }
 
                 Chatters[chatterStringElements[0].ToLower()] = chatter;
-
             }
 
             else
@@ -657,10 +658,10 @@ public class DataHandler : MonoBehaviour
 
         //Add spp to champ
         if (challengerInjury.Contains("dea"))
-            CurrentChamp.spp += 12;
+            CurrentChamp.spp += Config.DeathSPP;
 
         if (challengerInjury.Contains("cas") || challengerInjury.Contains("gl"))
-            CurrentChamp.spp += 6;
+            CurrentChamp.spp += Config.CasSPP;
 
         uiHandler.SetChampText();
 

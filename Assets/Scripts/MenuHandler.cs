@@ -36,8 +36,8 @@ public class MenuHandler : MonoBehaviour
     [SerializeField]
     private Dropdown skillAdditionDropdown;
 
-    [SerializeField]
-    private Dropdown challengerRemovalDropdown;
+    //[SerializeField]
+    //private Dropdown challengerRemovalDropdown;
 
     [SerializeField]
     private DataHandler dataHandler;
@@ -131,7 +131,7 @@ public class MenuHandler : MonoBehaviour
 
     private void PopulateChallengerRemovalDropdown()
     {
-        challengerRemovalDropdown.ClearOptions();
+        //challengerRemovalDropdown.ClearOptions();
 
         List<string> challengers = new List<string>();
 
@@ -140,7 +140,7 @@ public class MenuHandler : MonoBehaviour
             challengers.Add(challenger.chatter.name + " " + challenger.numDice);
         }
 
-        challengerRemovalDropdown.AddOptions(challengers);
+        //challengerRemovalDropdown.AddOptions(challengers);
     }
 
     public void RemoveChallenger()

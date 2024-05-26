@@ -270,6 +270,8 @@ public class TwitchClient : MonoBehaviour
             case "challengerslist":
             case "champchallengers":
             case "ch":
+            case "lc":
+            case "LC":
 
                 UIhandler.SetChallengerListItems();
 
@@ -377,6 +379,8 @@ public class TwitchClient : MonoBehaviour
 
             case "addchallenger":
             case "challengeradd":
+            case "ac":
+            case "AC":
 
                 if (!e.Command.ChatMessage.IsBroadcaster && !e.Command.ChatMessage.IsModerator)
                 {

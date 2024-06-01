@@ -541,9 +541,9 @@ public class DataHandler : MonoBehaviour
         SaveData("Backup/");
     }
 
-    public void StopFight(int spp, string challengerInjury, string champInjury)
+    public void StopFight(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
-        if (spp < 0)
+        if (challengerSpp < 0 || champSpp < 0)
             return;
 
 
@@ -553,10 +553,10 @@ public class DataHandler : MonoBehaviour
             return;
         }
 
-        SaveToLog(challengerInjury, champInjury, spp);
+        SaveToLog(challengerInjury, champInjury, challengerSpp, champSpp);
 
         //Both dead, dimmy wins
-        if (challengerInjury.Contains("dea") && champInjury.Contains("dea"))
+        if (challengerInjury == "d" && champInjury == "d")
         {
             DimmyWins();
 
@@ -565,9 +565,9 @@ public class DataHandler : MonoBehaviour
 
         //Champ dead, challenger not dead, challenger wins
         //Champ KOed or worse, challenger nothing, challenger wins
-        else if ((!challengerInjury.Contains("dea") && champInjury.Contains("dea")) || (challengerInjury.Contains("st") && !champInjury.Contains("st")))
+        else if ((challengerInjury != "d" && champInjury == "d") || (challengerInjury == string.Empty && (champInjury == "k" || champInjury == "c" || champInjury == "n" || champInjury == "d")))
         {
-            ChallengerWins(spp, challengerInjury, champInjury);
+            ChallengerWins(challengerInjury, champInjury, challengerSpp, champSpp);
 
             twitchClient.SendChannelMessage("Challenger wins!");
         }
@@ -575,56 +575,56 @@ public class DataHandler : MonoBehaviour
         //Otherwise champ wins
         else
         {
-            ChampWins(spp, challengerInjury, champInjury);
+            ChampWins(challengerInjury, champInjury, challengerSpp, champSpp);
 
             twitchClient.SendChannelMessage("Champ wins!");
         }
     }
 
-    private void SaveToLog(string challengerInjury, string champInjury, int spp)
+    private void SaveToLog(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
         //Save to log
 
         //SAVE CHATTERS
         StreamWriter logWriter = new StreamWriter("Data/log.txt", true);
 
-        string challengerResult;
+        //string challengerResult;
 
-        string champResult;
+        //string champResult;
 
-        if (challengerInjury.Contains("dea"))
-            challengerResult = "dead";
+        //if (challengerInjury.Contains("dea"))
+        //    challengerResult = "dead";
 
-        else if (challengerInjury.Contains("gl"))
-            challengerResult = "niggled";
+        //else if (challengerInjury.Contains("gl"))
+        //    challengerResult = "niggled";
 
-        else if (challengerInjury.Contains("cas"))
-            challengerResult = "casualty";
+        //else if (challengerInjury.Contains("cas"))
+        //    challengerResult = "casualty";
 
-        else
-            challengerResult = "nothing/ko";
+        //else
+        //    challengerResult = "nothing/ko";
 
-        if (champInjury.Contains("dea"))
-            champResult = "dead";
+        //if (champInjury.Contains("dea"))
+        //    champResult = "dead";
 
-        else if (champInjury.Contains("gl"))
-            champResult = "niggled";
+        //else if (champInjury.Contains("gl"))
+        //    champResult = "niggled";
 
-        else if (champInjury.Contains("cas"))
-            champResult = "casualty";
+        //else if (champInjury.Contains("cas"))
+        //    champResult = "casualty";
 
-        else
-            champResult = "nothing/ko";
+        //else
+        //    champResult = "nothing/ko";
 
 
-        logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerResult + "," + champResult + "," + spp.ToString());
+        logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerInjury + "," + champInjury + "," + challengerSpp.ToString() + "," + champSpp.ToString());
 
         logWriter.Close();
     }
 
-    public void ChampWins(int spp, string challengerInjury, string champInjury)
+    public void ChampWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
-        if (spp < 0)
+        if (challengerSpp < 0 || champSpp < 0)
             return;
 
         if (!CanStartFight())
@@ -638,17 +638,17 @@ public class DataHandler : MonoBehaviour
         //CHALLENGER
 
         //If dead
-        if (challengerInjury.Contains("dea"))
+        if (challengerInjury == "d")
             ResetChatter(challenger.chatter.name);
 
         else
         {
             //If niggled
-            if (challengerInjury.Contains("gl"))
+            if (challengerInjury == "n")
                 challenger.chatter.niggles++;
 
             //Add spp
-            challenger.chatter.spp += spp;
+            challenger.chatter.spp += challengerSpp;
         }
 
         //Remove latest challenger from list
@@ -657,11 +657,7 @@ public class DataHandler : MonoBehaviour
         //CHAMP
 
         //Add spp to champ
-        if (challengerInjury.Contains("dea"))
-            CurrentChamp.spp += Config.DeathSPP;
-
-        if (challengerInjury.Contains("cas") || challengerInjury.Contains("gl"))
-            CurrentChamp.spp += Config.CasSPP;
+        CurrentChamp.spp += champSpp;
 
         uiHandler.SetChampText();
 
@@ -669,7 +665,7 @@ public class DataHandler : MonoBehaviour
         CurrentChamp.defences++;
 
         //Add niggle to champ if niggled
-        if (champInjury.Contains("gl"))
+        if (champInjury == "n")
             CurrentChamp.niggles++;
 
         SaveData("Data/");
@@ -677,9 +673,9 @@ public class DataHandler : MonoBehaviour
 
     }
 
-    public void ChallengerWins(int spp, string challengerInjury, string champInjury)
+    public void ChallengerWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
-        if (spp < 0)
+        if (challengerSpp < 0 || champSpp < 0)
             return;
 
         if (!CanStartFight())
@@ -693,21 +689,23 @@ public class DataHandler : MonoBehaviour
         //CHAMP
 
         //Add niggle to champ if niggled
-        if (champInjury.Contains("gl"))
+        if (champInjury == "n")
             CurrentChamp.niggles++;
 
         //Kill champ if dead
-        else if (champInjury.Contains("dea"))
+        else if (champInjury == "d")
             ResetChatter(CurrentChamp.name);
+
+        CurrentChamp.spp += champSpp;
 
         //CHALLENGER
 
         //If niggled
-        if (challengerInjury.Contains("gl"))
+        if (challengerInjury == "n")
             challenger.chatter.niggles++;
 
         //Add spp
-        challenger.chatter.spp += spp;
+        challenger.chatter.spp += challengerSpp;
 
         //Set the latest challenger as the champ
         CurrentChamp = challenger.chatter;

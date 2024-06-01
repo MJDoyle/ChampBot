@@ -63,7 +63,11 @@ public class TwitchClient : MonoBehaviour
 
         client.OnMessageReceived += OnMessageReceived;
 
-        client.Connect();
+        Debug.Log("Client connecting");
+
+        bool connected = client.Connect();
+
+        Debug.Log(connected);
     }
 
     public void Disconnect()
@@ -892,42 +896,54 @@ public class TwitchClient : MonoBehaviour
     //challengerinjury champinjury challengerspp
     private void FightOver(List<string> args)
     {
-        //Command must have three arguments
-        if (args.Count != 3)
+        //Command must have one or two arguments
+        if (args.Count < 1 || args.Count > 2)
         {
-            SendChannelMessage("Incorrect number of arguments. Needs [challengerinjury] [champinjury] [spp]");
+            SendChannelMessage("Incorrect number of arguments. Needs [champinjury] [challengerinjury*]");
 
             return;
         }
 
-        string challengerInjury = args[0].ToLower();
-        string champInjury = args[1].ToLower();
+        string champInjury = args[0].ToLower();
+        string challengerInjury = "";
+
+        if (args.Count == 2)
+            challengerInjury = args[1].ToLower();
+
+
+
 
         //The third argument (spp) must be parseable as an int
-        if (!int.TryParse(args[2], out int spp))
+        //if (!int.TryParse(args[2], out int spp))
+        //{
+        //    SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
+
+        //    return;
+        //}
+
+        Debug.Log("Champ injury: " + champInjury);
+        Debug.Log("Challenger injury: " + challengerInjury);
+
+        //Both arguments must be within the sppDict
+
+        if (!Config.SppDict.ContainsKey(champInjury))
         {
-            SendChannelMessage("SPP can't be parsed. Needs [challengerinjury] [champinjury] [spp]");
+            SendChannelMessage("Champ injury incorrect. Must be (b)lock, (p)ow, (s)tun, (k)o, (c)as, (n)iggle, or (d)ead");
 
             return;
         }
 
-        //The first argument (challenger injury) must be standing, KO, cas, niggle, or dead
-        if (!challengerInjury.Contains("st") && !challengerInjury.Contains("ko") && !challengerInjury.Contains("cas")  && !challengerInjury.Contains("gl") && !challengerInjury.Contains("dea"))
+        if (!Config.SppDict.ContainsKey(challengerInjury))
         {
-            SendChannelMessage("Challenger injury incorrect. Needs standing, ko, cas, niggle, or dead");
+            SendChannelMessage("Challenger injury incorrect. Must be (b)lock, (p)ow, (s)tun, (k)o, (c)as, (n)iggle, or (d)ead");
 
             return;
         }
 
-        //The second argument (champ injury) must be standing, KO, cas, niggle, or dead
-        if (!champInjury.Contains("st") && !champInjury.Contains("ko") && !champInjury.Contains("cas") && !champInjury.Contains("gl") && !champInjury.Contains("dea"))
-        {
-            SendChannelMessage("Champ injury incorrect. Needs standing, ko, cas, niggle, or dead");
+        int challengerSpp = Config.SppDict[champInjury];
+        int champSpp = Config.SppDict[challengerInjury];
 
-            return;
-        }
-
-        dataHandler.StopFight(spp, challengerInjury, champInjury);
+        dataHandler.StopFight(challengerInjury, champInjury, challengerSpp, champSpp);
 
         UIhandler.StopFight(challengerInjury, champInjury);
     }

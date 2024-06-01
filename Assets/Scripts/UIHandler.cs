@@ -551,17 +551,17 @@ public class UIHandler : MonoBehaviour
             return;
         }
 
-        if (challengerInjury.Contains("dea") || champInjury.Contains("dea"))
+        if (challengerInjury == "d" || champInjury == "d")
         {
             SoundHandler.PlayDeathSound();
         }
 
-        if (challengerInjury.Contains("gl") || champInjury.Contains("gl") || challengerInjury.Contains("cas") || champInjury.Contains("cas"))
+        if (challengerInjury == "n" || champInjury == "n" || challengerInjury == "c" || champInjury == "c")
         {
             SoundHandler.PlayInjurySound();
         }
 
-        if (challengerInjury.Contains("ko") || champInjury.Contains("ko"))
+        if (challengerInjury == "k" || champInjury == "k")
         {
             SoundHandler.PlayKOSound();
         }

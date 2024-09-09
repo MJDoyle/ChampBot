@@ -219,7 +219,7 @@ public class TwitchClient : MonoBehaviour
             case "helpchamp":
             case "helpchampbot":
 
-                SendChannelMessage("!fight");
+                SendChannelMessage("!(f)ight");
                 SendChannelMessage("!addskill [chattername] [skill]");
                 SendChannelMessage("!addav [chattername]");
 
@@ -229,7 +229,7 @@ public class TwitchClient : MonoBehaviour
                 SendChannelMessage("!listskills");
                 SendChannelMessage("!addmyskill [skillname]");
 
-                SendChannelMessage("!listchallengers");
+                SendChannelMessage("!(l)ist(c)hallengers");
                 SendChannelMessage("!champreload --- reload from data files if editing during operation");
                 SendChannelMessage("!setspp [challengername] [spp]");
                 SendChannelMessage("!setchamp [champname] --- only use if something's gone wrong");
@@ -494,6 +494,10 @@ public class TwitchClient : MonoBehaviour
 
             case "addmyskill":
             case "newmyskill":
+            case "level":
+            case "lvl":
+            case "levelup":
+            case "lvlup":
 
                 if (args.Count >= 1)
                 {

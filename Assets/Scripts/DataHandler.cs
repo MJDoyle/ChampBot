@@ -6,6 +6,15 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 
+public class Death
+{
+    public string killer;
+
+    public string killee;
+
+    public string date;
+}
+
 public class Chatter
 {
     public string name;
@@ -52,6 +61,8 @@ public class DataHandler : MonoBehaviour
 
     public Chatter CurrentChamp { get; private set; }
 
+    public List<Death> Deaths { get; private set; } = new List<Death>();
+
     public List<Challenger> Challengers { get; private set; }
 
     private UIHandler uiHandler;
@@ -91,6 +102,9 @@ public class DataHandler : MonoBehaviour
 
     private void ClearData()
     {
+        //Deaths
+        Deaths.Clear();
+
         //Chatters
         Chatters.Clear();
 
@@ -236,6 +250,33 @@ public class DataHandler : MonoBehaviour
 
         skillReader.Close();
 
+
+        //READ DEATHS
+
+        StreamReader deathReader = new StreamReader("Data/graveyard.txt");
+
+        while ((line = deathReader.ReadLine()) != null)
+        {
+            string[] deathStringElements;
+
+            deathStringElements = line.Split(',');
+
+            if (deathStringElements.Length != 3)
+                continue;
+
+            Death death = new Death()
+            {
+                killer = deathStringElements[0],
+                killee = deathStringElements[1],
+                date = deathStringElements[2]
+            };
+
+            Deaths.Add(death);
+        }
+
+        deathReader.Close();
+
+
         uiHandler.SetChallengerListItems();
 
         uiHandler.ShowChallengerListItems();
@@ -302,6 +343,17 @@ public class DataHandler : MonoBehaviour
         }
 
         challengerWriter.Close();
+
+        //SAVE DEATHS
+
+        StreamWriter deathWriter = new StreamWriter(path + "graveyard.txt", false);
+
+        foreach (Death death in Deaths)
+        {
+            deathWriter.WriteLine(death.killer + "," + death.killee + "," + death.date);
+        }
+
+        deathWriter.Close();
     }
 
     public List<Chatter> GetTop5()
@@ -629,12 +681,30 @@ public class DataHandler : MonoBehaviour
         {
             CurrentChamp.kills++;
             challenger.chatter.deaths++;
+
+            Death death = new Death()
+            {
+                killer = CurrentChamp.name,
+                killee = challenger.chatter.name,
+                date = DateTime.Now.ToShortDateString()
+            };
+
+            Deaths.Add(death);
         }
 
         if (champInjury == "d")
         {
             challenger.chatter.kills++;
             CurrentChamp.deaths++;
+
+            Death death = new Death()
+            {
+                killer = challenger.chatter.name,
+                killee = CurrentChamp.name,
+                date = DateTime.Now.ToShortDateString()
+            };
+
+            Deaths.Add(death);
         }
 
         if (challengerInjury == "d" || challengerInjury == "n" || challengerInjury == "c")

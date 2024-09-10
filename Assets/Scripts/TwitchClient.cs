@@ -691,6 +691,20 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+            case "graveyard":
+            case "gy":
+
+                string graveyardString = string.Empty;
+
+                foreach (Death death in dataHandler.Deaths)
+                {
+                    graveyardString += death.killer + " killed " + death.killee + " on " + death.date + " | ";
+                }
+
+                SendChannelMessage(graveyardString);
+
+                break;
+
             case "getchatter":
             case "getcontender":
             case "getchallenger":
@@ -708,6 +722,11 @@ public class TwitchClient : MonoBehaviour
                         chatterString += chatter2.name + " | ";
                         chatterString += "Level " + (chatter2.skills.Count + (chatter2.av - 8) + 1) + " | ";
                         chatterString += chatter2.defences + " defences | ";
+                        chatterString += chatter2.offences + " takedowns | ";
+                        chatterString += chatter2.blocks + " blocks | ";
+                        chatterString += chatter2.cas + " cas | ";
+                        chatterString += chatter2.kills + " kills | ";
+                        chatterString += chatter2.deaths + " deaths | ";
                         chatterString += chatter2.spp + " spp | ";
                         chatterString += chatter2.av + "+ av | ";
 

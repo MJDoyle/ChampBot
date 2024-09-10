@@ -629,6 +629,7 @@ public class TwitchClient : MonoBehaviour
             case "mychatter":
             case "mychallenger":
             case "mycontender":
+            case "me":
 
                 Chatter chatter1 = dataHandler.GetChatter(e.Command.ChatMessage.Username);
 
@@ -639,6 +640,11 @@ public class TwitchClient : MonoBehaviour
                     chatterString += chatter1.name + " | ";
                     chatterString += "Level " + (chatter1.skills.Count + (chatter1.av - 8) + 1) + " | ";
                     chatterString += chatter1.defences + " defences | ";
+                    chatterString += chatter1.offences + " takedowns | ";
+                    chatterString += chatter1.blocks + " blocks | ";
+                    chatterString += chatter1.cas + " cas | ";
+                    chatterString += chatter1.kills + " kills | ";
+                    chatterString += chatter1.deaths + " deaths | ";
                     chatterString += chatter1.spp + " spp | ";
                     chatterString += chatter1.av + "+ av | ";
 

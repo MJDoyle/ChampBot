@@ -19,6 +19,18 @@ public class Chatter
     public int av;
 
     public int niggles;
+
+    public int blocks;
+
+    public int offences;
+
+    public int cas;
+
+    public int kills;
+
+    public int deaths;
+
+
 }
 
 public struct Challenger
@@ -112,7 +124,7 @@ public class DataHandler : MonoBehaviour
 
             chatterStringElements = line.Split(',');
 
-            if (chatterStringElements.Length >= 5)
+            if (chatterStringElements.Length >= 10)
             {
                 Chatter chatter = new Chatter()
                 {
@@ -121,10 +133,15 @@ public class DataHandler : MonoBehaviour
                     spp = int.Parse(chatterStringElements[2]),
                     av = int.Parse(chatterStringElements[3]),
                     niggles = int.Parse(chatterStringElements[4]),
+                    blocks = int.Parse(chatterStringElements[5]),
+                    offences = int.Parse(chatterStringElements[6]),
+                    cas = int.Parse(chatterStringElements[7]),
+                    kills = int.Parse(chatterStringElements[8]),
+                    deaths = int.Parse(chatterStringElements[9]),
                     skills = new List<string>()
                 };
 
-                for (int i = 5; i < chatterStringElements.Length; i++)
+                for (int i = 10; i < chatterStringElements.Length; i++)
                 {
                     chatter.skills.Add(chatterStringElements[i].ToLower());
                 }
@@ -235,13 +252,20 @@ public class DataHandler : MonoBehaviour
 
         foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
         {
+            Chatter chatter = chatterPair.Value;
+
             string stringToWrite = "";
 
-            stringToWrite += chatterPair.Value.name + ",";
-            stringToWrite += chatterPair.Value.defences + ",";
-            stringToWrite += chatterPair.Value.spp + ",";
-            stringToWrite += chatterPair.Value.av + ",";
-            stringToWrite += chatterPair.Value.niggles + ",";
+            stringToWrite += chatter.name + ",";
+            stringToWrite += chatter.defences + ",";
+            stringToWrite += chatter.spp + ",";
+            stringToWrite += chatter.av + ",";
+            stringToWrite += chatter.niggles + ",";
+            stringToWrite += chatter.blocks + ",";
+            stringToWrite += chatter.offences + ",";
+            stringToWrite += chatter.cas + ",";
+            stringToWrite += chatter.kills + ",";
+            stringToWrite += chatter.deaths + ",";
 
             foreach (string skill in chatterPair.Value.skills)
             {
@@ -555,6 +579,8 @@ public class DataHandler : MonoBehaviour
 
         SaveToLog(challengerInjury, champInjury, challengerSpp, champSpp);
 
+        TrackStats(challengerInjury, champInjury);
+
         //Both dead, dimmy wins
         if (challengerInjury == "d" && champInjury == "d")
         {
@@ -588,41 +614,38 @@ public class DataHandler : MonoBehaviour
         //SAVE CHATTERS
         StreamWriter logWriter = new StreamWriter("Data/log.txt", true);
 
-        //string challengerResult;
-
-        //string champResult;
-
-        //if (challengerInjury.Contains("dea"))
-        //    challengerResult = "dead";
-
-        //else if (challengerInjury.Contains("gl"))
-        //    challengerResult = "niggled";
-
-        //else if (challengerInjury.Contains("cas"))
-        //    challengerResult = "casualty";
-
-        //else
-        //    challengerResult = "nothing/ko";
-
-        //if (champInjury.Contains("dea"))
-        //    champResult = "dead";
-
-        //else if (champInjury.Contains("gl"))
-        //    champResult = "niggled";
-
-        //else if (champInjury.Contains("cas"))
-        //    champResult = "casualty";
-
-        //else
-        //    champResult = "nothing/ko";
-
-
         logWriter.WriteLine(DateTime.Now + "," + GetNextChallenger().chatter.name + "," + CurrentChamp.name + "," + challengerInjury + "," + champInjury + "," + challengerSpp.ToString() + "," + champSpp.ToString());
 
         logWriter.Close();
     }
 
-    public void ChampWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
+    private void TrackStats(string challengerInjury, string champInjury)
+    {
+        Challenger challenger = GetNextChallenger();
+
+        challenger.chatter.blocks++;
+
+        if (challengerInjury == "d")
+        {
+            CurrentChamp.kills++;
+            challenger.chatter.deaths++;
+        }
+
+        if (champInjury == "d")
+        {
+            challenger.chatter.kills++;
+            CurrentChamp.deaths++;
+        }
+
+        if (challengerInjury == "d" || challengerInjury == "n" || challengerInjury == "c")
+            CurrentChamp.cas++;
+
+        if (champInjury == "d" || champInjury == "n" || champInjury == "c")
+            challenger.chatter.cas++;
+
+    }
+
+    private void ChampWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
         if (challengerSpp < 0 || champSpp < 0)
             return;
@@ -673,7 +696,7 @@ public class DataHandler : MonoBehaviour
 
     }
 
-    public void ChallengerWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
+    private void ChallengerWins(string challengerInjury, string champInjury, int challengerSpp, int champSpp)
     {
         if (challengerSpp < 0 || champSpp < 0)
             return;
@@ -707,6 +730,9 @@ public class DataHandler : MonoBehaviour
         //Add spp
         challenger.chatter.spp += challengerSpp;
 
+        //Add offense to challenger
+        challenger.chatter.offences++;
+
         //Set the latest challenger as the champ
         CurrentChamp = challenger.chatter;
 
@@ -717,7 +743,7 @@ public class DataHandler : MonoBehaviour
         SaveData("Backup/");
     }
 
-    public void DimmyWins()
+    private void DimmyWins()
     {
         if (!CanStartFight())
         {

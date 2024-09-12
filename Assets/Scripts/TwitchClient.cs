@@ -692,16 +692,34 @@ public class TwitchClient : MonoBehaviour
                 break;
 
             case "graveyard":
-            case "gy":
 
-                string graveyardString = string.Empty;
-
-                foreach (Death death in dataHandler.Deaths)
+                for (int i = 0; i <= dataHandler.Deaths.Count - 1; i += 5)
                 {
-                    graveyardString += death.killer + " killed " + death.killee + " on " + death.date + " | ";
+                    string graveyardString = string.Empty;
+
+                    for (int j = i; j <= Mathf.Min(dataHandler.Deaths.Count - 1, i + 4); j ++)
+                    {
+                        graveyardString += dataHandler.Deaths[j].killer + " killed " + dataHandler.Deaths[j].killee + " on " + dataHandler.Deaths[j].date + " | ";
+                    }
+
+                    SendChannelMessage(graveyardString);
                 }
 
-                SendChannelMessage(graveyardString);
+                break;
+
+            case "gy":
+
+                for (int i = 0; i <= dataHandler.Deaths.Count - 1; i += 10)
+                {
+                    string graveyardString = string.Empty;
+
+                    for (int j = i; j <= Mathf.Min(dataHandler.Deaths.Count - 1, i + 9); j++)
+                    {
+                        graveyardString += dataHandler.Deaths[j].killee + " " + dataHandler.Deaths[j].date + " | ";
+                    }
+
+                    SendChannelMessage(graveyardString);
+                }
 
                 break;
 

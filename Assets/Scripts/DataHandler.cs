@@ -261,13 +261,15 @@ public class DataHandler : MonoBehaviour
 
             deathStringElements = line.Split(',');
 
+            Debug.Log(deathStringElements[0]);
+
             if (deathStringElements.Length != 3)
                 continue;
 
             Death death = new Death()
             {
-                killer = deathStringElements[0],
-                killee = deathStringElements[1],
+                killer = deathStringElements[1],
+                killee = deathStringElements[0],
                 date = deathStringElements[2]
             };
 

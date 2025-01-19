@@ -723,6 +723,20 @@ public class TwitchClient : MonoBehaviour
 
                 break;
 
+            case "startchalice":
+
+                if (e.Command.ArgumentsAsList.Count > 0)
+                    break;
+
+                break;
+
+            case "endchalice":
+
+                if (e.Command.ArgumentsAsList.Count > 0)
+                    break;
+
+                break;
+
             case "getchatter":
             case "getcontender":
             case "getchallenger":
@@ -817,6 +831,12 @@ public class TwitchClient : MonoBehaviour
                     break;
                 }
 
+                if (!dataHandler.ChangeState(DataHandler.State.FIGHT))
+                {
+                    SendChannelMessage("Can't start fight in current state");
+
+                    break;
+                }
 
                 SendChannelMessage("Fight starting!");
 

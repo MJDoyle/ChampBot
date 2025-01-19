@@ -51,6 +51,15 @@ public struct Challenger
 
 public class DataHandler : MonoBehaviour
 {
+    public enum State
+    {
+        NORMAL = 0,
+        FIGHT = 1,
+        CHALICE = 2
+    };
+
+
+
     private TwitchClient twitchClient;
 
     public List<int> SppRequirements { get; private set; } = new List<int>();
@@ -67,6 +76,40 @@ public class DataHandler : MonoBehaviour
 
     private UIHandler uiHandler;
 
+    private State currentState = State.NORMAL;
+
+
+    public bool ChangeState(State newState)
+    {
+        if (currentState == State.NORMAL)
+        {
+            currentState = newState;
+
+            return true;
+        }
+
+        else if (currentState == State.FIGHT)
+        {
+            if (newState == State.NORMAL)
+            {
+                currentState = newState;
+
+                return true;
+            }
+        }
+
+        else if (currentState == State.CHALICE)
+        {
+            if (newState == State.NORMAL)
+            {
+                currentState = newState;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private void Start()
     {
@@ -628,6 +671,11 @@ public class DataHandler : MonoBehaviour
         if (!CanStartFight())
         {
             //Error
+            return;
+        }
+
+        if (!ChangeState(State.NORMAL))
+        {
             return;
         }
 

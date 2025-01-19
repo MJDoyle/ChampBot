@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -162,6 +163,9 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private GameObject placeholderPrefab;
 
+    [SerializeField]
+    private GameObject chaliceBackground;
+
 
 
     [SerializeField]
@@ -191,7 +195,7 @@ public class UIHandler : MonoBehaviour
         Screen.SetResolution(1920, 1080, true);
         Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 
-
+        chaliceBackground.SetActive(false);
 
         dataHandler = GetComponent<DataHandler>();
 
@@ -234,6 +238,18 @@ public class UIHandler : MonoBehaviour
         skillPrefabs["thickskull"] = thickSkullPrefab;
 
         skillPrefabs["wrestle"] = wrestlePrefab;
+    }
+
+    public void StartChalice()
+    {
+        chaliceBackground.SetActive(true);
+
+        List<Tuple<Chatter, Chatter>> matchups = dataHandler.GenerateChalicePairs();
+    }
+
+    public void StopChalice()
+    {
+        chaliceBackground.SetActive(false);
     }
 
     private void Update()

@@ -401,6 +401,58 @@ public class DataHandler : MonoBehaviour
         deathWriter.Close();
     }
 
+    public List<Tuple<Chatter, Chatter>> GenerateChalicePairs()
+    {
+        List<Tuple<Chatter, Chatter>> chatterPairs = new List<Tuple<Chatter, Chatter>>();
+
+
+        if (Chatters.Count < 8)
+            return chatterPairs;
+
+
+
+        //public List<Tuple<Chatter, Chatter>> ChalicePairs { get; private set; } = new List<Tuple<Chatter, Chatter>>();
+
+        //Find the top 8 defenders and order them in a list
+
+        List<Chatter> top8 = new List<Chatter>();
+
+        while (top8.Count < 8)
+        {
+            int biggestDefs = 0;
+            Chatter bdChatter = Chatters.First().Value;
+
+            foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+            {
+                if (chatterPair.Value.defences > biggestDefs && !top8.Contains(chatterPair.Value))
+                {
+                    biggestDefs = chatterPair.Value.defences;
+                    bdChatter = chatterPair.Value;
+                }
+            }
+
+            if (top8.Contains(bdChatter))
+                break;
+
+            top8.Add(bdChatter);
+        }
+
+
+        if (top8.Count != 8)
+            return chatterPairs;
+
+
+        //Now create the matchups
+        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[0], top8[7]));
+        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[3], top8[4]));
+        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[2], top8[5]));
+        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[1], top8[6]));
+
+
+        return chatterPairs;
+
+    }
+
     public List<Chatter> GetTop5()
     {
         List<Chatter> top5 = new List<Chatter>();

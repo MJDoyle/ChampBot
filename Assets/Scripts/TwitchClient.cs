@@ -725,8 +725,22 @@ public class TwitchClient : MonoBehaviour
 
             case "startchalice":
 
+                if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
+                    break;
+                }
+
                 if (e.Command.ArgumentsAsList.Count > 0)
                     break;
+
+                if (dataHandler.Chatters.Count < 8)
+                {
+                    SendChannelMessage("Insufficient chatters for chalice");
+
+                    break;
+                }
 
                 if (!dataHandler.ChangeState(DataHandler.State.CHALICE))
                 {
@@ -735,19 +749,35 @@ public class TwitchClient : MonoBehaviour
                     break;
                 }
 
+                SendChannelMessage("CHALICE STARTING");
+
+                UIhandler.StartChalice();
+
                 break;
 
             case "endchalice":
+            case "stopchalice":
+
+                if (!e.Command.ChatMessage.IsBroadcaster)
+                {
+                    SendChannelMessage("Streamer only command");
+
+                    break;
+                }
 
                 if (e.Command.ArgumentsAsList.Count > 0)
                     break;
 
                 if (!dataHandler.ChangeState(DataHandler.State.NORMAL))
                 {
-                    SendChannelMessage("Can't start fight in current state");
+                    SendChannelMessage("Can't stop chalice in current state");
 
                     break;
                 }
+
+                SendChannelMessage("Chalice over");
+
+                UIhandler.StopChalice();
 
                 break;
 

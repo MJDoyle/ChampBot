@@ -728,12 +728,26 @@ public class TwitchClient : MonoBehaviour
                 if (e.Command.ArgumentsAsList.Count > 0)
                     break;
 
+                if (!dataHandler.ChangeState(DataHandler.State.CHALICE))
+                {
+                    SendChannelMessage("Can't start chalice in current state");
+
+                    break;
+                }
+
                 break;
 
             case "endchalice":
 
                 if (e.Command.ArgumentsAsList.Count > 0)
                     break;
+
+                if (!dataHandler.ChangeState(DataHandler.State.NORMAL))
+                {
+                    SendChannelMessage("Can't start fight in current state");
+
+                    break;
+                }
 
                 break;
 

@@ -163,8 +163,13 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private GameObject placeholderPrefab;
 
+
+
     [SerializeField]
     private GameObject chaliceBackground;
+
+    [SerializeField]
+    private GameObject roundBackground;
 
 
 
@@ -175,6 +180,20 @@ public class UIHandler : MonoBehaviour
 
 
 
+
+    [SerializeField]
+    private List<Text> r_8s = new List<Text>();
+
+    [SerializeField]
+    private List<Text> r_4s = new List<Text>();
+
+    [SerializeField]
+    private List<Text> r_2s = new List<Text>();
+
+    [SerializeField]
+    private Text r_1;
+
+    private int chaliceRound = 0;
 
 
 
@@ -196,6 +215,8 @@ public class UIHandler : MonoBehaviour
         Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
 
         chaliceBackground.SetActive(false);
+
+        roundBackground.SetActive(false);
 
         dataHandler = GetComponent<DataHandler>();
 
@@ -245,11 +266,34 @@ public class UIHandler : MonoBehaviour
         chaliceBackground.SetActive(true);
 
         List<Tuple<Chatter, Chatter>> matchups = dataHandler.GenerateChalicePairs();
+
+        Debug.Log("Check1");
+
+        if (matchups.Count != 4)
+            return;
+
+        Debug.Log("Check2");
+
+        if (r_8s.Count != 8)
+            return;
+
+        Debug.Log("Check3");
+
+        for (int i = 0; i < matchups.Count; i ++)
+        {
+            r_8s[2 * i].text = matchups[i].Item1.name;
+
+            r_8s[2 * i + 1].text = matchups[i].Item2.name;
+        }
     }
 
     public void StopChalice()
     {
+        chaliceRound = 0;
+
         chaliceBackground.SetActive(false);
+
+        roundBackground.SetActive(false);
     }
 
     private void Update()
@@ -353,6 +397,119 @@ public class UIHandler : MonoBehaviour
         }
     }
 
+    public void StartRound()
+    {
+        roundBackground.SetActive(true);
+
+        string chatter_1_name = string.Empty;
+
+        string chatter_2_name = string.Empty;
+
+        if (chaliceRound < 4)
+        {
+            chatter_1_name = r_8s[chaliceRound * 2].text;
+
+            chatter_2_name = r_8s[chaliceRound * 2 + 1].text;
+        }
+
+        else if (chaliceRound < 6)
+        {
+            chatter_1_name = r_4s[(chaliceRound - 4) * 2].text;
+
+            chatter_2_name = r_4s[(chaliceRound - 4) * 2 + 1].text;
+        }
+
+        else if (chaliceRound < 7)
+        {
+            chatter_1_name = r_2s[0].text;
+
+            chatter_2_name = r_2s[1].text;
+        }
+
+        else
+            return;
+
+
+        if (!dataHandler.Chatters.ContainsKey(chatter_1_name))
+            return;
+
+        if (!dataHandler.Chatters.ContainsKey(chatter_2_name))
+            return;
+
+
+        Chatter chatter_1 = dataHandler.Chatters[chatter_1_name];
+
+        Chatter chatter_2 = dataHandler.Chatters[chatter_2_name];
+
+        SoundHandler.PlayBlockSound();
+
+        if (chatter_1.skills.Contains("foul appearance") || chatter_2.skills.Contains("foul appearance"))
+            SoundHandler.PlayFASound();
+
+        numDiceText.text = "THREE DICE";
+
+
+        challengerNameText.text = chatter_1.name;
+
+        challengerDefText.text = chatter_1.defences.ToString();
+
+        challengerSPPText.text = chatter_1.spp.ToString();
+
+        challengerAvText.text = chatter_1.av.ToString() + "+";
+
+
+
+
+        champNameText.text = chatter_2.name;
+
+        champDefText.text = chatter_2.defences.ToString();
+
+        champSPPText.text = chatter_2.spp.ToString();
+
+        champAvText.text = chatter_2.av.ToString() + "+";
+
+
+
+
+        SetCardSkills(chatter_1, chatter_2);
+
+
+        //Load champ and challenger images
+
+        if (File.Exists("GFX/" + chatter_1.name + ".png"))
+        {
+            Texture2D champTexture = new Texture2D(2, 2);
+            ImageConversion.LoadImage(champTexture, File.ReadAllBytes("GFX/" + chatter_1.name + ".png"));
+
+            champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
+        else
+        {
+            Texture2D champTexture = new Texture2D(2, 2);
+
+            champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
+        if (File.Exists("GFX/" + chatter_2.name + ".png"))
+        {
+            Texture2D challengerTexture = new Texture2D(2, 2);
+            ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + chatter_2.name + ".png"));
+
+            challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
+        else
+        {
+            Texture2D challengerTexture = new Texture2D(2, 2);
+
+            challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
+        }
+
+
+
+        fighting = true;
+    }
 
 
     public void StartFight()
@@ -452,6 +609,112 @@ public class UIHandler : MonoBehaviour
 
 
         fighting = true;
+    }
+
+    private void SetCardSkills(Chatter chatter_1, Chatter chatter_2)
+    {
+        //Delete old skills and niggles
+        foreach (GameObject skill in champSkills)
+        {
+            Destroy(skill);
+        }
+
+        champSkills.Clear();
+
+        foreach (GameObject niggle in champNiggles)
+        {
+            Destroy(niggle);
+        }
+
+        champNiggles.Clear();
+
+        foreach (GameObject skill in challengerSkills)
+        {
+            Destroy(skill);
+        }
+
+        challengerSkills.Clear();
+
+        foreach (GameObject niggle in challengerNiggles)
+        {
+            Destroy(niggle);
+        }
+
+        challengerNiggles.Clear();
+
+        //Champ skills
+
+        foreach (string skill in chatter_1.skills)
+        {
+            if (skillPrefabs.ContainsKey(skill))
+            {
+                champSkills.Add(Instantiate(skillPrefabs[skill], champCard.transform));
+            }
+
+            else
+            {
+                champSkills.Add(Instantiate(placeholderPrefab, champCard.transform));
+            }
+        }
+
+        for (int i = 0; i < champSkills.Count; i++)
+        {
+            if (i <= 5)
+            {
+                champSkills[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, -1.43f, 0);
+            }
+
+            else
+            {
+                champSkills[i].transform.localPosition = new Vector3(-1.17f + (i - 6) * 0.47f, -1.9f, 0);
+            }
+        }
+
+
+        for (int i = 0; i < chatter_1.niggles; i++)
+        {
+            champNiggles.Add(Instantiate(nigglePrefab, champCard.transform));
+
+            champNiggles[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, 1.4f, 0);
+        }
+
+
+
+
+        //Challenger skills
+
+        foreach (string skill in chatter_2.skills)
+        {
+            if (skillPrefabs.ContainsKey(skill))
+            {
+                challengerSkills.Add(Instantiate(skillPrefabs[skill], challengerCard.transform));
+            }
+
+            else
+            {
+                challengerSkills.Add(Instantiate(placeholderPrefab, challengerCard.transform));
+            }
+        }
+
+        for (int i = 0; i < challengerSkills.Count; i++)
+        {
+            if (i <= 5)
+            {
+                challengerSkills[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, -1.43f, 0);
+            }
+
+            else
+            {
+                challengerSkills[i].transform.localPosition = new Vector3(-1.17f + (i - 6) * 0.47f, -1.9f, 0);
+            }
+        }
+
+        for (int i = 0; i < chatter_2.niggles; i++)
+        {
+            challengerNiggles.Add(Instantiate(nigglePrefab, challengerCard.transform));
+
+            challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, 1.4f, 0);
+        }
     }
 
     private void SetCardSkills(Chatter champ, Challenger challenger)

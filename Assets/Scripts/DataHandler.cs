@@ -55,7 +55,8 @@ public class DataHandler : MonoBehaviour
     {
         NORMAL = 0,
         FIGHT = 1,
-        CHALICE = 2
+        CHALICE = 2,
+        ROUND = 3
     };
 
 
@@ -64,7 +65,7 @@ public class DataHandler : MonoBehaviour
 
     public List<int> SppRequirements { get; private set; } = new List<int>();
 
-    public List<string> PossibleSkills { get; private set; } = new List<string>(); 
+    public List<string> PossibleSkills { get; private set; } = new List<string>();
 
     public Dictionary<string, Chatter> Chatters { get; private set; }
 
@@ -76,36 +77,37 @@ public class DataHandler : MonoBehaviour
 
     private UIHandler uiHandler;
 
-    private State currentState = State.NORMAL;
+    public State CurrentState { get; private set; } = State.NORMAL;
 
 
     public bool ChangeState(State newState)
     {
-        if (currentState == State.NORMAL)
+        if (CurrentState == State.NORMAL && newState != State.ROUND)
         {
-            currentState = newState;
+            CurrentState = newState;
 
             return true;
         }
 
-        else if (currentState == State.FIGHT)
+        else if (CurrentState == State.FIGHT && newState == State.NORMAL)
         {
-            if (newState == State.NORMAL)
-            {
-                currentState = newState;
+            CurrentState = newState;
 
-                return true;
-            }
+            return true;
         }
 
-        else if (currentState == State.CHALICE)
+        else if (CurrentState == State.CHALICE && (newState == State.ROUND || newState != State.NORMAL))
         {
-            if (newState == State.NORMAL)
-            {
-                currentState = newState;
+            CurrentState = newState;
 
-                return true;
-            }
+            return true;
+        }
+
+        else if (CurrentState == State.ROUND && newState == State.CHALICE)
+        {
+            CurrentState = newState;
+
+            return true;
         }
 
         return false;
@@ -424,8 +426,12 @@ public class DataHandler : MonoBehaviour
 
             foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
             {
-                if (chatterPair.Value.defences > biggestDefs && !top8.Contains(chatterPair.Value))
+                Debug.Log("Chatter: " + chatterPair.Value.name);
+
+                if (chatterPair.Value.defences >= biggestDefs && !top8.Contains(chatterPair.Value))
                 {
+                    Debug.Log("Chatter2: " + chatterPair.Value.name);
+
                     biggestDefs = chatterPair.Value.defences;
                     bdChatter = chatterPair.Value;
                 }
@@ -433,6 +439,8 @@ public class DataHandler : MonoBehaviour
 
             if (top8.Contains(bdChatter))
                 break;
+
+            Debug.Log("Top8 : " + bdChatter.name);
 
             top8.Add(bdChatter);
         }

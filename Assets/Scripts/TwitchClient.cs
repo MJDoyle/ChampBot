@@ -868,23 +868,42 @@ public class TwitchClient : MonoBehaviour
                     break;
                 }
 
-                if (!dataHandler.CanStartFight())
+                if (dataHandler.CurrentState == DataHandler.State.NORMAL)
                 {
-                    SendChannelMessage("Can't start fight, no appropriate challenger");
+                    if (!dataHandler.CanStartFight())
+                    {
+                        SendChannelMessage("Can't start fight, no appropriate challenger");
 
-                    break;
+                        break;
+                    }
+
+                    if (!dataHandler.ChangeState(DataHandler.State.FIGHT))
+                    {
+                        SendChannelMessage("Can't start fight in current state");
+
+                        break;
+                    }
+
+                    SendChannelMessage("Fight starting!");
+
+                    UIhandler.StartFight();
                 }
 
-                if (!dataHandler.ChangeState(DataHandler.State.FIGHT))
+                else if (dataHandler.CurrentState == DataHandler.State.CHALICE)
                 {
-                    SendChannelMessage("Can't start fight in current state");
+                    if (!dataHandler.ChangeState(DataHandler.State.ROUND))
+                    {
+                        SendChannelMessage("Can't start round in current state");
 
-                    break;
+                        break;
+                    }
+
+                    SendChannelMessage("Round starting!");
+
+                    UIhandler.StartRound();
                 }
 
-                SendChannelMessage("Fight starting!");
 
-                UIhandler.StartFight();
 
                 break;
 

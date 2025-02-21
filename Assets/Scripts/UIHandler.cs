@@ -193,7 +193,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private Text r_1;
 
-    private int chaliceRound = 0;
+    //TODO
+    public int chaliceRound = 0;
 
 
 
@@ -285,15 +286,30 @@ public class UIHandler : MonoBehaviour
 
             r_8s[2 * i + 1].text = matchups[i].Item2.name;
         }
+
+
+        for (int i = 0; i < 4; i++)
+        {
+            r_4s[i].text = "";
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            r_2s[i].text = "";
+        }
+
+        r_1.text = "";
     }
 
-    public void StopChalice()
+    public string StopChalice()
     {
         chaliceRound = 0;
 
         chaliceBackground.SetActive(false);
 
         roundBackground.SetActive(false);
+
+        return r_1.text;
     }
 
     private void Update()
@@ -399,6 +415,9 @@ public class UIHandler : MonoBehaviour
 
     public void StartRound()
     {
+        if (chaliceRound >= 7)
+            return;
+
         roundBackground.SetActive(true);
 
         string chatter_1_name = string.Empty;
@@ -821,6 +840,46 @@ public class UIHandler : MonoBehaviour
 
             challengerNiggles[i].transform.localPosition = new Vector3(-1.17f + i * 0.47f, 1.4f, 0);
         }
+    }
+
+    public void StopRound(string winner)
+    {
+        roundBackground.SetActive(false);
+
+        fighting = false;
+
+        if (chaliceRound < 4)
+        {
+            int r_8_index = chaliceRound * 2;
+
+            if (winner.Contains("r") || winner.Contains("R"))
+                r_8_index++;
+
+            r_4s[chaliceRound].text = r_8s[r_8_index].text;
+        }
+
+        else if (chaliceRound < 6)
+        {
+            int r_4_index = (chaliceRound - 4) * 2;
+
+            if (winner.Contains("r") || winner.Contains("R"))
+                r_4_index++;
+
+            r_2s[chaliceRound - 4].text = r_4s[r_4_index].text;
+        }
+
+        else if (chaliceRound < 7)
+        {
+            int r_2_index = (chaliceRound - 6) * 2;
+
+            if (winner.Contains("r") || winner.Contains("R"))
+                r_2_index++;
+
+            r_1.text = r_2s[r_2_index].text;
+        }
+
+
+        chaliceRound++;
     }
 
     public void StopFight(string challengerInjury, string champInjury)

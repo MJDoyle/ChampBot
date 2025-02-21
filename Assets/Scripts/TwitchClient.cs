@@ -626,6 +626,27 @@ public class TwitchClient : MonoBehaviour
                 break;
 
 
+            case "chalice":
+            case "topchalice":
+
+                break;
+
+            case "power":
+            case "toppower":
+
+                break;
+
+            case "topkillers":
+            case "topkills":
+
+                break;
+
+            case "topdead":
+            case "topdeaths":
+
+                break;
+
+
             case "mychatter":
             case "mychallenger":
             case "mycontender":
@@ -777,7 +798,21 @@ public class TwitchClient : MonoBehaviour
 
                 SendChannelMessage("Chalice over");
 
-                UIhandler.StopChalice();
+                string winner = UIhandler.StopChalice();
+
+                if (winner != string.Empty)
+                {
+                    if (!dataHandler.AddChaliceWin(winner))
+                    {
+                        SendChannelMessage("Chalice winner not in chatter list");
+
+                        break;
+                    }
+
+                    SendChannelMessage(winner + " wins chalice!");
+
+                    dataHandler.ResetDefences();
+                }
 
                 break;
 
@@ -891,6 +926,9 @@ public class TwitchClient : MonoBehaviour
 
                 else if (dataHandler.CurrentState == DataHandler.State.CHALICE)
                 {
+                    if (UIhandler.chaliceRound >= 7)
+                        break;
+
                     if (!dataHandler.ChangeState(DataHandler.State.ROUND))
                     {
                         SendChannelMessage("Can't start round in current state");
@@ -939,7 +977,11 @@ public class TwitchClient : MonoBehaviour
                     break;
                 }
 
-                FightOver(e.Command.ArgumentsAsList);
+                if (dataHandler.CurrentState == DataHandler.State.FIGHT)
+                    FightOver(e.Command.ArgumentsAsList);
+
+                else if (dataHandler.CurrentState == DataHandler.State.ROUND)
+                    RoundOver(e.Command.ArgumentsAsList);
 
                 break;
 
@@ -1023,6 +1065,31 @@ public class TwitchClient : MonoBehaviour
 
         SendChannelMessage(numNiggles + " niggles added to " + chatter);
     }
+
+    
+    private void RoundOver(List<string> args)
+    {
+        //Command must have one or two arguments
+        if (args.Count != 1)
+        {
+            SendChannelMessage("Incorrect number of arguments. Needs [winner {left, right}]");
+
+            return;
+        }
+
+        if (!args[0].Contains("l") && !args[0].Contains("L") && !args[0].Contains("r") && !args[0].Contains("R"))
+        {
+            SendChannelMessage("Incorrect argument. Needs (l)eft or (r)ight");
+
+            return;
+        }
+
+        UIhandler.StopRound(args[0]);
+
+        dataHandler.ChangeState(DataHandler.State.CHALICE);
+    }
+
+
     //challengerinjury champinjury challengerspp
     private void FightOver(List<string> args)
     {

@@ -38,8 +38,6 @@ public class Chatter
     public int kills;
 
     public int deaths;
-
-
 }
 
 public struct Challenger
@@ -96,7 +94,7 @@ public class DataHandler : MonoBehaviour
             return true;
         }
 
-        else if (CurrentState == State.CHALICE && (newState == State.ROUND || newState != State.NORMAL))
+        else if (CurrentState == State.CHALICE && (newState == State.ROUND || newState == State.NORMAL))
         {
             CurrentState = newState;
 
@@ -996,6 +994,30 @@ public class DataHandler : MonoBehaviour
         }
 
         return new Challenger();
+    }
+
+    public bool AddChaliceWin(string winner)
+    {
+        if (!Chatters.ContainsKey(winner))
+            return false;
+
+
+
+        SaveData("Data/");
+        SaveData("Backup/");
+
+        return true;
+    }
+
+    public void ResetDefences()
+    {
+        foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+        {
+            chatterPair.Value.defences = 0;
+        }
+
+        SaveData("Data/");
+        SaveData("Backup/");
     }
 
     //private void Update()

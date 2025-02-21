@@ -641,12 +641,12 @@ public class TwitchClient : MonoBehaviour
 
                 foreach (Chatter chatter in top10)
                 {
-                    top10String += " " + chatter.name + " " + chatter.defences + " def |";
-
-                    count++;
+                    top10String += " " + (count + 1) + ". " + chatter.name + " " + chatter.defences + " def |";
 
                     if (count == 7)
                         top10String += "||";
+
+                    count++;
                 }
 
                 if (top10String.Length > 1)

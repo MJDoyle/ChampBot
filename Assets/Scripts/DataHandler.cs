@@ -459,6 +459,127 @@ public class DataHandler : MonoBehaviour
 
     }
 
+
+    public List<Chatter> GetTopDeaths()
+    {
+        List<Chatter> topDeaths = new List<Chatter>();
+
+        while (topDeaths.Count < 5 && topDeaths.Count < Chatters.Count)
+        {
+            int biggestDeaths = 0;
+            Chatter bdChatter = Chatters.First().Value;
+
+            foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+            {
+                if (chatterPair.Value.deaths >= biggestDeaths && !topDeaths.Contains(chatterPair.Value))
+                {
+                    biggestDeaths = chatterPair.Value.deaths;
+                    bdChatter = chatterPair.Value;
+                }
+            }
+
+            if (topDeaths.Contains(bdChatter))
+                break;
+
+            topDeaths.Add(bdChatter);
+        }
+
+        return topDeaths;
+    }
+
+    public List<Chatter> GetTopKills()
+    {
+        List<Chatter> topKills = new List<Chatter>();
+
+        while (topKills.Count < 5 && topKills.Count < Chatters.Count)
+        {
+            int biggestKills = 0;
+            Chatter bkChatter = Chatters.First().Value;
+
+            foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+            {
+                if (chatterPair.Value.kills >= biggestKills && !topKills.Contains(chatterPair.Value))
+                {
+                    biggestKills = chatterPair.Value.kills;
+                    bkChatter = chatterPair.Value;
+                }
+            }
+
+            if (topKills.Contains(bkChatter))
+                break;
+
+            topKills.Add(bkChatter);
+        }
+
+        return topKills;
+    }
+
+    public List<Tuple<Chatter, int>> GetTopPower()
+    {
+        
+
+        List<Tuple<Chatter, int>> topPower = new List<Tuple<Chatter, int>>();
+
+        while (topPower.Count < 5 && topPower.Count < Chatters.Count)
+        {
+            int biggestPower = 0;
+            Chatter bpChatter = Chatters.First().Value;
+
+            foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+            {
+                int sppCount = 0;
+
+                for (int i = 0; i < chatterPair.Value.skills.Count(); i++)
+                    sppCount += SppRequirements[i];
+
+                sppCount += chatterPair.Value.spp;
+
+
+
+                if (sppCount >= biggestPower && !topPower.Contains(new Tuple<Chatter, int>(chatterPair.Value, sppCount)))
+                {
+                    biggestPower = sppCount;
+                    bpChatter = chatterPair.Value;
+                }
+            }
+
+            if (topPower.Contains(new Tuple<Chatter, int>(bpChatter, biggestPower)))
+                break;
+
+            topPower.Add(new Tuple<Chatter, int>(bpChatter, biggestPower));
+        }
+
+        return topPower;
+    }
+
+    public List<Chatter> GetTopChalice()
+    {
+        List<Chatter> topChalice = new List<Chatter>();
+
+        while (topChalice.Count < 10 && topChalice.Count < Chatters.Count)
+        {
+            int biggestDefs = 0;
+            Chatter bdChatter = Chatters.First().Value;
+
+            foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
+            {
+                if (chatterPair.Value.defences >= biggestDefs && !topChalice.Contains(chatterPair.Value))
+                {
+                    biggestDefs = chatterPair.Value.defences;
+                    bdChatter = chatterPair.Value;
+                }
+            }
+
+            if (topChalice.Contains(bdChatter))
+                break;
+
+            topChalice.Add(bdChatter);
+        }
+
+        return topChalice;
+    }
+
+
     public List<Chatter> GetTop5()
     {
         List<Chatter> top5 = new List<Chatter>();
@@ -470,7 +591,7 @@ public class DataHandler : MonoBehaviour
 
             foreach (KeyValuePair<string, Chatter> chatterPair in Chatters)
             {
-                if (chatterPair.Value.defences > biggestDefs && !top5.Contains(chatterPair.Value))
+                if (chatterPair.Value.defences >= biggestDefs && !top5.Contains(chatterPair.Value))
                 {
                     biggestDefs = chatterPair.Value.defences;
                     bdChatter = chatterPair.Value;

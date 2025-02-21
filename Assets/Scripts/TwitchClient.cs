@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine.UI;
 using TwitchLib.PubSub;
 using TwitchLib.PubSub.Events;
+using System;
 
 public class TwitchClient : MonoBehaviour
 {
@@ -628,21 +629,89 @@ public class TwitchClient : MonoBehaviour
 
             case "chalice":
             case "topchalice":
+            case "champtop10":
+            case "top10champ":
+            case "top10defences":
+
+                List<Chatter> top10 = dataHandler.GetTopChalice();
+
+                string top10String = "";
+
+                int count = 0;
+
+                foreach (Chatter chatter in top10)
+                {
+                    top10String += " " + chatter.name + " " + chatter.defences + " def |";
+
+                    count++;
+
+                    if (count == 7)
+                        top10String += "||";
+                }
+
+                if (top10String.Length > 1)
+                    top10String = top10String.Remove(top10String.Length - 2, 2);
+
+                SendChannelMessage(top10String);
 
                 break;
 
             case "power":
             case "toppower":
 
+                List<Tuple<Chatter, int>> topPower = dataHandler.GetTopPower();
+
+                string topPowerString = "";
+
+                foreach (Tuple<Chatter, int> chatterPair in topPower)
+                {
+                    topPowerString += " " + chatterPair.Item1.name + " " + chatterPair.Item2 + " spp |";
+                }
+
+                if (topPowerString.Length > 1)
+                    topPowerString = topPowerString.Remove(topPowerString.Length - 2, 2);
+
+                SendChannelMessage(topPowerString);
+
+                break;
+
                 break;
 
             case "topkillers":
             case "topkills":
 
+                List<Chatter> topKills = dataHandler.GetTopKills();
+
+                string topKillsString = "";
+
+                foreach (Chatter chatter in topKills)
+                {
+                    topKillsString += " " + chatter.name + " " + chatter.kills + " |";
+                }
+
+                if (topKillsString.Length > 1)
+                    topKillsString = topKillsString.Remove(topKillsString.Length - 2, 2);
+
+                SendChannelMessage(topKillsString);
+
                 break;
 
             case "topdead":
             case "topdeaths":
+
+                List<Chatter> topDeaths = dataHandler.GetTopDeaths();
+
+                string topDeathsString = "";
+
+                foreach (Chatter chatter in topDeaths)
+                {
+                    topDeathsString += " " + chatter.name + " " + chatter.deaths + " |";
+                }
+
+                if (topDeathsString.Length > 1)
+                    topDeathsString = topDeathsString.Remove(topDeathsString.Length - 2, 2);
+
+                SendChannelMessage(topDeathsString);
 
                 break;
 

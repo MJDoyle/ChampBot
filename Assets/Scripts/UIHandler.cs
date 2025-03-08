@@ -490,15 +490,15 @@ public class UIHandler : MonoBehaviour
 
 
 
-        SetCardSkills(chatter_1, chatter_2);
+        SetCardSkills(chatter_2, chatter_1);
 
 
         //Load champ and challenger images
 
-        if (File.Exists("GFX/" + chatter_1.name + ".png"))
+        if (File.Exists("GFX/" + chatter_2.name + ".png"))
         {
             Texture2D champTexture = new Texture2D(2, 2);
-            ImageConversion.LoadImage(champTexture, File.ReadAllBytes("GFX/" + chatter_1.name + ".png"));
+            ImageConversion.LoadImage(champTexture, File.ReadAllBytes("GFX/" + chatter_2.name + ".png"));
 
             champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
         }
@@ -510,10 +510,10 @@ public class UIHandler : MonoBehaviour
             champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
         }
 
-        if (File.Exists("GFX/" + chatter_2.name + ".png"))
+        if (File.Exists("GFX/" + chatter_1.name + ".png"))
         {
             Texture2D challengerTexture = new Texture2D(2, 2);
-            ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + chatter_2.name + ".png"));
+            ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + chatter_1.name + ".png"));
 
             challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
         }

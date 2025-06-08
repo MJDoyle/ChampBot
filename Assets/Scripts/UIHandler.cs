@@ -193,11 +193,6 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private Text r_1;
 
-    //TODO
-    public int chaliceRound = 0;
-
-
-
 
 
 
@@ -266,11 +261,9 @@ public class UIHandler : MonoBehaviour
     {
         chaliceBackground.SetActive(true);
 
-        List<Tuple<Chatter, Chatter>> matchups = dataHandler.GenerateChalicePairs();
-
         Debug.Log("Check1");
 
-        if (matchups.Count != 4)
+        if (dataHandler.ChalicePairings.Count != 7)
             return;
 
         Debug.Log("Check2");
@@ -280,11 +273,11 @@ public class UIHandler : MonoBehaviour
 
         Debug.Log("Check3");
 
-        for (int i = 0; i < matchups.Count; i ++)
+        for (int i = 0; i < 4; i ++)
         {
-            r_8s[2 * i].text = matchups[i].Item1.name;
+            r_8s[2 * i].text = dataHandler.ChalicePairings[i][0].name;
 
-            r_8s[2 * i + 1].text = matchups[i].Item2.name;
+            r_8s[2 * i + 1].text = dataHandler.ChalicePairings[i][1].name;
         }
 
 
@@ -303,8 +296,6 @@ public class UIHandler : MonoBehaviour
 
     public string StopChalice()
     {
-        chaliceRound = 0;
-
         chaliceBackground.SetActive(false);
 
         roundBackground.SetActive(false);
@@ -415,90 +406,94 @@ public class UIHandler : MonoBehaviour
 
     public void StartRound()
     {
-        if (chaliceRound >= 7)
+        if (dataHandler.ChaliceRound >= 7)
             return;
 
         roundBackground.SetActive(true);
 
-        string chatter_1_name = string.Empty;
+        Chatter leftChatter = dataHandler.ChalicePairings[dataHandler.ChaliceRound][0];
 
-        string chatter_2_name = string.Empty;
+        Chatter rightChatter = dataHandler.ChalicePairings[dataHandler.ChaliceRound][1];
 
-        if (chaliceRound < 4)
-        {
-            chatter_1_name = r_8s[chaliceRound * 2].text;
+        //string chatter_1_name = string.Empty;
 
-            chatter_2_name = r_8s[chaliceRound * 2 + 1].text;
-        }
+        //string chatter_2_name = string.Empty;
 
-        else if (chaliceRound < 6)
-        {
-            chatter_1_name = r_4s[(chaliceRound - 4) * 2].text;
+        //if (dataHandler.ChaliceRound < 4)
+        //{
+        //    chatter_1_name = r_8s[dataHandler.ChaliceRound * 2].text;
 
-            chatter_2_name = r_4s[(chaliceRound - 4) * 2 + 1].text;
-        }
+        //    chatter_2_name = r_8s[dataHandler.ChaliceRound * 2 + 1].text;
+        //}
 
-        else if (chaliceRound < 7)
-        {
-            chatter_1_name = r_2s[0].text;
+        //else if (dataHandler.ChaliceRound < 6)
+        //{
+        //    chatter_1_name = r_4s[(dataHandler.ChaliceRound - 4) * 2].text;
 
-            chatter_2_name = r_2s[1].text;
-        }
+        //    chatter_2_name = r_4s[(dataHandler.ChaliceRound - 4) * 2 + 1].text;
+        //}
 
-        else
-            return;
+        //else if (dataHandler.ChaliceRound < 7)
+        //{
+        //    chatter_1_name = r_2s[0].text;
 
+        //    chatter_2_name = r_2s[1].text;
+        //}
 
-        if (!dataHandler.Chatters.ContainsKey(chatter_1_name))
-            return;
-
-        if (!dataHandler.Chatters.ContainsKey(chatter_2_name))
-            return;
+        //else
+        //    return;
 
 
-        Chatter chatter_1 = dataHandler.Chatters[chatter_1_name];
+        //if (!dataHandler.Chatters.ContainsKey(chatter_1_name))
+        //    return;
 
-        Chatter chatter_2 = dataHandler.Chatters[chatter_2_name];
+        //if (!dataHandler.Chatters.ContainsKey(chatter_2_name))
+        //    return;
+
+
+        //Chatter chatter_1 = dataHandler.Chatters[chatter_1_name];
+
+        //Chatter chatter_2 = dataHandler.Chatters[chatter_2_name];
 
         SoundHandler.PlayBlockSound();
 
-        if (chatter_1.skills.Contains("foul appearance") || chatter_2.skills.Contains("foul appearance"))
+        if (leftChatter.skills.Contains("foul appearance") || rightChatter.skills.Contains("foul appearance"))
             SoundHandler.PlayFASound();
 
         numDiceText.text = "THREE DICE";
 
 
-        challengerNameText.text = chatter_1.name;
+        challengerNameText.text = leftChatter.name;
 
-        challengerDefText.text = chatter_1.defences.ToString();
+        challengerDefText.text = leftChatter.defences.ToString();
 
-        challengerSPPText.text = chatter_1.spp.ToString();
+        challengerSPPText.text = leftChatter.spp.ToString();
 
-        challengerAvText.text = chatter_1.av.ToString() + "+";
-
-
-
-
-        champNameText.text = chatter_2.name;
-
-        champDefText.text = chatter_2.defences.ToString();
-
-        champSPPText.text = chatter_2.spp.ToString();
-
-        champAvText.text = chatter_2.av.ToString() + "+";
+        challengerAvText.text = leftChatter.av.ToString() + "+";
 
 
 
 
-        SetCardSkills(chatter_2, chatter_1);
+        champNameText.text = rightChatter.name;
+
+        champDefText.text = rightChatter.defences.ToString();
+
+        champSPPText.text = rightChatter.spp.ToString();
+
+        champAvText.text = rightChatter.av.ToString() + "+";
+
+
+
+
+        SetCardSkills(rightChatter, leftChatter);
 
 
         //Load champ and challenger images
 
-        if (File.Exists("GFX/" + chatter_2.name + ".png"))
+        if (File.Exists("GFX/" + rightChatter.name + ".png"))
         {
             Texture2D champTexture = new Texture2D(2, 2);
-            ImageConversion.LoadImage(champTexture, File.ReadAllBytes("GFX/" + chatter_2.name + ".png"));
+            ImageConversion.LoadImage(champTexture, File.ReadAllBytes("GFX/" + rightChatter.name + ".png"));
 
             champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
         }
@@ -510,10 +505,10 @@ public class UIHandler : MonoBehaviour
             champImage.sprite = Sprite.Create(champTexture, new Rect(0, 0, champTexture.width, champTexture.height), new Vector2(0.5f, 0.5f));
         }
 
-        if (File.Exists("GFX/" + chatter_1.name + ".png"))
+        if (File.Exists("GFX/" + leftChatter.name + ".png"))
         {
             Texture2D challengerTexture = new Texture2D(2, 2);
-            ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + chatter_1.name + ".png"));
+            ImageConversion.LoadImage(challengerTexture, File.ReadAllBytes("GFX/" + leftChatter.name + ".png"));
 
             challengerImage.sprite = Sprite.Create(challengerTexture, new Rect(0, 0, challengerTexture.width, challengerTexture.height), new Vector2(0.5f, 0.5f));
         }
@@ -842,44 +837,56 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void StopRound(string winner)
+    public void StopRound(string winner, string leftInjury, string rightInjury)
     {
+        if (leftInjury == "d" || rightInjury == "d")
+        {
+            SoundHandler.PlayDeathSound();
+        }
+
+        if (leftInjury == "n" || rightInjury == "n" || leftInjury == "c" || rightInjury == "c")
+        {
+            SoundHandler.PlayInjurySound();
+        }
+
+        if (leftInjury == "k" || rightInjury == "k")
+        {
+            SoundHandler.PlayKOSound();
+        }
+
         roundBackground.SetActive(false);
 
         fighting = false;
 
-        if (chaliceRound < 4)
+        if (dataHandler.ChaliceRound < 4)
         {
-            int r_8_index = chaliceRound * 2;
+            int r_8_index = dataHandler.ChaliceRound * 2;
 
             if (winner.Contains("r") || winner.Contains("R"))
                 r_8_index++;
 
-            r_4s[chaliceRound].text = r_8s[r_8_index].text;
+            r_4s[dataHandler.ChaliceRound].text = r_8s[r_8_index].text;
         }
 
-        else if (chaliceRound < 6)
+        else if (dataHandler.ChaliceRound < 6)
         {
-            int r_4_index = (chaliceRound - 4) * 2;
+            int r_4_index = (dataHandler.ChaliceRound - 4) * 2;
 
             if (winner.Contains("r") || winner.Contains("R"))
                 r_4_index++;
 
-            r_2s[chaliceRound - 4].text = r_4s[r_4_index].text;
+            r_2s[dataHandler.ChaliceRound - 4].text = r_4s[r_4_index].text;
         }
 
-        else if (chaliceRound < 7)
+        else if (dataHandler.ChaliceRound < 7)
         {
-            int r_2_index = (chaliceRound - 6) * 2;
+            int r_2_index = (dataHandler.ChaliceRound - 6) * 2;
 
             if (winner.Contains("r") || winner.Contains("R"))
                 r_2_index++;
 
             r_1.text = r_2s[r_2_index].text;
         }
-
-
-        chaliceRound++;
     }
 
     public void StopFight(string challengerInjury, string champInjury)

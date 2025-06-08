@@ -841,6 +841,8 @@ public class TwitchClient : MonoBehaviour
 
                 SendChannelMessage("CHALICE STARTING");
 
+                dataHandler.StartChalice();
+
                 UIhandler.StartChalice();
 
                 break;
@@ -995,7 +997,7 @@ public class TwitchClient : MonoBehaviour
 
                 else if (dataHandler.CurrentState == DataHandler.State.CHALICE)
                 {
-                    if (UIhandler.chaliceRound >= 7)
+                    if (dataHandler.ChaliceRound >= 7)
                         break;
 
                     if (!dataHandler.ChangeState(DataHandler.State.ROUND))
@@ -1138,24 +1140,62 @@ public class TwitchClient : MonoBehaviour
     
     private void RoundOver(List<string> args)
     {
+
         //Command must have one or two arguments
-        if (args.Count != 1)
+        if (args.Count != 2)
         {
-            SendChannelMessage("Incorrect number of arguments. Needs [winner {left, right}]");
+            SendChannelMessage("Incorrect number of arguments. Needs [injuryleft] [injuryright]");
 
             return;
         }
 
-        if (!args[0].Contains("l") && !args[0].Contains("L") && !args[0].Contains("r") && !args[0].Contains("R"))
+        string leftInjury = args[0].ToLower();
+        string rightInjury = args[1].ToLower();
+
+        //Both arguments must be within the sppDict
+
+        if (!Config.SppDict.ContainsKey(leftInjury))
         {
-            SendChannelMessage("Incorrect argument. Needs (l)eft or (r)ight");
+            SendChannelMessage("Left injury incorrect. Must be (b)lock, (p)ow, (s)tun, (k)o, (c)as, (n)iggle, or (d)ead");
 
             return;
         }
 
-        UIhandler.StopRound(args[0]);
+        if (!Config.SppDict.ContainsKey(rightInjury))
+        {
+            SendChannelMessage("Right injury incorrect. Must be (b)lock, (p)ow, (s)tun, (k)o, (c)as, (n)iggle, or (d)ead");
 
-        dataHandler.ChangeState(DataHandler.State.CHALICE);
+            return;
+        }
+
+        int leftSpp = Config.SppDict[rightInjury];
+        int rightSpp = Config.SppDict[leftInjury];
+
+        string winner = string.Empty;
+
+        //Both same result, random
+        if (rightSpp == leftSpp)
+        {
+            if (UnityEngine.Random.Range(0f, 1f) > 0.5f)
+                winner = "left";
+
+            else
+                winner = "right";
+        }
+
+        else if (leftSpp > rightSpp)
+        {
+            winner = "left";
+        }
+
+        else
+        {
+            winner = "right";
+        }
+
+        UIhandler.StopRound(winner, leftInjury, rightInjury);
+
+        dataHandler.StopRound(winner, leftInjury, rightInjury, leftSpp, rightSpp);
     }
 
 

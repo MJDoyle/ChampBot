@@ -78,6 +78,12 @@ public class DataHandler : MonoBehaviour
     public State CurrentState { get; private set; } = State.NORMAL;
 
 
+
+    public List<List<Chatter>> ChalicePairings { get; private set; } = new List<List<Chatter>>();
+
+    public int ChaliceRound { get; private set; } = 0; 
+
+
     public bool ChangeState(State newState)
     {
         if (CurrentState == State.NORMAL && newState != State.ROUND)
@@ -401,17 +407,11 @@ public class DataHandler : MonoBehaviour
         deathWriter.Close();
     }
 
-    public List<Tuple<Chatter, Chatter>> GenerateChalicePairs()
+    public void StartChalice()
     {
-        List<Tuple<Chatter, Chatter>> chatterPairs = new List<Tuple<Chatter, Chatter>>();
-
 
         if (Chatters.Count < 8)
-            return chatterPairs;
-
-
-
-        //public List<Tuple<Chatter, Chatter>> ChalicePairs { get; private set; } = new List<Tuple<Chatter, Chatter>>();
+            return;
 
         //Find the top 8 defenders and order them in a list
 
@@ -445,18 +445,22 @@ public class DataHandler : MonoBehaviour
 
 
         if (top8.Count != 8)
-            return chatterPairs;
+            return;
 
+
+        ChalicePairings.Clear();
 
         //Now create the matchups
-        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[0], top8[7]));
-        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[3], top8[4]));
-        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[2], top8[5]));
-        chatterPairs.Add(new Tuple<Chatter, Chatter>(top8[1], top8[6]));
+        ChalicePairings.Add(new List<Chatter> { top8[0], top8[7] });
+        ChalicePairings.Add(new List<Chatter> { top8[3], top8[4] });
+        ChalicePairings.Add(new List<Chatter> { top8[2], top8[5] });
+        ChalicePairings.Add(new List<Chatter> { top8[1], top8[6] });
 
+        ChalicePairings.Add(new List<Chatter>());
+        ChalicePairings.Add(new List<Chatter>());
+        ChalicePairings.Add(new List<Chatter>());
 
-        return chatterPairs;
-
+        ChaliceRound = 0;
     }
 
 
@@ -836,6 +840,105 @@ public class DataHandler : MonoBehaviour
         Chatters[chatterName].niggles = 0;
         Chatters[chatterName].skills.Clear();
         Chatters[chatterName].spp = 0;
+
+        SaveData("Data/");
+        SaveData("Backup/");
+    }
+
+    public void StopRound(string winner, string leftInjury, string rightInjury, int leftSpp, int rightSpp)
+    {
+        if (leftSpp < 0 || rightSpp < 0)
+            return;
+
+        if (!ChangeState(State.CHALICE))
+        {
+            return;
+        }
+
+        Chatter leftChatter = ChalicePairings[ChaliceRound][0];
+
+        Chatter rightChatter = ChalicePairings[ChaliceRound][1];
+
+        Chatter winningChatter = winner == "left" ? leftChatter : rightChatter; 
+
+        leftChatter.spp += leftSpp;
+
+        rightChatter.spp += rightSpp;
+
+        SaveToLog(leftInjury, rightInjury, leftSpp, rightSpp);
+
+        leftChatter.blocks++;
+
+        if (leftInjury == "d")
+        {
+            rightChatter.kills++;
+            leftChatter.deaths++;
+
+            ResetChatter(leftChatter.name);
+
+            Death death = new Death()
+            {
+                killer = rightChatter.name,
+                killee = leftChatter.name,
+                date = DateTime.Now.ToShortDateString()
+            };
+
+            Deaths.Add(death);
+        }
+
+        if (rightInjury == "d")
+        {
+            leftChatter.kills++;
+            rightChatter.deaths++;
+
+            ResetChatter(rightChatter.name);
+
+            Death death = new Death()
+            {
+                killer = leftChatter.name,
+                killee = rightChatter.name,
+                date = DateTime.Now.ToShortDateString()
+            };
+
+            Deaths.Add(death);
+        }
+
+        if (leftInjury == "n")
+        {
+            leftChatter.niggles++;
+        }
+
+        if (rightInjury == "n")
+        {
+            rightChatter.niggles++;
+        }
+
+        if (leftInjury == "d" || leftInjury == "n" || leftInjury == "c")
+            rightChatter.cas++;
+
+        if (rightInjury == "d" || rightInjury == "n" || rightInjury == "c")
+            leftChatter.cas++;
+
+        //Set up new rounds
+        if (ChaliceRound == 0)
+            ChalicePairings[4].Add(winningChatter);
+
+        else if (ChaliceRound == 1)
+            ChalicePairings[4].Add(winningChatter);
+
+        else if (ChaliceRound == 2)
+            ChalicePairings[5].Add(winningChatter);
+
+        else if (ChaliceRound == 3)
+            ChalicePairings[5].Add(winningChatter);
+
+        else if (ChaliceRound == 4)
+            ChalicePairings[6].Add(winningChatter);
+
+        else if (ChaliceRound == 5)
+            ChalicePairings[6].Add(winningChatter);
+
+        ChaliceRound++;
 
         SaveData("Data/");
         SaveData("Backup/");
